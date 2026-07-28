@@ -147,6 +147,27 @@ async function copyPublicAssets(base) {
   }
 }
 
+// section 内の画像 (`sections/<sec>/<lec>/images/*`) を public/<sec>/<lec>/images/ に
+// コピーする。links.mjs が画像参照を base 相対 URL に書き換えるので、GitHub に push
+// しなくてもローカル dev・本番の両方で画像が表示される。genfig の .py などは除く。
+const IMAGE_EXT = new Set(['.svg', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif']);
+
+async function copyLectureImages() {
+  const it = glob('sections/*/*/images/**', { cwd: ROOT });
+  for await (const rel of it) {
+    const relPosix = rel.split(path.sep).join('/');
+    if (!IMAGE_EXT.has(path.posix.extname(relPosix).toLowerCase())) continue;
+    const abs = path.join(ROOT, relPosix);
+    const stats = await stat(abs);
+    if (!stats.isFile()) continue;
+    // sections/<sec>/<lec>/images/... → public/<sec>/<lec>/images/...
+    const destRel = relPosix.replace(/^sections\//, '');
+    const dest = path.join(PUBLIC_DIR, ...destRel.split('/'));
+    await mkdir(path.dirname(dest), { recursive: true });
+    await cp(abs, dest);
+  }
+}
+
 async function cleanDocsDir() {
   try {
     const entries = await readdir(DOCS_DIR, { withFileTypes: true });
@@ -230,6 +251,7 @@ export async function syncLectures() {
   await cleanDocsDir();
   await mkdir(DOCS_DIR, { recursive: true });
   await copyPublicAssets(config.base);
+  await copyLectureImages();
 
   for (const srcRel of await findPublishableMarkdown()) {
     const dest = deriveDestination(srcRel);

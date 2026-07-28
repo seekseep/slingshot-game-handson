@@ -1,0 +1,13 @@
+// 挙動は 10 と同じ。コードをシーンごとにファイルへ分けて整理する。
+
+new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 480,
+  backgroundColor: '#fdf6e3',
+  physics: {
+    default: 'matter',
+    matter: { gravity: { y: 1 } },
+  },
+  scene: [StartScene, GameScene, GameOverScene],
+});

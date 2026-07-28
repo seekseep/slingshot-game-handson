@@ -130,6 +130,13 @@ export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, 
     if (!target.startsWith('./') && !target.startsWith('../')) return match;
     if (resolved.startsWith('..') || resolved === '..') return match;
 
+    // section 内の画像 (`<sec>/<lec>/images/...`) は public/ にコピーして base 相対で
+    // 配信する。GitHub raw (main) と違い、push しなくてもローカル・本番の両方で表示される。
+    if (isImage) {
+      const im = resolved.match(/^sections\/([\w-]+)\/([\w-]+)\/(images\/.+)$/);
+      if (im) return `${prefix}(${base}/${im[1]}/${im[2]}/${im[3]}${hash}${titlePart})`;
+    }
+
     const toUrl = resolveSiteUrl(resolved, isDirLink);
     if (toUrl) {
       return `${prefix}(${relativeUrl(sourceSiteUrl, toUrl, hash)}${titlePart})`;

@@ -1,0 +1,19 @@
+素材のライセンス
+=================
+
+■ Twemoji graphics (1f426.png / 1f437.png / 1f4e6.png)
+  Copyright Twitter, Inc and other contributors.
+  https://github.com/jdecked/twemoji
+  Licensed under CC-BY 4.0:
+  https://creativecommons.org/licenses/by/4.0/
+
+■ 効果音 (launch.wav, hit.wav)
+  Kenney Interface Sounds — https://kenney.nl
+  CC0 1.0 Universal (Public Domain Dedication):
+  https://creativecommons.org/publicdomain/zero/1.0/
+  帰属表示は不要ですが、感謝を込めてクレジットに記載しています。
+
+■ BGM (bgm.wav)
+  本教材用に用意したループ曲。
+  CC0 1.0 Universal (Public Domain Dedication):
+  https://creativecommons.org/publicdomain/zero/1.0/

@@ -1,0 +1,17 @@
+画像素材のクレジット
+=====================
+
+このフォルダの絵文字画像（1f426.png / 1f437.png / 1f4e6.png）は
+Twemoji を使用しています。
+
+- 提供元: Twemoji (https://github.com/jdecked/twemoji)
+  ※ もとは Twitter, Inc. とその貢献者による Twemoji
+- グラフィックのライセンス: CC-BY 4.0
+  (https://creativecommons.org/licenses/by/4.0/)
+- 使用した絵文字:
+  - 1f426.png … 🐦 鳥（プレイヤーが飛ばす弾）
+  - 1f437.png … 🐷 ブタ（標的）
+  - 1f4e6.png … 📦 箱（構造物）
+
+CC-BY 4.0 の条件により、上記の帰属表示（クレジット）を残しています。
+詳しいライセンス条文は LICENSE.txt を参照してください。

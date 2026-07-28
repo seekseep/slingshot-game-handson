@@ -1,0 +1,15 @@
+素材のクレジット
+=================
+
+■ 絵文字画像 (1f426.png / 1f437.png / 1f4e6.png)
+  Twemoji (https://github.com/jdecked/twemoji)
+  グラフィックは CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+  © Twitter, Inc and other contributors
+  - 1f426.png … 🐦 鳥（弾） / 1f437.png … 🐷 ブタ（標的） / 1f4e6.png … 📦 箱
+
+■ 効果音 (launch.wav, hit.wav)
+  Kenney Interface Sounds (https://kenney.nl)
+  CC0 1.0（パブリックドメイン相当）。詳細は LICENSE.txt を参照。
+  - launch.wav … 発射の音 / hit.wav … ブタに当たった音
+
+CC-BY 4.0 の条件により、画像の帰属表示（クレジット）を残しています。
