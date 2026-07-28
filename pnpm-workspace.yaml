@@ -1,0 +1,11 @@
+packages:
+  - 'apps/*'
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+
+# astro のビルドに必要なネイティブパッケージの build script を許可する
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

@@ -1,0 +1,14 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# generated docs pages (sync-lectures.mjs writes here)
+src/content/docs/
+# generated project ZIPs (build-downloads.mjs writes here)
+public/downloads/
+# generated live previews (build-previews.mjs writes here)
+public/preview/
+# misc
+.DS_Store

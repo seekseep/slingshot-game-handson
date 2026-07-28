@@ -1,0 +1,17 @@
+{
+  "name": "slingshot-game-handson",
+  "version": "1.0.0",
+  "description": "パチンコ物理ゲーム（アングリーバード風）ハンズオン（Phaser 3 + Matter.js）",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev": "pnpm --filter site dev",
+    "build": "pnpm --filter site build",
+    "preview": "pnpm --filter site preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}
