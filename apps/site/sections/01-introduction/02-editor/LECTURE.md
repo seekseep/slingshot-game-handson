@@ -35,3 +35,8 @@ game/
 
 VS Code の拡張機能 **Live Server** を入れておくと、`index.html` を右クリック →
 「Open with Live Server」でサーバー越しに開けます。次の節で、実際にブラウザで開いて確認します。
+
+- Live Server（拡張機能）: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
+
+VS Code の左側のバーにある拡張機能アイコン（四角が4つ並んだマーク）から `Live Server` と検索しても
+インストールできます。
