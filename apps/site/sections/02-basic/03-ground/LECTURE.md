@@ -22,13 +22,13 @@ title: 地面で受け止める
       // 地面を描く（画面の下いっぱいに横長の帯）。グレーで塗る。
       const g = this.add.graphics();
       g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 800, 480 - groundY);
+      g.fillRect(0, groundY, 720, 480 - groundY);
 ```
 
 - `groundY = 400` … 地面の上のふちの高さ。これより下が地面です。
 - `this.add.graphics()` … 自由に線や四角を描くためのお絵かき道具です。
 - `fillStyle(0x888888, 1)` … 塗る色（グレー）と濃さ（1＝不透明）を決めます。
-- `fillRect(0, groundY, 800, 480 - groundY)` … 左上 (0, 400) から、幅 800・高さ 80 の四角を塗ります。
+- `fillRect(0, groundY, 720, 480 - groundY)` … 左上 (0, 400) から、幅 720・高さ 80 の四角を塗ります。
 
 ## 地面に当たり判定をつける
 
@@ -37,7 +37,7 @@ title: 地面で受け止める
 
 ```js
       // 描いた地面と同じ位置に、動かない当たり判定を置く。
-      this.matter.add.rectangle(400, groundY + (480 - groundY) / 2, 800, 480 - groundY, {
+      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
         isStatic: true,
       });
 ```

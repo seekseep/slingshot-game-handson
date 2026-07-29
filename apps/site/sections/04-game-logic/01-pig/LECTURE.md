@@ -21,7 +21,7 @@ title: 標的（ブタ）を置く
     // いまはまだ置くだけ。当たっても消えない。
     const pigRadius = 16;
     const pigPositions = [
-      { x: 710, y: groundY - pigRadius }, // タワーの右のブタ
+      { x: 690, y: groundY - pigRadius }, // タワーの右のブタ
       { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
     ];
     for (const pos of pigPositions) {

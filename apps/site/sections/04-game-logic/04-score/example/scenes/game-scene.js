@@ -8,9 +8,9 @@ class GameScene extends Phaser.Scene {
 
     const g = this.add.graphics();
     g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 800, 480 - groundY);
+    g.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(400, groundY + (480 - groundY) / 2, 800, 480 - groundY, {
+    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
       isStatic: true,
     });
 
@@ -27,7 +27,7 @@ class GameScene extends Phaser.Scene {
     // 鳥が当たったブタを消せるように、目印として isPig を付けておく。
     const pigRadius = 16;
     const pigPositions = [
-      { x: 710, y: groundY - pigRadius }, // タワーの右のブタ
+      { x: 690, y: groundY - pigRadius }, // タワーの右のブタ
       { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
     ];
     for (const pos of pigPositions) {
@@ -47,7 +47,7 @@ class GameScene extends Phaser.Scene {
     // スコア。ブタを1匹倒すごとに増える。右上に表示する。
     this.score = 0;
     this.scoreText = this.add
-      .text(780, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
+      .text(700, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
       .setOrigin(1, 0.5);
 
     // 消す予約をためておく入れ物（衝突中に消すと不安定なので update でまとめて消す）。

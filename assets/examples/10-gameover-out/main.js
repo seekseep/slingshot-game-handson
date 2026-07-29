@@ -5,7 +5,7 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 180, 'パチンコ物理ゲーム', {
+      .text(360, 180, 'パチンコ物理ゲーム', {
         fontSize: '36px',
         color: '#5d4037',
         fontStyle: 'bold',
@@ -13,7 +13,7 @@ class StartScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const startText = this.add
-      .text(400, 300, '▶ スタート', {
+      .text(360, 300, '▶ スタート', {
         fontSize: '28px',
         color: '#ffffff',
         backgroundColor: '#e08e3c',
@@ -36,9 +36,9 @@ class GameScene extends Phaser.Scene {
 
     const g = this.add.graphics();
     g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 800, 480 - groundY);
+    g.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(400, groundY + (480 - groundY) / 2, 800, 480 - groundY, {
+    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
       isStatic: true,
     });
 
@@ -149,7 +149,7 @@ class GameOverScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 200, 'ゲームオーバー', {
+      .text(360, 200, 'ゲームオーバー', {
         fontSize: '36px',
         color: '#c0392b',
         fontStyle: 'bold',
@@ -157,7 +157,7 @@ class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(400, 280, 'クリックでスタートに戻る', {
+      .text(360, 280, 'クリックでスタートに戻る', {
         fontSize: '18px',
         color: '#555555',
       })
@@ -169,7 +169,7 @@ class GameOverScene extends Phaser.Scene {
 
 new Phaser.Game({
   type: Phaser.AUTO,
-  width: 800,
+  width: 720,
   height: 480,
   backgroundColor: '#fdf6e3',
   physics: {

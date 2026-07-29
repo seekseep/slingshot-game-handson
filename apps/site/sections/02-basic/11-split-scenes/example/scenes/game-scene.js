@@ -8,9 +8,9 @@ class GameScene extends Phaser.Scene {
 
     const g = this.add.graphics();
     g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 800, 480 - groundY);
+    g.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(400, groundY + (480 - groundY) / 2, 800, 480 - groundY, {
+    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
       isStatic: true,
     });
 

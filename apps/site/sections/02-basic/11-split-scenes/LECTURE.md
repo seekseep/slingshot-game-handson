@@ -42,7 +42,7 @@ game/
 
 new Phaser.Game({
   type: Phaser.AUTO,
-  width: 800,
+  width: 720,
   height: 480,
   backgroundColor: '#fdf6e3',
   physics: {

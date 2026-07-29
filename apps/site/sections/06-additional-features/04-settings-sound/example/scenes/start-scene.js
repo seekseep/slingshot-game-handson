@@ -5,7 +5,7 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 140, 'パチンコ物理ゲーム', {
+      .text(360, 140, 'パチンコ物理ゲーム', {
         fontSize: '36px',
         color: '#5d4037',
         fontStyle: 'bold',
@@ -13,7 +13,7 @@ class StartScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const startText = this.add
-      .text(400, 250, '▶ スタート', {
+      .text(360, 250, '▶ スタート', {
         fontSize: '28px',
         color: '#ffffff',
         backgroundColor: '#e08e3c',
@@ -25,8 +25,8 @@ class StartScene extends Phaser.Scene {
     startText.on('pointerdown', () => this.scene.start('Game'));
 
     // 音の ON/OFF を切り替えるボタン。設定は localStorage に保存する。
-    this.makeToggle(400, 350, '効果音', 'slingshot-sfx');
-    this.makeToggle(400, 410, 'BGM', 'slingshot-bgm');
+    this.makeToggle(360, 350, '効果音', 'slingshot-sfx');
+    this.makeToggle(360, 410, 'BGM', 'slingshot-bgm');
   }
 
   makeToggle(x, y, label, key) {

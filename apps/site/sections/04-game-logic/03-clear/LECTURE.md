@@ -63,7 +63,7 @@ class ClearScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 200, 'クリア！', {
+      .text(360, 200, 'クリア！', {
         fontSize: '40px',
         color: '#2e7d32',
         fontStyle: 'bold',
@@ -71,7 +71,7 @@ class ClearScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(400, 280, 'クリックでスタートに戻る', {
+      .text(360, 280, 'クリックでスタートに戻る', {
         fontSize: '18px',
         color: '#555555',
       })

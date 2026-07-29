@@ -24,7 +24,7 @@ class GameOverScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 200, 'ゲームオーバー', {
+      .text(360, 200, 'ゲームオーバー', {
         fontSize: '36px',
         color: '#c0392b',
         fontStyle: 'bold',
@@ -32,7 +32,7 @@ class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(400, 280, 'クリックでスタートに戻る', {
+      .text(360, 280, 'クリックでスタートに戻る', {
         fontSize: '18px',
         color: '#555555',
       })

@@ -5,7 +5,7 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.add
-      .text(400, 180, 'パチンコ物理ゲーム', {
+      .text(360, 180, 'パチンコ物理ゲーム', {
         fontSize: '36px',
         color: '#5d4037',
         fontStyle: 'bold',
@@ -13,7 +13,7 @@ class StartScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const startText = this.add
-      .text(400, 300, '▶ スタート', {
+      .text(360, 300, '▶ スタート', {
         fontSize: '28px',
         color: '#ffffff',
         backgroundColor: '#e08e3c',

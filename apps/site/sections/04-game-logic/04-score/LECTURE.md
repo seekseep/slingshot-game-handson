@@ -20,7 +20,7 @@ title: ブタを倒してスコアを足す
     // スコア。ブタを1匹倒すごとに増える。右上に表示する。
     this.score = 0;
     this.scoreText = this.add
-      .text(780, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
+      .text(700, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
       .setOrigin(1, 0.5);
 ```
 

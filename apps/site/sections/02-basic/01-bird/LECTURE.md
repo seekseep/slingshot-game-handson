@@ -62,7 +62,7 @@ game/
 ```js
 new Phaser.Game({
   type: Phaser.AUTO,
-  width: 800,
+  width: 720,
   height: 480,
   backgroundColor: '#fdf6e3',
   scene: {
@@ -77,7 +77,7 @@ new Phaser.Game({
 
 - `new Phaser.Game({ ... })` … ゲームを1つ起動します。中の設定で画面の大きさや色を決めます。
 - `type: Phaser.AUTO` … 描画方法（WebGL か Canvas）を Phaser におまかせします。
-- `width: 800, height: 480` … 画面の横幅と高さ。横長にして、左でパチンコ・右に標的を置けるようにします。
+- `width: 720, height: 480` … 画面の横幅と高さ。横長にして、左でパチンコ・右に標的を置けるようにします。
 - `backgroundColor: '#fdf6e3'` … 背景の色（うすいクリーム色）です。
 - `scene` の `create` … 画面ができたとき最初に1回呼ばれる場所です。ここに「何を置くか」を書きます。
 - `this.add.circle(140, 340, 18, 0xffffff)` … 位置 (140, 340) に半径 18 の白い丸を置きます。これが鳥です。

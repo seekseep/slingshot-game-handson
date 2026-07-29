@@ -20,8 +20,8 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
 
 ```js
     // 音の ON/OFF を切り替えるボタン。設定は localStorage に保存する。
-    this.makeToggle(400, 350, '効果音', 'slingshot-sfx');
-    this.makeToggle(400, 410, 'BGM', 'slingshot-bgm');
+    this.makeToggle(360, 350, '効果音', 'slingshot-sfx');
+    this.makeToggle(360, 410, 'BGM', 'slingshot-bgm');
   }
 
   makeToggle(x, y, label, key) {

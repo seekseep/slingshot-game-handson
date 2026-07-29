@@ -8,7 +8,7 @@ class ClearScene extends Phaser.Scene {
     const score = data.score || 0;
 
     this.add
-      .text(400, 180, 'クリア！', {
+      .text(360, 180, 'クリア！', {
         fontSize: '40px',
         color: '#2e7d32',
         fontStyle: 'bold',
@@ -16,14 +16,14 @@ class ClearScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(400, 250, 'スコア: ' + score, {
+      .text(360, 250, 'スコア: ' + score, {
         fontSize: '28px',
         color: '#333333',
       })
       .setOrigin(0.5);
 
     this.add
-      .text(400, 320, 'クリックでスタートに戻る', {
+      .text(360, 320, 'クリックでスタートに戻る', {
         fontSize: '18px',
         color: '#555555',
       })
