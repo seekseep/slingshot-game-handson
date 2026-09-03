@@ -14,16 +14,19 @@ title: 地面で受け止める
 
 ## 地面を描く
 
-`create` の最初に、画面の下いっぱいに横長の帯（地面）を描きます。見た目はグレーで塗ります。
+画面の下いっぱいに横長の帯（地面）を描きます。見た目はグレーで塗ります。
+
+:::code[`create` の中（いちばん最初）]{filepath=main.js offset=12}
 
 ```js
-      const groundY = 400; // 地面の上面の高さ
+const groundY = 400;
 
-      // 地面を描く（画面の下いっぱいに横長の帯）。グレーで塗る。
-      const g = this.add.graphics();
-      g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 720, 480 - groundY);
+const ground = this.add.graphics();
+ground.fillStyle(0x888888, 1);
+ground.fillRect(0, groundY, 720, 480 - groundY);
 ```
+
+:::
 
 - `groundY = 400` … 地面の上のふちの高さ。これより下が地面です。
 - `this.add.graphics()` … 自由に線や四角を描くためのお絵かき道具です。
@@ -35,12 +38,22 @@ title: 地面で受け止める
 いま描いたのは「絵」だけなので、このままでは鳥がすり抜けます。同じ位置に**動かない当たり判定**を
 置いて、鳥を受け止められるようにします。
 
+:::code[`create` の中（いま書いた地面を描くコードの続き）]{filepath=main.js offset=18}
+
 ```js
-      // 描いた地面と同じ位置に、動かない当たり判定を置く。
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+// 描いた地面と同じ位置に、動かない当たり判定を置く。
+this.matter.add.rectangle(
+  360,
+  groundY + (480 - groundY) / 2,
+  720,
+  480 - groundY,
+  {
+    isStatic: true,
+  },
+);
 ```
+
+:::
 
 - `this.matter.add.rectangle(x, y, w, h, ...)` … 四角い当たり判定を作ります。位置は**中心**で指定します。
 - `isStatic: true` … 「動かない」印です。重力の影響を受けず、その場に固定されます。地面や壁に使います。
@@ -49,21 +62,24 @@ title: 地面で受け止める
 
 鳥は前の節と同じく上から落とします。`restitution`（跳ね返り）を少し足しておきます。
 
+:::code[`create` の中（当たり判定を置いたコードの続き）]{filepath=main.js offset=23}
+
 ```js
-      const radius = 18;
+const birdRadius = 18;
 
-      // 上から落として、地面で受け止められる様子を見る。
-      const bird = this.add.circle(140, 80, radius, 0xffffff);
-      bird.setStrokeStyle(3, 0x333333);
+const bird = this.add.circle(140, 80, birdRadius, 0xffffff);
+bird.setStrokeStyle(3, 0x333333);
 
-      this.matter.add.gameObject(bird, {
-        shape: {
-          type: 'circle',
-          radius: radius,
-        },
-        restitution: 0.2, // 跳ね返りの強さ（0=跳ねない 〜 1=よく跳ねる）
-      });
+this.matter.add.gameObject(bird, {
+  shape: {
+    type: 'circle',
+    radius: birdRadius,
+  },
+  restitution: 0.2,
+});
 ```
+
+:::
 
 - `restitution: 0.2` … ぶつかったときの跳ね返りの強さ。0 で跳ねず、1 に近いほどよく跳ねます。
 
@@ -74,4 +90,4 @@ title: 地面で受け止める
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

@@ -17,9 +17,15 @@ new Phaser.Game({
       g.fillRect(0, groundY, 720, 480 - groundY);
 
       // 描いた地面と同じ位置に、動かない当たり判定を置く。
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+      this.matter.add.rectangle(
+        360,
+        groundY + (480 - groundY) / 2,
+        720,
+        480 - groundY,
+        {
+          isStatic: true,
+        },
+      );
 
       const radius = 18;
 

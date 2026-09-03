@@ -9,6 +9,8 @@ import remarkQuestions from './src/plugins/remark-questions.mjs';
 import remarkDownload from './src/plugins/remark-download.mjs';
 import remarkEditor from './src/plugins/remark-editor.mjs';
 import remarkScript from './src/plugins/remark-script.mjs';
+import remarkCode from './src/plugins/remark-code.mjs';
+import ecLineNumbers from './src/plugins/ec-line-numbers.mjs';
 import lectureSync from './src/integrations/lecture-sync.mjs';
 
 // GitHub リポジトリ URL。sync-lectures.mjs / build-downloads.mjs が
@@ -63,6 +65,8 @@ function calloutIntegration() {
         config.markdown.processor?.options.remarkPlugins.push(remarkEditor);
         // `:::script` を「表示＋このページで実行」に変換。
         config.markdown.processor?.options.remarkPlugins.push(remarkScript);
+        // `:::code{filepath=... offset=...}` をファイル名 + 行番号つきコードに変換。
+        config.markdown.processor?.options.remarkPlugins.push(remarkCode);
       },
     },
   };
@@ -100,7 +104,13 @@ export default defineConfig({
         './src/styles/quiz.css',
         './src/styles/download.css',
         './src/styles/editor.css',
+        './src/styles/code.css',
       ],
+      // `:::code` が付けた startLineNumber / startNewLineNumber を読んで
+      // ガターに行番号を出す自作プラグイン。それ以外のコードブロックには何もしない。
+      expressiveCode: {
+        plugins: [ecLineNumbers()],
+      },
       head: [
         // ◯✕クイズの client スクリプトを全ページに注入する。
         { tag: 'script', content: quizClient },
@@ -115,18 +125,34 @@ export default defineConfig({
       locales: {
         root: { label: '日本語', lang: 'ja' },
       },
-      social: [
-        { icon: 'github', label: 'GitHub', href: repoUrl },
-      ],
+      social: [{ icon: 'github', label: 'GitHub', href: repoUrl }],
       sidebar: [
         { label: 'はじめに', link: '/' },
         // 章 = セクション。各章配下の節（レクチャー）は autogenerate が NN- 順に並べる。
-        { label: '01. はじめに', items: [{ autogenerate: { directory: '01-introduction' } }] },
-        { label: '02. 実装1 — 基本を作る', items: [{ autogenerate: { directory: '02-basic' } }] },
-        { label: '03. 解説1 — ゲームの仕組み', items: [{ autogenerate: { directory: '03-game-engine' } }] },
-        { label: '04. 実装2 — ゲームロジック', items: [{ autogenerate: { directory: '04-game-logic' } }] },
-        { label: '05. 解説2 — 開発の進め方', items: [{ autogenerate: { directory: '05-development-flow' } }] },
-        { label: '06. 実装3 — 装飾を足す', items: [{ autogenerate: { directory: '06-additional-features' } }] },
+        {
+          label: '01. はじめに',
+          items: [{ autogenerate: { directory: '01-introduction' } }],
+        },
+        {
+          label: '02. 実装1 — 基本を作る',
+          items: [{ autogenerate: { directory: '02-basic' } }],
+        },
+        {
+          label: '03. 解説1 — コードの読み方',
+          items: [{ autogenerate: { directory: '03-reading-phaser' } }],
+        },
+        {
+          label: '04. 実装2 — ゲームロジック',
+          items: [{ autogenerate: { directory: '04-game-logic' } }],
+        },
+        {
+          label: '05. 解説2 — 呼ばれる仕組み',
+          items: [{ autogenerate: { directory: '05-framework-way' } }],
+        },
+        {
+          label: '06. 実装3 — 装飾を足す',
+          items: [{ autogenerate: { directory: '06-additional-features' } }],
+        },
       ],
       editLink: {
         baseUrl: `${repoUrl}/edit/main/`,

@@ -1,8 +1,13 @@
 /**
- * `::::editor{zip="URL"}` コンテナディレクティブを、簡易エディタ UI
+ * `::::editor{title="..." zip="URL" open="main.js"}` コンテナディレクティブを、簡易エディタ UI
  * `<section class="editor">`（左=ファイル一覧・右=コード）に変換する remark プラグイン。
  *
- * コンテナの中身は sync-lectures.mjs（libs/checkpoint.mjs）が実ファイルから生成した
+ * 属性:
+ *   title … ヘッダの文言（省略時は「このステップの完成例」）
+ *   zip   … ZIP ダウンロードボタンのリンク先。省略するとボタンを出さない（デモなど配布物が無い場合）
+ *   open  … 最初に開くファイル名（省略時は先頭）
+ *
+ * コンテナの中身は sync-lectures.mjs（libs/sentinels.mjs）が実ファイルから生成した
  * コードフェンス（各 fence の meta に `data-file="<相対パス>"`）。このプラグインは:
  *   - 各コードフェンスからファイル名を読み取り（meta は消して Expressive Code の枠を出さない）
  *   - 左のファイル切り替えボタン、右のコードペインを組み立てる
@@ -16,6 +21,7 @@
 
 const NAME = 'editor';
 const FILE_META_RE = /data-file="([^"]*)"/;
+const DEFAULT_TITLE = 'このステップの完成例';
 
 function visit(node, callback) {
   if (!node || !Array.isArray(node.children)) return;
@@ -88,7 +94,7 @@ export default function remarkEditor() {
         }),
       );
 
-      const headerChildren = [el('span', ['editor__title'], [text('このステップの完成例')])];
+      const headerChildren = [el('span', ['editor__title'], [text(attrs.title || DEFAULT_TITLE)])];
       if (zipUrl) headerChildren.push(downloadButton(zipUrl));
 
       const header = el('div', ['editor__header'], headerChildren);

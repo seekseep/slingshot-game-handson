@@ -15,9 +15,15 @@ new Phaser.Game({
       g.fillStyle(0x888888, 1);
       g.fillRect(0, groundY, 720, 480 - groundY);
 
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+      this.matter.add.rectangle(
+        360,
+        groundY + (480 - groundY) / 2,
+        720,
+        480 - groundY,
+        {
+          isStatic: true,
+        },
+      );
 
       // パチンコの位置（ここに鳥が構え、離すとここを基点に飛ぶ）。
       const anchor = { x: 140, y: 300 };

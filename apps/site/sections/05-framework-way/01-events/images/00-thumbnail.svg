@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="640" height="360" fill="#ffffff"/>
+<text x="320" y="46" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">聞きに行く？ 教えてもらう？</text>
+<svg x="62" y="108" width="60" height="60" viewBox="0 0 36 36"><path fill="#FFDC5D" d="M30 20.145s.094-2.362-1.791-3.068c-1.667-.625-2.309.622-2.309.622s.059-1.913-1.941-2.622c-1.885-.667-2.75.959-2.75.959s-.307-1.872-2.292-2.417C17.246 13.159 16 14.785 16 14.785V2.576C16 1.618 15.458.001 13.458 0S11 1.66 11 2.576v20.5c0 1-1 1-1 0V20.41c0-3.792-2.037-6.142-2.75-6.792-.713-.65-1.667-.98-2.82-.734-1.956.416-1.529 1.92-.974 3.197 1.336 3.078 2.253 7.464 2.533 9.538.79 5.858 5.808 10.375 11.883 10.381 6.626.004 12.123-5.298 12.128-11.924v-3.931z"/></svg>
+<text x="92" y="196" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">押した瞬間</text>
+<line x1="146" y1="150" x2="330" y2="150" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="238.0" y="140.0" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">pointerdown</text>
+<rect x="344" y="106" width="252" height="88" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="3.5"/>
+<text x="470" y="142" text-anchor="middle" font-size="21" fill="#15803d" font-weight="700">ハンドラが動く</text>
+<text x="470" y="172" text-anchor="middle" font-size="13" fill="#15803d" font-weight="400">1 回</text>
+<svg x="62" y="230" width="60" height="60" viewBox="0 0 36 36"><path fill="#3B88C3" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/><path fill="#FFF" d="M30.2 10L23 4v4h-8C9.477 8 5 12.477 5 18c0 1.414.297 2.758.827 3.978l3.3-2.75C9.044 18.831 9 18.421 9 18c0-3.314 2.686-6 6-6h8v4l7.2-6zm-.026 4.023l-3.301 2.75c.083.396.127.806.127 1.227 0 3.313-2.687 6-6 6h-8v-4l-7.2 6 7.2 6v-4h8c5.522 0 10-4.478 10-10 0-1.414-.297-2.758-.826-3.977z"/></svg>
+<text x="92" y="318" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">毎フレーム</text>
+<line x1="146" y1="272" x2="330" y2="272" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="238.0" y="262.0" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">isDown ？</text>
+<rect x="344" y="228" width="252" height="88" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3.5"/>
+<text x="470" y="264" text-anchor="middle" font-size="21" fill="#475569" font-weight="700">自分で見に行く</text>
+<text x="470" y="294" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">約 60 回/秒</text>
+</svg>

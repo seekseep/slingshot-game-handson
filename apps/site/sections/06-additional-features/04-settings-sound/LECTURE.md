@@ -15,11 +15,15 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
 
 ## スタート画面にトグルを足す
 
-`StartScene` に、音の設定を切り替えるボタン（トグル）を作る仕組みを足します。設定は
+音の設定を切り替えるボタン（トグル）を作る仕組みを足します。設定は
 `localStorage`（ブラウザに残る保存場所）にしまいます。
 
+下のコードは `create` の閉じかっこ `}` をまたいでいます。最初の2行までが `create` の中、
+`makeToggle(x, y, label, key) {` からはクラス直下のメソッドです。
+
+:::code[`StartScene` の `create` の末尾（`makeToggle` を呼ぶ2行）と、`StartScene` クラスの中（`makeToggle` メソッド本体）]{filepath=scenes/start-scene.js offset=27}
+
 ```js
-    // 音の ON/OFF を切り替えるボタン。設定は localStorage に保存する。
     this.makeToggle(360, 350, '効果音', 'slingshot-sfx');
     this.makeToggle(360, 410, 'BGM', 'slingshot-bgm');
   }
@@ -35,7 +39,6 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
 
-    // いまの設定を見た目に反映する。保存が 'off' のときだけ OFF。
     const render = () => {
       const on = localStorage.getItem(key) !== 'off';
       text.setText(label + ': ' + (on ? 'ON' : 'OFF'));
@@ -43,7 +46,6 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
     };
     render();
 
-    // クリックで ON/OFF を反転して保存する。
     text.on('pointerdown', () => {
       const on = localStorage.getItem(key) !== 'off';
       localStorage.setItem(key, on ? 'off' : 'on');
@@ -52,6 +54,8 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
   }
 ```
 
+:::
+
 - `makeToggle(x, y, label, key)` … 指定位置にトグルを1つ作る関数です。効果音用と BGM 用の2つを作ります。
 - `localStorage.getItem(key)` … 保存された設定を読みます。`'off'` のときだけオフ、それ以外はオンとみなします。
 - `localStorage.setItem(key, ...)` … クリックで設定を反転して保存します。次に開いたときも覚えています。
@@ -59,28 +63,40 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
 
 ## ゲーム画面で設定を見る
 
-`GameScene` の `create` の最初で設定を読み、オンのときだけ音を鳴らすようにします。
+設定を読み、オンのときだけ音を鳴らすようにします。
+
+:::code[`GameScene` の `create` の中（いちばん最初。BGM を再生するコードを書き換え）]{filepath=scenes/game-scene.js offset=19}
 
 ```js
-    // 設定（効果音・BGM の ON/OFF）を localStorage から読む。'off' のときだけ切る。
-    this.sfxOn = localStorage.getItem('slingshot-sfx') !== 'off';
-    this.bgmOn = localStorage.getItem('slingshot-bgm') !== 'off';
+// 未設定なら ON。'off' と保存されているときだけ切る。
+this.sfxOn = localStorage.getItem('slingshot-sfx') !== 'off';
+this.bgmOn = localStorage.getItem('slingshot-bgm') !== 'off';
 
-    // BGM は設定が ON のときだけ再生する。
-    this.bgm = this.sound.add('bgm', { loop: true, volume: 0.4 });
-    if (this.bgmOn) this.bgm.play();
-    this.events.once('shutdown', () => this.bgm.stop());
+this.bgm = this.sound.add('bgm', { loop: true, volume: 0.4 });
+if (this.bgmOn) this.bgm.play();
+// 画面を抜けるときに止めないと鳴り続ける。
+this.events.once('shutdown', () => this.bgm.stop());
 ```
+
+:::
 
 効果音を鳴らす所も、設定を見てから鳴らすように直します。
 
-```js
-      if (this.sfxOn) this.sound.play('launch'); // 発射の音（設定が ON のときだけ）。
-```
+:::code[`create` の中の `pointerup` ハンドラの中（発射音の行を書き換え）]{filepath=scenes/game-scene.js offset=160}
 
 ```js
-      if (this.sfxOn) this.sound.play('hit'); // ブタに当たった音（設定が ON のときだけ）。
+if (this.sfxOn) this.sound.play('launch');
 ```
+
+:::
+
+:::code[`update` の中の `for` の中（当たった音の行を書き換え）]{filepath=scenes/game-scene.js offset=182}
+
+```js
+if (this.sfxOn) this.sound.play('hit');
+```
+
+:::
 
 ## 動かす
 
@@ -92,4 +108,4 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="scenes/start-scene.js"}
+::codeview{defaultFile="scenes/start-scene.js"}

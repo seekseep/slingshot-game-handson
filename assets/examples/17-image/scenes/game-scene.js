@@ -17,16 +17,24 @@ class GameScene extends Phaser.Scene {
     g.fillStyle(0x888888, 1);
     g.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-      isStatic: true,
-    });
+    this.matter.add.rectangle(
+      360,
+      groundY + (480 - groundY) / 2,
+      720,
+      480 - groundY,
+      {
+        isStatic: true,
+      },
+    );
 
     const boxSize = 40;
-    const towerX = 620;
+    const towerX = 560;
     for (let i = 0; i < 3; i++) {
       const boxY = groundY - boxSize / 2 - i * boxSize;
       // 丸や四角の代わりに箱の画像を置く。画像を boxSize の大きさに合わせる。
-      const box = this.add.image(towerX, boxY, 'block').setDisplaySize(boxSize, boxSize);
+      const box = this.add
+        .image(towerX, boxY, 'block')
+        .setDisplaySize(boxSize, boxSize);
       this.matter.add.gameObject(box, {
         shape: { type: 'rectangle', width: boxSize, height: boxSize },
         restitution: 0.1,
@@ -37,11 +45,14 @@ class GameScene extends Phaser.Scene {
     // 鳥が当たったブタを消せるように、目印として isPig を付けておく。
     const pigRadius = 16;
     const pigPositions = [
-      { x: 690, y: groundY - pigRadius }, // タワーの右のブタ
+      { x: 460, y: groundY - pigRadius }, // 手前のブタ
       { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
+      { x: 660, y: groundY - pigRadius }, // 奥のブタ
     ];
     for (const pos of pigPositions) {
-      const pig = this.add.image(pos.x, pos.y, 'pig').setDisplaySize(pigRadius * 2, pigRadius * 2);
+      const pig = this.add
+        .image(pos.x, pos.y, 'pig')
+        .setDisplaySize(pigRadius * 2, pigRadius * 2);
       this.matter.add.gameObject(pig, {
         shape: { type: 'circle', radius: pigRadius },
         restitution: 0.2,
@@ -100,7 +111,9 @@ class GameScene extends Phaser.Scene {
 
     const spawnBird = () => {
       if (birdsLeft <= 0) return;
-      bird = this.add.image(anchor.x, anchor.y, 'bird').setDisplaySize(radius * 2, radius * 2);
+      bird = this.add
+        .image(anchor.x, anchor.y, 'bird')
+        .setDisplaySize(radius * 2, radius * 2);
       this.matter.add.gameObject(bird, {
         shape: { type: 'circle', radius: radius },
         restitution: 0.2,

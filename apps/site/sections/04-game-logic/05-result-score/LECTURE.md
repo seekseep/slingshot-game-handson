@@ -18,26 +18,30 @@ title: リザルトにスコアを表示
 シーンを切り替えるとき、2つ目の引数で好きなデータを渡せます。ここでスコアを渡します。
 `GameScene` の、クリアへ進む所とゲームオーバーへ進む所を書き換えます。
 
-```js
-    // クリアへ進むとき
-    if (!this.cleared && this.pigsLeft <= 0) {
-      this.cleared = true;
-      // 結果画面にスコアを渡す。
-      this.scene.start('Clear', { score: this.score });
-    }
-```
+:::code[`update` の中（クリアへ進む `if` を書き換え）]{filepath=scenes/game-scene.js offset=166}
 
 ```js
-      // ゲームオーバーへ進むとき
-      this.time.delayedCall(1200, () => {
-        if (birdsLeft > 0) {
-          spawnBird();
-        } else {
-          // 結果画面にスコアを渡す。
-          this.scene.start('GameOver', { score: this.score });
-        }
-      });
+if (!this.cleared && this.pigsLeft <= 0) {
+  this.cleared = true;
+  this.scene.start('Clear', { score: this.score });
+}
 ```
+
+:::
+
+:::code[`create` の中の `pointerup` ハンドラの中（`delayedCall` を書き換え）]{filepath=scenes/game-scene.js offset=146}
+
+```js
+this.time.delayedCall(1200, () => {
+  if (birdsLeft > 0) {
+    spawnBird();
+  } else {
+    this.scene.start('GameOver', { score: this.score });
+  }
+});
+```
+
+:::
 
 - `this.scene.start('Clear', { score: this.score })` … クリア画面へ進むとき、いまのスコアを一緒に渡します。
 
@@ -46,9 +50,10 @@ title: リザルトにスコアを表示
 受け取り側の `create` は `create(data)` と書くと、渡されたデータを受け取れます。
 `ClearScene` にスコアの表示を足します。
 
+:::code[`ClearScene` の `create`（`create(data)` に書き換え）]{filepath=scenes/clear-scene.js offset=6}
+
 ```js
   create(data) {
-    // ゲーム画面から渡されたスコア（無ければ 0）。
     const score = data.score || 0;
 
     this.add
@@ -77,6 +82,8 @@ title: リザルトにスコアを表示
   }
 ```
 
+:::
+
 - `create(data)` … シーンを始めるときに渡されたデータ（`{ score }`）を受け取ります。
 - `data.score || 0` … スコアが渡されていればその値、無ければ 0 を使います。
 
@@ -90,4 +97,4 @@ title: リザルトにスコアを表示
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="scenes/game-scene.js"}
+::codeview{defaultFile="scenes/game-scene.js"}

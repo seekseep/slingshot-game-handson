@@ -22,7 +22,6 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { loadAstroConfig } from './libs/astro-config.mjs';
-import { expandCheckpoints } from './libs/checkpoint.mjs';
 import { parseFrontmatter } from './libs/frontmatter.mjs';
 import { PUBLIC_ASSETS, publicTargetFor, transformLinks } from './libs/links.mjs';
 import {
@@ -33,6 +32,7 @@ import {
 } from './libs/markdown.mjs';
 import { downloadUrlFor, parseLectureRel } from './libs/naming.mjs';
 import { DOCS_DIR, PUBLIC_DIR, REPO_SUBDIR, ROOT } from './libs/paths.mjs';
+import { expandSentinels } from './libs/sentinels.mjs';
 
 const MAX_FILE_BYTES = 200 * 1024;
 const PUBLISH_FLAG = 'docs';
@@ -82,10 +82,10 @@ async function syncFile({
     downloadUrl,
   });
 
-  // `::checkpoint` センチネルを、実ファイルから生成した完成状態パネルに展開する。
+  // `::codeview` / `::assets` / `::preview` センチネルを、実ファイルから生成したブロックに展開する。
   const lecture = parseLectureRel(sourceDir);
   if (lecture) {
-    body = await expandCheckpoints(body, {
+    body = await expandSentinels(body, {
       lectureAbsDir: path.join(ROOT, ...sourceDir.split('/')),
       sec: lecture.sec,
       lec: lecture.lec,

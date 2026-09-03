@@ -14,22 +14,25 @@ title: 箱を積んで崩す
 
 ## 箱を積む
 
-`create` の中（地面を作った後）に、箱を縦に3つ積むコードを足します。
+箱を縦に3つ積むコードを足します。
+
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=23}
 
 ```js
-      // 右側に箱を積む。動く物理ボディなので、鳥が当たると崩れる。
-      const boxSize = 40;
-      const towerX = 620;
-      for (let i = 0; i < 3; i++) {
-        const boxY = groundY - boxSize / 2 - i * boxSize;
-        const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
-        box.setStrokeStyle(3, 0x333333);
-        this.matter.add.gameObject(box, { restitution: 0.1 });
-      }
+const boxSize = 40;
+const towerX = 560;
+for (let i = 0; i < 3; i++) {
+  const boxY = groundY - boxSize / 2 - i * boxSize;
+  const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
+  box.setStrokeStyle(3, 0x333333);
+  this.matter.add.gameObject(box, { restitution: 0.1 });
+}
 ```
 
+:::
+
 - `boxSize = 40` … 箱1つの大きさ（40×40）です。
-- `towerX = 620` … 箱を積む横位置（画面の右寄り）です。
+- `towerX = 560` … 箱を積む横位置（画面の右寄り）です。
 - `for (let i = 0; i < 3; i++)` … 3回くり返して、箱を縦に3つ作ります。
 - `boxY = groundY - boxSize / 2 - i * boxSize` … i 番目の箱の高さ。地面の上から順に積み上がるよう計算しています。
 - `this.add.rectangle(...)` … 薄いグレーの四角（箱の見た目）を作り、濃い輪郭線をつけます。
@@ -43,4 +46,4 @@ title: 箱を積んで崩す
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

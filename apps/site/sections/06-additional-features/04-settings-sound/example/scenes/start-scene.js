@@ -24,7 +24,6 @@ class StartScene extends Phaser.Scene {
 
     startText.on('pointerdown', () => this.scene.start('Game'));
 
-    // 音の ON/OFF を切り替えるボタン。設定は localStorage に保存する。
     this.makeToggle(360, 350, '効果音', 'slingshot-sfx');
     this.makeToggle(360, 410, 'BGM', 'slingshot-bgm');
   }
@@ -40,7 +39,6 @@ class StartScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
 
-    // いまの設定を見た目に反映する。保存が 'off' のときだけ OFF。
     const render = () => {
       const on = localStorage.getItem(key) !== 'off';
       text.setText(label + ': ' + (on ? 'ON' : 'OFF'));
@@ -48,7 +46,6 @@ class StartScene extends Phaser.Scene {
     };
     render();
 
-    // クリックで ON/OFF を反転して保存する。
     text.on('pointerdown', () => {
       const on = localStorage.getItem(key) !== 'off';
       localStorage.setItem(key, on ? 'off' : 'on');

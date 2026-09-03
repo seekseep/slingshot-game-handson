@@ -11,29 +11,39 @@ new Phaser.Game({
     create: function () {
       const groundY = 400;
 
-      const g = this.add.graphics();
-      g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 720, 480 - groundY);
+      const ground = this.add.graphics();
+      ground.fillStyle(0x888888, 1);
+      ground.fillRect(0, groundY, 720, 480 - groundY);
 
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+      // 描いた地面と同じ位置に、動かない当たり判定を置く。
+      this.matter.add.rectangle(
+        360,
+        groundY + (480 - groundY) / 2,
+        720,
+        480 - groundY,
+        {
+          isStatic: true,
+        },
+      );
 
-      const radius = 18;
+      const birdRadius = 18;
 
-      // 鳥は地面の上（パチンコの位置）に置いておく。
-      const bird = this.add.circle(140, groundY - radius, radius, 0xffffff);
+      const bird = this.add.circle(
+        140,
+        groundY - birdRadius,
+        birdRadius,
+        0xffffff,
+      );
       bird.setStrokeStyle(3, 0x333333);
 
       this.matter.add.gameObject(bird, {
         shape: {
           type: 'circle',
-          radius: radius,
+          radius: birdRadius,
         },
         restitution: 0.2,
       });
 
-      // クリックしたら、右上に向かって初速を与えて飛ばす。
       this.input.on('pointerdown', function () {
         bird.setVelocity(12, -12);
       });

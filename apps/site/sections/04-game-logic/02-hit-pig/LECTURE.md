@@ -17,39 +17,53 @@ title: 当たったブタを消す
 衝突したとき「どれが鳥で、どれがブタか」を見分けられるよう、目印（印の変数）をつけます。
 ブタを作るところに `pig.isPig = true`、鳥を作るところに `bird.isBird = true` を足します。
 
-```js
-      this.matter.add.gameObject(pig, {
-        shape: { type: 'circle', radius: pigRadius },
-        restitution: 0.2,
-      });
-      pig.isPig = true;
-```
+:::code[`create` の中、ブタを作る `for` の中（`this.matter.add.gameObject(pig, ...)` の後）]{filepath=scenes/game-scene.js offset=36}
 
 ```js
-      bird.setStatic(true);
-      bird.isBird = true; // 衝突相手が鳥かどうかを見分ける目印。
+this.matter.add.gameObject(pig, {
+  shape: { type: 'circle', radius: pigRadius },
+  restitution: 0.2,
+});
+pig.isPig = true; // 衝突したときに見分けるための目印。
 ```
+
+:::
+
+:::code[`create` の中、`spawnBird` の中（`bird.setStatic(true)` の後）]{filepath=scenes/game-scene.js offset=90}
+
+```js
+// 待機中は動かないように静的にしておく。
+bird.setStatic(true);
+bird.isBird = true; // 同じく、鳥かどうかの目印。
+```
+
+:::
 
 ## 衝突を受け取って消す予約をする
 
 物理エンジンは、何かがぶつかると `collisionstart` というお知らせを出します。これを受け取って、
 「鳥」と「ブタ」がぶつかっていたら、そのブタを**消す予約**に入れます。
 
-```js
-    // 消す予約をためておく入れ物（衝突中に消すと不安定なので update でまとめて消す）。
-    this.pendingRemoval = new Set();
+:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=43}
 
-    // 鳥とブタがぶつかったら、そのブタを消す予約をする。
-    this.matter.world.on('collisionstart', (event) => {
-      for (const pair of event.pairs) {
-        const a = pair.bodyA.gameObject;
-        const b = pair.bodyB.gameObject;
-        if (!a || !b) continue;
-        if (a.isBird && b.isPig) this.pendingRemoval.add(b);
-        if (b.isBird && a.isPig) this.pendingRemoval.add(a);
-      }
-    });
+```js
+// 衝突中に消すと不安定なので、ためて update でまとめて消す。
+this.pendingRemoval = new Set();
+
+this.matter.world.on('collisionstart', (event) => {
+  for (const pair of event.pairs) {
+    const gameObjectA = pair.bodyA.gameObject;
+    const gameObjectB = pair.bodyB.gameObject;
+    if (!gameObjectA || !gameObjectB) continue;
+    if (gameObjectA.isBird && gameObjectB.isPig)
+      this.pendingRemoval.add(gameObjectB);
+    if (gameObjectB.isBird && gameObjectA.isPig)
+      this.pendingRemoval.add(gameObjectA);
+  }
+});
 ```
+
+:::
 
 - `this.pendingRemoval = new Set()` … 「これから消すブタ」をためておく入れ物です。
 - `this.matter.world.on('collisionstart', ...)` … 何かがぶつかった瞬間に呼ばれます。
@@ -60,17 +74,20 @@ title: 当たったブタを消す
 ## まとめて消す
 
 ぶつかった瞬間にその場で消すと不安定になりがちなので、毎フレーム呼ばれる `update` で
-まとめて消します。`GameScene` クラスに `update` を足します。
+まとめて消します。
+
+:::code[`GameScene` クラスの中（`create` の後に、メソッドとして追加）]{filepath=scenes/game-scene.js offset=148}
 
 ```js
   update() {
-    // 消す予約のブタを、毎フレームまとめて消す。
     for (const pig of this.pendingRemoval) {
       pig.destroy();
     }
     this.pendingRemoval.clear();
   }
 ```
+
+:::
 
 - `update()` … 毎フレーム自動で呼ばれるメソッドです。
 - `pig.destroy()` … ブタを画面と物理世界から消します。
@@ -83,4 +100,4 @@ title: 当たったブタを消す
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="scenes/game-scene.js"}
+::codeview{defaultFile="scenes/game-scene.js"}

@@ -14,37 +14,43 @@ title: 全ブタを倒したらクリア
 
 ## 残りのブタを数える
 
-ブタを置いた後に、残りの数を覚えておきます。0 になったらクリアです。
+残りの数を覚えておきます。0 になったらクリアです。
+
+:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=43}
 
 ```js
-    // 残りのブタの数。0 になったらクリア。
-    this.pigsLeft = pigPositions.length;
-    this.cleared = false;
+this.pigsLeft = pigPositions.length;
+this.cleared = false;
 ```
+
+:::
 
 - `this.pigsLeft` … 残りのブタの数。最初は置いた数（`pigPositions.length`）です。
 - `this.cleared` … もうクリアしたかどうかの印。クリア画面へ二重に進まないために使います。
 
 ## 倒すたびに減らし、0 でクリアへ
 
-`update` の中で、ブタを消すたびに残りを1つ減らします。0 になったらクリア画面へ進みます。
+ブタを消すたびに残りを1つ減らします。0 になったらクリア画面へ進みます。
+
+:::code[`GameScene` の `update`（まるごと書き換え）]{filepath=scenes/game-scene.js offset=151}
 
 ```js
   update() {
-    // 消す予約のブタを、毎フレームまとめて消す。消したぶん残りを減らす。
     for (const pig of this.pendingRemoval) {
       pig.destroy();
       this.pigsLeft -= 1;
     }
     this.pendingRemoval.clear();
 
-    // ブタを全部倒したらクリア画面へ（1回だけ）。
+    // 何度も遷移しないよう、クリアは1回だけ。
     if (!this.cleared && this.pigsLeft <= 0) {
       this.cleared = true;
       this.scene.start('Clear');
     }
   }
 ```
+
+:::
 
 - `this.pigsLeft -= 1` … ブタを1匹消すたびに残りを減らします。
 - `if (!this.cleared && this.pigsLeft <= 0)` … まだクリアしておらず、残りが 0 になったら実行します。
@@ -54,6 +60,8 @@ title: 全ブタを倒したらクリア
 ## クリア画面のシーン
 
 `scenes/clear-scene.js` を新しく作ります。
+
+:::code[ファイル全体（新規作成）]{filepath=scenes/clear-scene.js offset=1}
 
 ```js
 class ClearScene extends Phaser.Scene {
@@ -82,18 +90,24 @@ class ClearScene extends Phaser.Scene {
 }
 ```
 
+:::
+
 登録も忘れずに。`index.html` に `scenes/clear-scene.js` の読み込みを足し、`main.js` の
 `scene` 配列に `ClearScene` を加えます。
+
+:::code[`new Phaser.Game({ ... })` の `scene` 配列]{filepath=main.js offset=10}
 
 ```js
   scene: [StartScene, GameScene, GameOverScene, ClearScene],
 ```
 
+:::
+
 ## 動かす
 
-ブタを2匹とも倒すと「クリア！」の画面になります。鳥を撃ち切って倒しきれなければ、
+ブタを3匹とも倒すと「クリア！」の画面になります。鳥を撃ち切って倒しきれなければ、
 これまでどおりゲームオーバーです。これで勝ち負けがそろいました。次の節で、スコアを足します。
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="scenes/game-scene.js"}
+::codeview{defaultFile="scenes/game-scene.js"}

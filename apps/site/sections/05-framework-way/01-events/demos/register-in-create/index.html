@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>登録は create で 1 回だけ</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #fdf6e3;
+        color: #333;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Hiragino Kaku Gothic ProN',
+          sans-serif;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+      }
+
+      canvas {
+        display: block;
+        border: 2px solid #333;
+      }
+
+      button {
+        font: inherit;
+        padding: 8px 18px;
+        border: 2px solid #333;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #f0e6cf;
+      }
+
+      .hint {
+        margin: 0;
+        font-size: 13px;
+        color: #777;
+        text-align: center;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.90.0/phaser.min.js"></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <button id="toggle" type="button">
+      update に登録する（悪い例）に切り替える
+    </button>
+    <p class="hint">
+      悪い例に切り替えたら、しばらく放置してから 1
+      回だけクリックしてみてください。<br />
+      放置した時間が長いほど、1
+      回のクリックでスコアが大きく増えます。エラーは出ません。
+    </p>
+  </body>
+</html>

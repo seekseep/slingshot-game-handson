@@ -1,4 +1,4 @@
-/* `::checkpoint` が生成する簡易エディタ UI（remark-editor.mjs の <section class="editor">）。
+/* `::codeview` が生成する簡易エディタ UI（remark-editor.mjs の <section class="editor">）。
    左=ファイル一覧、右=コード。ヘッダに ZIP ダウンロードボタン。
    `::preview` が生成するライブプレビュー（.lecture-preview）もここで装飾する。 */
 

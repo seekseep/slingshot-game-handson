@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>同じ点を、2 つの座標で読む</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #fdf6e3;
+        color: #333;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Hiragino Kaku Gothic ProN',
+          sans-serif;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+      }
+
+      canvas {
+        display: block;
+        max-width: 100%;
+        background: #fff;
+        border: 2px solid #333;
+        cursor: crosshair;
+        touch-action: none;
+      }
+
+      .readout {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 15px;
+      }
+
+      .readout b {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 17px;
+      }
+
+      .web {
+        color: #c0392b;
+      }
+      .math {
+        color: #2b6cb0;
+      }
+
+      .hint {
+        font-size: 13px;
+        color: #777;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="board" width="600" height="340"></canvas>
+    <div class="readout">
+      <span class="web"
+        >Web の座標（左上が原点・y は下が正）… <b id="web">-</b></span
+      >
+      <span class="math"
+        >数学の座標（中央が原点・y は上が正）… <b id="math">-</b></span
+      >
+    </div>
+    <p class="hint">
+      白い板の上をマウスでなぞってください（指でもドラッグできます）。
+    </p>
+
+    <script>
+      const canvas = document.querySelector('#board');
+      const ctx = canvas.getContext('2d');
+      const webOut = document.querySelector('#web');
+      const mathOut = document.querySelector('#math');
+
+      const W = canvas.width;
+      const H = canvas.height;
+      const CX = W / 2;
+      const CY = H / 2;
+
+      let point = { x: 430, y: 90 };
+
+      function drawGrid() {
+        ctx.strokeStyle = '#eee';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= W; x += 50) {
+          ctx.beginPath();
+          ctx.moveTo(x + 0.5, 0);
+          ctx.lineTo(x + 0.5, H);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= H; y += 50) {
+          ctx.beginPath();
+          ctx.moveTo(0, y + 0.5);
+          ctx.lineTo(W, y + 0.5);
+          ctx.stroke();
+        }
+      }
+
+      function drawWebAxes() {
+        // 左上を原点にした軸（Canvas・HTML・Phaser の流儀）。
+        ctx.strokeStyle = '#c0392b';
+        ctx.fillStyle = '#c0392b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 1);
+        ctx.lineTo(W, 1);
+        ctx.moveTo(1, 0);
+        ctx.lineTo(1, H);
+        ctx.stroke();
+        ctx.font = '12px system-ui, sans-serif';
+        ctx.fillText('(0, 0)', 8, 18);
+        ctx.fillText('x →', W - 34, 18);
+        ctx.save();
+        ctx.translate(14, H - 16);
+        ctx.fillText('y ↓', 0, 0);
+        ctx.restore();
+      }
+
+      function drawMathAxes() {
+        // 中央を原点にした軸（学校で習うほう）。
+        ctx.strokeStyle = '#2b6cb0';
+        ctx.fillStyle = '#2b6cb0';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, CY);
+        ctx.lineTo(W, CY);
+        ctx.moveTo(CX, 0);
+        ctx.lineTo(CX, H);
+        ctx.stroke();
+        ctx.font = '12px system-ui, sans-serif';
+        ctx.fillText('(0, 0)', CX + 6, CY + 16);
+        ctx.fillText('x →', W - 34, CY - 8);
+        ctx.fillText('y ↑', CX + 8, 16);
+      }
+
+      function drawPoint() {
+        const { x, y } = point;
+
+        // 原点からの読み方を、破線で見せる。
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.5;
+
+        ctx.strokeStyle = '#c0392b';
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(x, y);
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#2b6cb0';
+        ctx.beginPath();
+        ctx.moveTo(CX, y);
+        ctx.lineTo(x, y);
+        ctx.moveTo(x, CY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#333';
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, W, H);
+        drawGrid();
+        drawMathAxes();
+        drawWebAxes();
+        drawPoint();
+
+        const webX = Math.round(point.x);
+        const webY = Math.round(point.y);
+        webOut.textContent = '(' + webX + ', ' + webY + ')';
+        mathOut.textContent =
+          '(' +
+          Math.round(point.x - CX) +
+          ', ' +
+          Math.round(CY - point.y) +
+          ')';
+      }
+
+      function moveTo(event) {
+        const rect = canvas.getBoundingClientRect();
+        point = {
+          x: ((event.clientX - rect.left) / rect.width) * W,
+          y: ((event.clientY - rect.top) / rect.height) * H,
+        };
+        render();
+      }
+
+      canvas.addEventListener('mousemove', moveTo);
+      canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        moveTo(e.touches[0]);
+      });
+
+      render();
+    </script>
+  </body>
+</html>

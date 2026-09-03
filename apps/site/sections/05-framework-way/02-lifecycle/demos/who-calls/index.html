@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>呼ぶのは自分か、相手か</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #fdf6e3;
+        color: #333;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Hiragino Kaku Gothic ProN',
+          sans-serif;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+      }
+
+      canvas {
+        display: block;
+        border: 2px solid #333;
+      }
+
+      button {
+        font: inherit;
+        padding: 8px 18px;
+        border: 2px solid #333;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #f0e6cf;
+      }
+
+      .hint {
+        margin: 0;
+        font-size: 13px;
+        color: #777;
+        text-align: center;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.90.0/phaser.min.js"></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <button id="call" type="button">Math.hypot(3, 4) を自分で呼ぶ</button>
+    <p class="hint">
+      左の数字はボタンを押したときだけ増えます。右の数字は、何もしなくても増え続けます。
+    </p>
+  </body>
+</html>

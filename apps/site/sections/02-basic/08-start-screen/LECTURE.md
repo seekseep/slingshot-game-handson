@@ -25,6 +25,8 @@ Phaser では、タイトル画面・ゲーム本編・結果画面などを **�
 
 タイトルとボタンを出す `StartScene` を書きます。ボタンを押すと `GameScene` へ切り替えます。
 
+:::code[トップレベル（`new Phaser.Game(...)` より前）]{filepath=main.js offset=1}
+
 ```js
 class StartScene extends Phaser.Scene {
   constructor() {
@@ -55,6 +57,8 @@ class StartScene extends Phaser.Scene {
 }
 ```
 
+:::
+
 - `class StartScene extends Phaser.Scene` … 1つのシーンを「クラス」として定義します。
 - `super('Start')` … このシーンに `'Start'` という名前をつけます。切り替えるときにこの名前を使います。
 - `this.add.text(x, y, '文字', { ... })` … 文字を置きます。`setOrigin(0.5)` で文字の中心を指定位置に合わせます。
@@ -65,6 +69,8 @@ class StartScene extends Phaser.Scene {
 
 これまで `create` に書いていたゲーム本編を、`GameScene` クラスの `create` の中へそのまま移します。
 
+:::code[トップレベル（`StartScene` の後）]{filepath=main.js offset=29}
+
 ```js
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -72,11 +78,102 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    // ここに、これまで書いてきた地面・箱・パチンコの処理を入れる
-    // ...
+    const groundY = 400;
+
+    const ground = this.add.graphics();
+    ground.fillStyle(0x888888, 1);
+    ground.fillRect(0, groundY, 720, 480 - groundY);
+
+    // 描いた地面と同じ位置に、動かない当たり判定を置く。
+    this.matter.add.rectangle(
+      360,
+      groundY + (480 - groundY) / 2,
+      720,
+      480 - groundY,
+      {
+        isStatic: true,
+      },
+    );
+
+    const boxSize = 40;
+    const towerX = 560;
+    for (let i = 0; i < 3; i++) {
+      const boxY = groundY - boxSize / 2 - i * boxSize;
+      const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
+      box.setStrokeStyle(3, 0x333333);
+      this.matter.add.gameObject(box, { restitution: 0.1 });
+    }
+
+    const anchor = { x: 140, y: 300 };
+    const maxStretch = 90;
+    const power = 0.22; // 引っ張った長さを速さに変える倍率
+
+    this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
+
+    const aim = this.add.graphics();
+
+    const birdRadius = 18;
+    const bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
+    bird.setStrokeStyle(3, 0x333333);
+
+    this.matter.add.gameObject(bird, {
+      shape: {
+        type: 'circle',
+        radius: birdRadius,
+      },
+      restitution: 0.2,
+    });
+
+    // 待機中は動かないように静的にしておく。
+    bird.setStatic(true);
+
+    let dragging = false;
+
+    this.input.on('pointerdown', () => {
+      bird.setStatic(true);
+      bird.setPosition(anchor.x, anchor.y);
+      bird.setVelocity(0, 0);
+      dragging = true;
+    });
+
+    this.input.on('pointermove', (pointer) => {
+      if (!dragging) return;
+
+      const dx = pointer.x - anchor.x;
+      const dy = pointer.y - anchor.y;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist > maxStretch) {
+        const scale = maxStretch / dist;
+        bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
+      } else {
+        bird.setPosition(pointer.x, pointer.y);
+      }
+
+      const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
+      const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;
+      aim.clear();
+      aim.lineStyle(2, 0x333333, 0.5);
+      aim.lineBetween(bird.x, bird.y, forwardX, forwardY);
+    });
+
+    this.input.on('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+
+      aim.clear();
+
+      const vx = (anchor.x - bird.x) * power;
+      const vy = (anchor.y - bird.y) * power;
+
+      bird.setStatic(false);
+      bird.setVelocity(vx, vy);
+    });
   }
 }
 ```
+
+:::
 
 - `super('Game')` … このシーンの名前は `'Game'`。`StartScene` から `this.scene.start('Game')` で呼ばれます。
 - 入力処理の書き方が少し変わります。`function () { ... }` の代わりに `() => { ... }`（アロー関数）を使うと、
@@ -85,6 +182,8 @@ class GameScene extends Phaser.Scene {
 ## シーンを登録して起動する
 
 最後に、`new Phaser.Game` の `scene` に2つのシーンを**順番に**渡します。最初のものが最初に表示されます。
+
+:::code[トップレベル（`new Phaser.Game({ ... })` の呼び出しをまるごと書き換え）]{filepath=main.js offset=123}
 
 ```js
 new Phaser.Game({
@@ -100,6 +199,8 @@ new Phaser.Game({
 });
 ```
 
+:::
+
 ## 動かす
 
 最初にタイトルとスタートボタンが出ます。ボタンを押すとゲームが始まります。
@@ -107,4 +208,4 @@ new Phaser.Game({
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

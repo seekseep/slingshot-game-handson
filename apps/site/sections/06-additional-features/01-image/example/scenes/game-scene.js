@@ -4,7 +4,7 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // 画像を読み込む。鳥・ブタ・箱はそれぞれ twemoji の絵文字画像。
+    // 素材は twemoji の絵文字画像。
     this.load.image('bird', 'assets/1f426.png');
     this.load.image('pig', 'assets/1f437.png');
     this.load.image('block', 'assets/1f4e6.png');
@@ -13,70 +13,78 @@ class GameScene extends Phaser.Scene {
   create() {
     const groundY = 400;
 
-    const g = this.add.graphics();
-    g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 720, 480 - groundY);
+    const ground = this.add.graphics();
+    ground.fillStyle(0x888888, 1);
+    ground.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-      isStatic: true,
-    });
+    // 描いた地面と同じ位置に、動かない当たり判定を置く。
+    this.matter.add.rectangle(
+      360,
+      groundY + (480 - groundY) / 2,
+      720,
+      480 - groundY,
+      {
+        isStatic: true,
+      },
+    );
 
     const boxSize = 40;
-    const towerX = 620;
+    const towerX = 560;
     for (let i = 0; i < 3; i++) {
       const boxY = groundY - boxSize / 2 - i * boxSize;
-      // 丸や四角の代わりに箱の画像を置く。画像を boxSize の大きさに合わせる。
-      const box = this.add.image(towerX, boxY, 'block').setDisplaySize(boxSize, boxSize);
+      const box = this.add
+        .image(towerX, boxY, 'block')
+        .setDisplaySize(boxSize, boxSize);
       this.matter.add.gameObject(box, {
         shape: { type: 'rectangle', width: boxSize, height: boxSize },
         restitution: 0.1,
       });
     }
 
-    // 標的（ブタ）を置く。ブタの画像にする。
-    // 鳥が当たったブタを消せるように、目印として isPig を付けておく。
     const pigRadius = 16;
     const pigPositions = [
-      { x: 690, y: groundY - pigRadius }, // タワーの右のブタ
+      { x: 460, y: groundY - pigRadius }, // 手前のブタ
       { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
+      { x: 660, y: groundY - pigRadius }, // 奥のブタ
     ];
     for (const pos of pigPositions) {
-      const pig = this.add.image(pos.x, pos.y, 'pig').setDisplaySize(pigRadius * 2, pigRadius * 2);
+      const pig = this.add
+        .image(pos.x, pos.y, 'pig')
+        .setDisplaySize(pigRadius * 2, pigRadius * 2);
       this.matter.add.gameObject(pig, {
         shape: { type: 'circle', radius: pigRadius },
         restitution: 0.2,
       });
-      pig.isPig = true;
+      pig.isPig = true; // 衝突したときに見分けるための目印。
     }
 
-    // 残りのブタの数。0 になったらクリア。
     this.pigsLeft = pigPositions.length;
     this.cleared = false;
 
-    // スコア。ブタを1匹倒すごとに増える。右上に表示する。
     this.score = 0;
     this.scoreText = this.add
       .text(700, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
       .setOrigin(1, 0.5);
 
-    // 消す予約をためておく入れ物（衝突中に消すと不安定なので update でまとめて消す）。
+    // 衝突中に消すと不安定なので、ためて update でまとめて消す。
     this.pendingRemoval = new Set();
 
-    // 鳥とブタがぶつかったら、そのブタを消す予約をする。
     this.matter.world.on('collisionstart', (event) => {
       for (const pair of event.pairs) {
-        const a = pair.bodyA.gameObject;
-        const b = pair.bodyB.gameObject;
-        if (!a || !b) continue;
-        if (a.isBird && b.isPig) this.pendingRemoval.add(b);
-        if (b.isBird && a.isPig) this.pendingRemoval.add(a);
+        const gameObjectA = pair.bodyA.gameObject;
+        const gameObjectB = pair.bodyB.gameObject;
+        if (!gameObjectA || !gameObjectB) continue;
+        if (gameObjectA.isBird && gameObjectB.isPig)
+          this.pendingRemoval.add(gameObjectB);
+        if (gameObjectB.isBird && gameObjectA.isPig)
+          this.pendingRemoval.add(gameObjectA);
       }
     });
 
     const anchor = { x: 140, y: 300 };
     const maxStretch = 90;
-    const power = 0.22;
-    const radius = 18;
+    const power = 0.22; // 引っ張った長さを速さに変える倍率
+    const birdRadius = 18;
 
     this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 
@@ -95,18 +103,22 @@ class GameScene extends Phaser.Scene {
       }
     };
 
+    // いま操作できる鳥。発射中やリロード待ちのときは null。
     let bird = null;
     let dragging = false;
 
     const spawnBird = () => {
       if (birdsLeft <= 0) return;
-      bird = this.add.image(anchor.x, anchor.y, 'bird').setDisplaySize(radius * 2, radius * 2);
+      bird = this.add
+        .image(anchor.x, anchor.y, 'bird')
+        .setDisplaySize(birdRadius * 2, birdRadius * 2);
       this.matter.add.gameObject(bird, {
-        shape: { type: 'circle', radius: radius },
+        shape: { type: 'circle', radius: birdRadius },
         restitution: 0.2,
       });
+      // 待機中は動かないように静的にしておく。
       bird.setStatic(true);
-      bird.isBird = true; // 衝突相手が鳥かどうかを見分ける目印。
+      bird.isBird = true; // 同じく、鳥かどうかの目印。
     };
 
     drawReserve();
@@ -156,7 +168,6 @@ class GameScene extends Phaser.Scene {
         if (birdsLeft > 0) {
           spawnBird();
         } else {
-          // 結果画面にスコアを渡す。
           this.scene.start('GameOver', { score: this.score });
         }
       });
@@ -164,7 +175,6 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // 消す予約のブタを、毎フレームまとめて消す。消したぶん残りを減らす。
     for (const pig of this.pendingRemoval) {
       pig.destroy();
       this.pigsLeft -= 1;
@@ -173,10 +183,9 @@ class GameScene extends Phaser.Scene {
     }
     this.pendingRemoval.clear();
 
-    // ブタを全部倒したらクリア画面へ（1回だけ）。
+    // 何度も遷移しないよう、クリアは1回だけ。
     if (!this.cleared && this.pigsLeft <= 0) {
       this.cleared = true;
-      // 結果画面にスコアを渡す。
       this.scene.start('Clear', { score: this.score });
     }
   }

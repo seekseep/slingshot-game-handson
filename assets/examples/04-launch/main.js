@@ -15,9 +15,15 @@ new Phaser.Game({
       g.fillStyle(0x888888, 1);
       g.fillRect(0, groundY, 720, 480 - groundY);
 
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+      this.matter.add.rectangle(
+        360,
+        groundY + (480 - groundY) / 2,
+        720,
+        480 - groundY,
+        {
+          isStatic: true,
+        },
+      );
 
       const radius = 18;
 

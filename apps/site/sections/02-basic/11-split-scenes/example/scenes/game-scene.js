@@ -6,16 +6,23 @@ class GameScene extends Phaser.Scene {
   create() {
     const groundY = 400;
 
-    const g = this.add.graphics();
-    g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 720, 480 - groundY);
+    const ground = this.add.graphics();
+    ground.fillStyle(0x888888, 1);
+    ground.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-      isStatic: true,
-    });
+    // 描いた地面と同じ位置に、動かない当たり判定を置く。
+    this.matter.add.rectangle(
+      360,
+      groundY + (480 - groundY) / 2,
+      720,
+      480 - groundY,
+      {
+        isStatic: true,
+      },
+    );
 
     const boxSize = 40;
-    const towerX = 620;
+    const towerX = 560;
     for (let i = 0; i < 3; i++) {
       const boxY = groundY - boxSize / 2 - i * boxSize;
       const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
@@ -25,8 +32,8 @@ class GameScene extends Phaser.Scene {
 
     const anchor = { x: 140, y: 300 };
     const maxStretch = 90;
-    const power = 0.22;
-    const radius = 18;
+    const power = 0.22; // 引っ張った長さを速さに変える倍率
+    const birdRadius = 18;
 
     this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 
@@ -45,17 +52,19 @@ class GameScene extends Phaser.Scene {
       }
     };
 
+    // いま操作できる鳥。発射中やリロード待ちのときは null。
     let bird = null;
     let dragging = false;
 
     const spawnBird = () => {
       if (birdsLeft <= 0) return;
-      bird = this.add.circle(anchor.x, anchor.y, radius, 0xffffff);
+      bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
       this.matter.add.gameObject(bird, {
-        shape: { type: 'circle', radius: radius },
+        shape: { type: 'circle', radius: birdRadius },
         restitution: 0.2,
       });
+      // 待機中は動かないように静的にしておく。
       bird.setStatic(true);
     };
 

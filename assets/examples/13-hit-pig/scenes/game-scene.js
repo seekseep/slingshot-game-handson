@@ -10,12 +10,18 @@ class GameScene extends Phaser.Scene {
     g.fillStyle(0x888888, 1);
     g.fillRect(0, groundY, 720, 480 - groundY);
 
-    this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-      isStatic: true,
-    });
+    this.matter.add.rectangle(
+      360,
+      groundY + (480 - groundY) / 2,
+      720,
+      480 - groundY,
+      {
+        isStatic: true,
+      },
+    );
 
     const boxSize = 40;
-    const towerX = 620;
+    const towerX = 560;
     for (let i = 0; i < 3; i++) {
       const boxY = groundY - boxSize / 2 - i * boxSize;
       const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
@@ -27,8 +33,9 @@ class GameScene extends Phaser.Scene {
     // 鳥が当たったブタを消せるように、目印として isPig を付けておく。
     const pigRadius = 16;
     const pigPositions = [
-      { x: 690, y: groundY - pigRadius }, // タワーの右のブタ
+      { x: 460, y: groundY - pigRadius }, // 手前のブタ
       { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
+      { x: 660, y: groundY - pigRadius }, // 奥のブタ
     ];
     for (const pos of pigPositions) {
       const pig = this.add.circle(pos.x, pos.y, pigRadius, 0xaaaaaa);

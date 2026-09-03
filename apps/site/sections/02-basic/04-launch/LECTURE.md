@@ -17,34 +17,40 @@ title: クリックで飛ばす
 
 落ちてくる代わりに、鳥を最初から地面の上（パチンコの位置）に置いておきます。
 
+:::code[`create` の中（地面を作ったコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=23}
+
 ```js
-      const radius = 18;
+const birdRadius = 18;
 
-      // 鳥は地面の上（パチンコの位置）に置いておく。
-      const bird = this.add.circle(140, groundY - radius, radius, 0xffffff);
-      bird.setStrokeStyle(3, 0x333333);
+const bird = this.add.circle(140, groundY - birdRadius, birdRadius, 0xffffff);
+bird.setStrokeStyle(3, 0x333333);
 
-      this.matter.add.gameObject(bird, {
-        shape: {
-          type: 'circle',
-          radius: radius,
-        },
-        restitution: 0.2,
-      });
+this.matter.add.gameObject(bird, {
+  shape: {
+    type: 'circle',
+    radius: birdRadius,
+  },
+  restitution: 0.2,
+});
 ```
 
-- `groundY - radius` … 鳥の中心を地面のちょうど上にのせるための高さです。半径のぶんだけ持ち上げています。
+:::
+
+- `groundY - birdRadius` … 鳥の中心を地面のちょうど上にのせるための高さです。半径のぶんだけ持ち上げています。
 
 ## クリックで勢いをつける
 
 画面をクリックしたときに、鳥へ速度を与えて飛ばします。
 
+:::code[`create` の中（鳥を作ったコードの続き）]{filepath=main.js offset=36}
+
 ```js
-      // クリックしたら、右上に向かって初速を与えて飛ばす。
-      this.input.on('pointerdown', function () {
-        bird.setVelocity(12, -12);
-      });
+this.input.on('pointerdown', function () {
+  bird.setVelocity(12, -12);
+});
 ```
+
+:::
 
 - `this.input.on('pointerdown', ...)` … 画面が押された（クリック／タップされた）ときに中の処理を実行します。
 - `bird.setVelocity(12, -12)` … 鳥の速度を「横 +12（右へ）・縦 −12（上へ）」に設定します。
@@ -57,7 +63,7 @@ title: クリックで飛ばす
 
 ![クリックというイベントが起きると、シーンに登録したハンドラが呼ばれて鳥が飛ぶ](./images/01-event-handler.svg)
 
-*図: イベント（起きた出来事）とイベントハンドラ（そのとき呼ばれる関数）の関係*
+_図: イベント（起きた出来事）とイベントハンドラ（そのとき呼ばれる関数）の関係_
 
 ### `this` はシーンのこと
 
@@ -99,4 +105,4 @@ this.input.on('pointerdown', function () {
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

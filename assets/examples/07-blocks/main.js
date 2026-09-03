@@ -15,17 +15,29 @@ new Phaser.Game({
       g.fillStyle(0x888888, 1);
       g.fillRect(0, groundY, 720, 480 - groundY);
 
-      this.matter.add.rectangle(360, groundY + (480 - groundY) / 2, 720, 480 - groundY, {
-        isStatic: true,
-      });
+      this.matter.add.rectangle(
+        360,
+        groundY + (480 - groundY) / 2,
+        720,
+        480 - groundY,
+        {
+          isStatic: true,
+        },
+      );
 
       // 右側に箱を積む。動く物理ボディなので、鳥が当たると崩れる。
       // 薄いグレーの四角に濃い輪郭線をつけて見やすくする。
       const boxSize = 40;
-      const towerX = 620;
+      const towerX = 560;
       for (let i = 0; i < 3; i++) {
         const boxY = groundY - boxSize / 2 - i * boxSize;
-        const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
+        const box = this.add.rectangle(
+          towerX,
+          boxY,
+          boxSize,
+          boxSize,
+          0xdddddd,
+        );
         box.setStrokeStyle(3, 0x333333);
         this.matter.add.gameObject(box, { restitution: 0.1 });
       }

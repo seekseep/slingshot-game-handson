@@ -16,13 +16,13 @@ title: 鳥を表示する
 
 `game/` フォルダを作り、その中に `index.html` と `main.js` を置きます。
 
-```text
-game/
-├── index.html
-└── main.js
-```
+![game/ の中の index.html が、CDN の Phaser 本体と同じフォルダの main.js を読み込む](./images/01-two-files.svg)
+
+_図: `game/` に置くのはこの 2 つだけ。`index.html` は読み込むだけの入れ物で、ゲームの中身は `main.js` に書く。_
 
 `index.html` は、Phaser 本体（CDN）と、自分で書く `main.js` を読み込むだけの入れ物です。
+
+:::code[ファイル全体（新規作成）]{filepath=index.html offset=1}
 
 ```html
 <!doctype html>
@@ -51,6 +51,8 @@ game/
 </html>
 ```
 
+:::
+
 - `<script src="https://cdnjs.cloudflare.com/...phaser.min.js">` … Phaser 本体を CDN から読み込みます。インストールは不要です。
 - `<script src="main.js" defer>` … 自分で書くゲームのコードです。`defer` は「Phaser の読み込みが終わってから実行する」ための指定です。
 - `<style>` … 画面の中央にゲームを置き、まわりを暗くするだけの飾りです。
@@ -58,6 +60,8 @@ game/
 ## ゲームを起動して鳥を描く
 
 `main.js` に、ゲーム画面を作って鳥を1つ描くコードを書きます。
+
+:::code[ファイル全体（新規作成）]{filepath=main.js offset=1}
 
 ```js
 new Phaser.Game({
@@ -67,13 +71,14 @@ new Phaser.Game({
   backgroundColor: '#fdf6e3',
   scene: {
     create: function () {
-      // パチンコに構える鳥。白い丸に濃い輪郭線をつけて見やすくする。
       const bird = this.add.circle(140, 340, 18, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
     },
   },
 });
 ```
+
+:::
 
 - `new Phaser.Game({ ... })` … ゲームを1つ起動します。中の設定で画面の大きさや色を決めます。
 - `type: Phaser.AUTO` … 描画方法（WebGL か Canvas）を Phaser におまかせします。
@@ -83,6 +88,12 @@ new Phaser.Game({
 - `this.add.circle(140, 340, 18, 0xffffff)` … 位置 (140, 340) に半径 18 の白い丸を置きます。これが鳥です。
 - `bird.setStrokeStyle(3, 0x333333)` … 丸のふちに太さ 3 の濃い線をつけて、背景から見やすくします。
 
+色の書き方が2種類出てくるので、先に整理しておきます。`0xffffff` は色を**16進数**で書いた形で、
+`ffffff` の部分が赤・緑・青の明るさです（`ffffff` は白、`333333` は濃いグレー）。
+丸や四角の色はこの数値で指定します。いっぽう `backgroundColor: '#fdf6e3'` や、
+あとの節で出てくる文字の色（`color: '#333333'`）は、CSS と同じ `'#...'` の形で書きます。
+**図形は数値、背景と文字は文字列**、と覚えておけば大丈夫です。
+
 ## 動かす
 
 `index.html` をブラウザで開くと、クリーム色の画面の左下に、輪郭のついた白い丸（鳥）が1つ表示されます。
@@ -90,4 +101,4 @@ new Phaser.Game({
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

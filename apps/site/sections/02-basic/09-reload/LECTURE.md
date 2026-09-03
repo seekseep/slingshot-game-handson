@@ -17,21 +17,24 @@ title: 発射したら次の鳥をセットする
 
 残りの鳥の数を覚えておき、左上に小さな丸で並べて見せます。
 
+:::code[`GameScene` の `create` の中（いちばん最初）]{filepath=main.js offset=64}
+
 ```js
-    // 残りの鳥を左上に小さな丸で並べて見せる。白い丸に濃い輪郭線をつける。
-    let birdsLeft = 5;
-    const reserve = this.add.graphics();
-    const drawReserve = () => {
-      reserve.clear();
-      for (let i = 0; i < birdsLeft; i++) {
-        const x = 30 + i * 26;
-        reserve.fillStyle(0xffffff, 1);
-        reserve.fillCircle(x, 40, 9);
-        reserve.lineStyle(2, 0x333333, 1);
-        reserve.strokeCircle(x, 40, 9);
-      }
-    };
+let birdsLeft = 5;
+const reserve = this.add.graphics();
+const drawReserve = () => {
+  reserve.clear();
+  for (let i = 0; i < birdsLeft; i++) {
+    const x = 30 + i * 26;
+    reserve.fillStyle(0xffffff, 1);
+    reserve.fillCircle(x, 40, 9);
+    reserve.lineStyle(2, 0x333333, 1);
+    reserve.strokeCircle(x, 40, 9);
+  }
+};
 ```
+
+:::
 
 - `birdsLeft = 5` … 残りの鳥の数。撃つたびに減らします。
 - `drawReserve` … 残りの数だけ、白い小さな丸を横に並べて描く関数です。数が変わるたびに呼び直します。
@@ -40,26 +43,30 @@ title: 発射したら次の鳥をセットする
 
 鳥を毎回作り直す形にします。`spawnBird` で1羽セットし、発射したら少し待ってまたセットします。
 
+:::code[`GameScene` の `create` の中（`anchor` を決めたコードの後。前の節で鳥を1羽だけ作っていた部分を置き換える）]{filepath=main.js offset=77}
+
 ```js
-    // いま操作できる鳥。発射中やリロード待ちのときは null。
-    let bird = null;
-    let dragging = false;
+// いま操作できる鳥。発射中やリロード待ちのときは null。
+let bird = null;
+let dragging = false;
 
-    // パチンコの位置に新しい鳥を1羽セットする。
-    const spawnBird = () => {
-      if (birdsLeft <= 0) return;
-      bird = this.add.circle(anchor.x, anchor.y, radius, 0xffffff);
-      bird.setStrokeStyle(3, 0x333333);
-      this.matter.add.gameObject(bird, {
-        shape: { type: 'circle', radius: radius },
-        restitution: 0.2,
-      });
-      bird.setStatic(true);
-    };
+const spawnBird = () => {
+  if (birdsLeft <= 0) return;
+  bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
+  bird.setStrokeStyle(3, 0x333333);
+  this.matter.add.gameObject(bird, {
+    shape: { type: 'circle', radius: birdRadius },
+    restitution: 0.2,
+  });
+  // 待機中は動かないように静的にしておく。
+  bird.setStatic(true);
+};
 
-    drawReserve();
-    spawnBird();
+drawReserve();
+spawnBird();
 ```
+
+:::
 
 - `bird = null` … いま操作できる鳥。発射した後やリロード待ちのときは「無い（null）」状態にします。
 - `spawnBird` … パチンコの位置に鳥を1羽用意して静的にします。残りが 0 なら何もしません。
@@ -69,26 +76,28 @@ title: 発射したら次の鳥をセットする
 
 引っ張り・発射の処理を、`bird` があるときだけ動くように直し、発射後にリロードを予約します。
 
+:::code[`GameScene` の `create` の中の `pointerup`（まるごと書き換え）]{filepath=main.js offset=122}
+
 ```js
-    this.input.on('pointerup', () => {
-      if (!dragging || !bird) return;
-      dragging = false;
-      aim.clear();
+this.input.on('pointerup', () => {
+  if (!dragging || !bird) return;
+  dragging = false;
+  aim.clear();
 
-      const vx = (anchor.x - bird.x) * power;
-      const vy = (anchor.y - bird.y) * power;
-      bird.setStatic(false);
-      bird.setVelocity(vx, vy);
+  const vx = (anchor.x - bird.x) * power;
+  const vy = (anchor.y - bird.y) * power;
+  bird.setStatic(false);
+  bird.setVelocity(vx, vy);
 
-      // 発射した鳥はもう操作しない。残弾を1つ減らす。
-      bird = null;
-      birdsLeft -= 1;
-      drawReserve();
+  bird = null;
+  birdsLeft -= 1;
+  drawReserve();
 
-      // 少し待ってから、次の鳥をパチンコにセットする（リロード）。
-      this.time.delayedCall(1200, () => spawnBird());
-    });
+  this.time.delayedCall(1200, () => spawnBird());
+});
 ```
+
+:::
 
 - `if (!dragging || !bird) return` … 引っ張り中でないとき、または鳥がまだ無いときは何もしません。
 - 発射後に `bird = null` として、飛んでいった鳥をもう操作できないようにします。
@@ -102,4 +111,4 @@ title: 発射したら次の鳥をセットする
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

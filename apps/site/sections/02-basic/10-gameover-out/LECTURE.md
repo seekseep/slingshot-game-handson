@@ -16,6 +16,8 @@ title: 弾切れでゲームオーバー
 
 ゲームオーバーの文字を出し、クリックでスタート画面に戻る `GameOverScene` を作ります。
 
+:::code[トップレベル（`GameScene` の後）]{filepath=main.js offset=147}
+
 ```js
 class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -43,6 +45,8 @@ class GameOverScene extends Phaser.Scene {
 }
 ```
 
+:::
+
 - `super('GameOver')` … このシーンの名前は `'GameOver'`。
 - `this.input.once('pointerdown', ...)` … `once` は「一度だけ」反応します。押したら `'Start'` へ戻ります。
 
@@ -50,27 +54,34 @@ class GameOverScene extends Phaser.Scene {
 
 リロードのタイミングを見直します。次の鳥がまだあるならセット、無ければゲームオーバーへ進みます。
 
+:::code[`GameScene` の `create` の中の `pointerup` ハンドラの中（末尾の `delayedCall` を書き換え）]{filepath=main.js offset=136}
+
 ```js
-      // 少し待ってから、次の鳥をセットする。もう鳥がなければゲームオーバーへ。
-      this.time.delayedCall(1200, () => {
-        if (birdsLeft > 0) {
-          spawnBird();
-        } else {
-          this.scene.start('GameOver');
-        }
-      });
+this.time.delayedCall(1200, () => {
+  if (birdsLeft > 0) {
+    spawnBird();
+  } else {
+    this.scene.start('GameOver');
+  }
+});
 ```
+
+:::
 
 - `if (birdsLeft > 0)` … まだ鳥が残っていれば、次の1羽をセットします。
 - `else { this.scene.start('GameOver') }` … 残りが 0 なら、ゲームオーバー画面へ切り替えます。
 
 ## シーンを3つ登録する
 
-`scene` の配列に `GameOverScene` を足します。
+配列に `GameOverScene` を足します。
+
+:::code[`new Phaser.Game({ ... })` に渡す設定オブジェクトの `scene`]{filepath=main.js offset=181}
 
 ```js
   scene: [StartScene, GameScene, GameOverScene],
 ```
+
+:::
 
 ## 動かす
 
@@ -80,4 +91,4 @@ class GameOverScene extends Phaser.Scene {
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

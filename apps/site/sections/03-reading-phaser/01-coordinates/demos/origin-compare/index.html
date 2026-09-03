@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>基準点（origin）のちがい</title>
+    <style>
+      body {
+        margin: 0;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        background: #222;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.90.0/phaser.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // 同じ座標 (x, 120) に置いた 3 つのオブジェクト。
+      // 赤い十字がその座標そのもので、どこが基準点になっているかを見比べる。
+      new Phaser.Game({
+        type: Phaser.AUTO,
+        width: 720,
+        height: 260,
+        backgroundColor: '#fdf6e3',
+        scene: {
+          create: function () {
+            const y = 120;
+            const columns = [
+              {
+                x: 120,
+                caption: '図形 add.rectangle\n基準は中心 (0.5, 0.5)',
+                draw: (scene, x) => {
+                  const rect = scene.add.rectangle(x, y, 130, 70, 0xdddddd);
+                  rect.setStrokeStyle(3, 0x333333);
+                },
+              },
+              {
+                x: 360,
+                caption: 'テキスト add.text\n基準は左上 (0, 0)',
+                draw: (scene, x) => {
+                  scene.add.text(x, y, 'テキスト', {
+                    fontSize: '24px',
+                    color: '#333333',
+                    backgroundColor: '#dddddd',
+                    padding: { x: 12, y: 8 },
+                  });
+                },
+              },
+              {
+                x: 600,
+                caption: 'テキスト + setOrigin(0.5)\n基準を中心にそろえた',
+                draw: (scene, x) => {
+                  scene.add
+                    .text(x, y, 'テキスト', {
+                      fontSize: '24px',
+                      color: '#333333',
+                      backgroundColor: '#dddddd',
+                      padding: { x: 12, y: 8 },
+                    })
+                    .setOrigin(0.5);
+                },
+              },
+            ];
+
+            for (const column of columns) {
+              column.draw(this, column.x);
+
+              // 指定した座標そのものを、赤い十字で示す。
+              const mark = this.add.graphics();
+              mark.lineStyle(2, 0xc0392b, 1);
+              mark.beginPath();
+              mark.moveTo(column.x - 10, y);
+              mark.lineTo(column.x + 10, y);
+              mark.moveTo(column.x, y - 10);
+              mark.lineTo(column.x, y + 10);
+              mark.strokePath();
+
+              this.add
+                .text(column.x, 30, '(' + column.x + ', ' + y + ')', {
+                  fontSize: '15px',
+                  color: '#c0392b',
+                })
+                .setOrigin(0.5);
+
+              this.add
+                .text(column.x, 200, column.caption, {
+                  fontSize: '14px',
+                  color: '#555555',
+                  align: 'center',
+                })
+                .setOrigin(0.5);
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

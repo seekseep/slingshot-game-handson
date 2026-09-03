@@ -1,4 +1,4 @@
-// `::preview` のライブプレビュー（checkpoint.mjs が生成する `.lecture-preview`）の
+// `::preview` のライブプレビュー（sentinels.mjs が生成する `.lecture-preview`）の
 // 「↻ 再読み込み」ボタン。押すと iframe を読み直し、ゲームを最初からやり直せる。
 // `.lecture-preview` が無いページでは何もしない。全ページの <head> に inline 注入される。
 (function () {

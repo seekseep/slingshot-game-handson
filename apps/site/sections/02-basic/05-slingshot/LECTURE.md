@@ -18,15 +18,17 @@ title: パチンコで引っ張って飛ばす
 まず、鳥が構える「パチンコの位置（基点）」を決めます。離したときは、この位置を基点に
 飛んでいきます。目印として薄い丸も置いておきます。
 
-```js
-      // パチンコの位置（ここに鳥が構え、離すとここを基点に飛ぶ）。
-      const anchor = { x: 140, y: 300 };
-      const maxStretch = 90; // 引っ張れる最大の長さ
-      const power = 0.22; // 引っ張った長さを速さに変える倍率
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=23}
 
-      // パチンコの位置を薄い丸で示しておく。
-      this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
+```js
+const anchor = { x: 140, y: 300 };
+const maxStretch = 90;
+const power = 0.22; // 引っ張った長さを速さに変える倍率
+
+this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 ```
+
+:::
 
 - `anchor` … パチンコの位置。鳥はここに戻ってきて、ここを基点に飛びます。
 - `maxStretch` … 引っ張れる長さの上限。これ以上は引っ張れないようにして、飛びすぎを防ぎます。
@@ -37,19 +39,26 @@ title: パチンコで引っ張って飛ばす
 鳥を `anchor` の位置に作り、**引っ張っている間は落ちてほしくない**ので、いったん静的
 （動かない状態）にしておきます。
 
+:::code[`create` の中（`anchor` を決めたコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=29}
+
 ```js
-      const radius = 18;
-      const bird = this.add.circle(anchor.x, anchor.y, radius, 0xffffff);
-      bird.setStrokeStyle(3, 0x333333);
+const birdRadius = 18;
+const bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
+bird.setStrokeStyle(3, 0x333333);
 
-      this.matter.add.gameObject(bird, {
-        shape: { type: 'circle', radius: radius },
-        restitution: 0.2,
-      });
+this.matter.add.gameObject(bird, {
+  shape: {
+    type: 'circle',
+    radius: birdRadius,
+  },
+  restitution: 0.2,
+});
 
-      // 待機中は動かないように静的にしておく。
-      bird.setStatic(true);
+// 待機中は動かないように静的にしておく。
+bird.setStatic(true);
 ```
+
+:::
 
 - `setStatic(true)` … 物理の体を「動かない」状態にします。重力で落ちなくなり、引っ張る間もその場に
   とどまります。離すときに `setStatic(false)` へ戻して、また物理で動くようにします。
@@ -59,33 +68,35 @@ title: パチンコで引っ張って飛ばす
 マウス（指）の動きを3つのタイミングで受け取ります。**押した**・**動かした**・**離した**、の3つです。
 まず「押した」と「動かした」を書きます。
 
+:::code[`create` の中（鳥を作ったコードの後。前の節の `pointerdown` は置き換える）]{filepath=main.js offset=44}
+
 ```js
-      let dragging = false;
+let dragging = false;
 
-      // 押した瞬間：鳥をパチンコの位置に戻して、引っ張り開始。
-      this.input.on('pointerdown', function () {
-        bird.setStatic(true);
-        bird.setPosition(anchor.x, anchor.y);
-        bird.setVelocity(0, 0);
-        dragging = true;
-      });
+this.input.on('pointerdown', function () {
+  bird.setStatic(true);
+  bird.setPosition(anchor.x, anchor.y);
+  bird.setVelocity(0, 0);
+  dragging = true;
+});
 
-      // 動かしている間：パチンコの位置から一定の長さまでで鳥を引っ張る。
-      this.input.on('pointermove', function (pointer) {
-        if (!dragging) return;
+this.input.on('pointermove', function (pointer) {
+  if (!dragging) return;
 
-        const dx = pointer.x - anchor.x;
-        const dy = pointer.y - anchor.y;
-        const dist = Math.hypot(dx, dy);
+  const dx = pointer.x - anchor.x;
+  const dy = pointer.y - anchor.y;
+  const dist = Math.hypot(dx, dy);
 
-        if (dist > maxStretch) {
-          const scale = maxStretch / dist;
-          bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-        } else {
-          bird.setPosition(pointer.x, pointer.y);
-        }
-      });
+  if (dist > maxStretch) {
+    const scale = maxStretch / dist;
+    bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
+  } else {
+    bird.setPosition(pointer.x, pointer.y);
+  }
+});
 ```
+
+:::
 
 - `dragging` … いま引っ張っている最中かどうかを覚えておく印です。
 - `pointerdown` … 押した瞬間。鳥をパチンコの位置に戻し、速度を 0 にして、引っ張りを開始します。
@@ -98,19 +109,22 @@ title: パチンコで引っ張って飛ばす
 
 離した瞬間に、**引っ張った向きと反対**へ、引いた長さに応じた速さで飛ばします。
 
+:::code[`create` の中（`pointermove` の後）]{filepath=main.js offset=68}
+
 ```js
-      // 離した瞬間：引っ張った向きと反対に、長さに応じた速さで飛ばす。
-      this.input.on('pointerup', function () {
-        if (!dragging) return;
-        dragging = false;
+this.input.on('pointerup', function () {
+  if (!dragging) return;
+  dragging = false;
 
-        const vx = (anchor.x - bird.x) * power;
-        const vy = (anchor.y - bird.y) * power;
+  const vx = (anchor.x - bird.x) * power;
+  const vy = (anchor.y - bird.y) * power;
 
-        bird.setStatic(false);
-        bird.setVelocity(vx, vy);
-      });
+  bird.setStatic(false);
+  bird.setVelocity(vx, vy);
+});
 ```
+
+:::
 
 - `(anchor.x - bird.x)` … 「パチンコの位置 − いまの鳥の位置」なので、引っ張った向きと**反対**の向きになります。
   これに `power` を掛けて速さにします。
@@ -119,7 +133,7 @@ title: パチンコで引っ張って飛ばす
 
 ![引っ張った向きと反対に、引いた長さに応じた速さで飛ぶ](./images/01-drag-and-launch.svg)
 
-*図: パチンコの位置から引いたベクトル（`bird → anchor`）と反対向きに、長さに比例した速さで発射する。*
+_図: パチンコの位置から引いたベクトル（`bird → anchor`）と反対向きに、長さに比例した速さで発射する。_
 
 ## 動かす
 
@@ -128,4 +142,4 @@ title: パチンコで引っ張って飛ばす
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

@@ -17,23 +17,29 @@ title: 狙いの線を表示する
 
 狙いの線を描くための専用の「お絵かき道具」を1つ用意します。毎フレーム描き直すので、変数に持っておきます。
 
+:::code[`create` の中（`anchor` を決めたあたり）]{filepath=main.js offset=29}
+
 ```js
-      // 狙いの線を描くための専用グラフィックス（毎フレーム描き直す）。
-      const aim = this.add.graphics();
+const aim = this.add.graphics();
 ```
+
+:::
 
 ## 引っ張っている間に線を引く
 
-`pointermove` の中（鳥を引っ張る処理の後）に、狙いの線を描くコードを足します。
+狙いの線を描くコードを足します。
+
+:::code[`create` の中の `pointermove` ハンドラの中（鳥を引っ張る処理の後）]{filepath=main.js offset=69}
 
 ```js
-        // 狙いの線を引き直す。鳥からパチンコの位置を通り、その先（飛ぶ方向）へ伸ばす。
-        const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
-        const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;
-        aim.clear();
-        aim.lineStyle(2, 0x333333, 0.5);
-        aim.lineBetween(bird.x, bird.y, forwardX, forwardY);
+const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
+const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;
+aim.clear();
+aim.lineStyle(2, 0x333333, 0.5);
+aim.lineBetween(bird.x, bird.y, forwardX, forwardY);
 ```
+
+:::
 
 - `forwardX` / `forwardY` … パチンコの位置から「引っ張った向きと反対（＝飛ぶ向き）」へ、少し先の点を計算します。
 - `aim.clear()` … 前のフレームで引いた線を消します。これをしないと線が残り続けてしまいます。
@@ -42,12 +48,15 @@ title: 狙いの線を表示する
 
 ## 離したら線を消す
 
-`pointerup`（離したとき）に、狙いの線を消します。
+離したときに、狙いの線を消します。
+
+:::code[`create` の中の `pointerup` ハンドラの中（`dragging = false;` の後）]{filepath=main.js offset=80}
 
 ```js
-        // 発射したら狙いの線は消す。
-        aim.clear();
+aim.clear();
 ```
+
+:::
 
 ## 動かす
 
@@ -56,4 +65,4 @@ title: 狙いの線を表示する
 
 ::preview[このステップの完成イメージ（実際に触って動かせます）]
 
-::checkpoint{open="main.js"}
+::codeview{defaultFile="main.js"}

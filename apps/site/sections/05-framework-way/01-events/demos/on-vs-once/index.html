@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>on と once</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #fdf6e3;
+        color: #333;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Hiragino Kaku Gothic ProN',
+          sans-serif;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+      }
+
+      canvas {
+        display: block;
+        border: 2px solid #333;
+      }
+
+      button {
+        font: inherit;
+        padding: 8px 18px;
+        border: 2px solid #333;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #f0e6cf;
+      }
+
+      .hint {
+        margin: 0;
+        font-size: 13px;
+        color: #777;
+        text-align: center;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.90.0/phaser.min.js"></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <button id="restart" type="button">登録しなおす（シーンをやり直す）</button>
+    <p class="hint">
+      同じ 'pointerdown' に、on と once で 1 つずつハンドラを登録しています。
+    </p>
+  </body>
+</html>
