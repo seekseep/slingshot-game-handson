@@ -58,7 +58,7 @@ pigs = [c.ellipse(px(gx), py(gy), PIG_R * K, PIG_R * K, color="pig")
 c.link((px(0), py(GROUND_PIG_Y)), (pigs[0].left, py(GROUND_PIG_Y)),
        dash="dashed", primary=False, head=False)
 c.text((px(0) + pigs[0].left) / 2, py(GROUND_PIG_Y) - 10,
-       "groundY - pigRadius = 384", scale="sm", font="technical",
+       "groundTop - pigRadius = 384", scale="sm", font="technical",
        fill=INK_SCALE["ink"])
 c.link((pigs[2].right, py(GROUND_PIG_Y)), (px(720), py(GROUND_PIG_Y)),
        dash="dashed", primary=False, head=False)
@@ -66,7 +66,7 @@ c.link((pigs[2].right, py(GROUND_PIG_Y)), (px(720), py(GROUND_PIG_Y)),
 c.link((px(0), py(TOWER_PIG_Y)), (pigs[1].left, py(TOWER_PIG_Y)),
        dash="dashed", primary=False, head=False)
 c.text((px(0) + pigs[1].left) / 2, py(TOWER_PIG_Y) - 10,
-       "groundY - boxSize * 3 - pigRadius = 264", scale="sm",
+       "groundTop - boxSize * 3 - pigRadius = 264", scale="sm",
        font="technical", fill=INK_SCALE["ink"])
 
 # 横位置は、画面の下に x の目盛りを引いて示す

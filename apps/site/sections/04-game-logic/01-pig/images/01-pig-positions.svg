@@ -15,10 +15,10 @@
 <ellipse cx="586" cy="278.4" rx="9.6" ry="9.6" fill="#aaaaaa" stroke="#333333" stroke-width="3.5"/>
 <ellipse cx="646" cy="350.4" rx="9.6" ry="9.6" fill="#aaaaaa" stroke="#333333" stroke-width="3.5"/>
 <path d="M250.00 350.40 L516.40 350.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
-<text x="383.2" y="340.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundY - pigRadius = 384</text>
+<text x="383.2" y="340.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundTop - pigRadius = 384</text>
 <path d="M655.60 350.40 L682.00 350.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
 <path d="M250.00 278.40 L576.40 278.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
-<text x="413.2" y="268.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundY - boxSize * 3 - pigRadius = 264</text>
+<text x="413.2" y="268.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundTop - boxSize * 3 - pigRadius = 264</text>
 <path d="M250.00 434.00 L682.00 434.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
 <text x="698" y="440" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">x</text>
 <line x1="526.0" y1="360.0" x2="526.0" y2="408.0" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 4"/>

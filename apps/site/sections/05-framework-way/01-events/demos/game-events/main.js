@@ -1,5 +1,5 @@
 // 小さくしたパチンコ。02〜04 章で使った 4 つのイベントが発火するたび、右のランプが光る。
-const GAME_W = 440; // 左側がゲーム。右側はランプの表示欄。
+const GAME_WIDTH = 440; // 左側がゲーム。右側はランプの表示欄。
 const NAMES = ['pointerdown', 'pointermove', 'pointerup', 'collisionstart'];
 
 class MainScene extends Phaser.Scene {
@@ -22,20 +22,25 @@ class MainScene extends Phaser.Scene {
     };
 
     // ゲームの外へ飛び出さないよう、物理の世界を左半分だけにする。
-    this.matter.world.setBounds(0, 0, GAME_W, 340);
+    this.matter.world.setBounds(0, 0, GAME_WIDTH, 340);
 
-    const groundY = 290;
-    const ground = this.add.graphics();
-    ground.fillStyle(0x888888, 1);
-    ground.fillRect(0, groundY, GAME_W, 340 - groundY);
-    this.matter.add.rectangle(GAME_W / 2, groundY + 25, GAME_W, 50, {
-      isStatic: true,
-    });
+    const groundY = 315;
+    const groundHeight = 50;
+    const groundTop = groundY - groundHeight / 2; // 地面の上面。物はこの高さに乗る
+
+    const ground = this.add.rectangle(
+      GAME_WIDTH / 2,
+      groundY,
+      GAME_WIDTH,
+      groundHeight,
+      0x888888,
+    );
+    this.matter.add.gameObject(ground, { isStatic: true });
 
     for (let i = 0; i < 3; i++) {
       const box = this.add.rectangle(
         365,
-        groundY - 16 - i * 32,
+        groundTop - 16 - i * 32,
         32,
         32,
         0xdddddd,
@@ -61,7 +66,7 @@ class MainScene extends Phaser.Scene {
     // ①〜③ 発生源は this.input（画面全体）。
     this.input.on('pointerdown', (pointer) => {
       this.fire('pointerdown');
-      if (pointer.x > GAME_W) return;
+      if (pointer.x > GAME_WIDTH) return;
       bird.setStatic(true);
       bird.setPosition(anchor.x, anchor.y);
       bird.setVelocity(0, 0);
@@ -101,10 +106,10 @@ class MainScene extends Phaser.Scene {
 
   buildPanel() {
     this.add
-      .rectangle(GAME_W + 14, 20, 222, 300, 0xffffff)
+      .rectangle(GAME_WIDTH + 14, 20, 222, 300, 0xffffff)
       .setOrigin(0)
       .setStrokeStyle(2, 0xcccccc);
-    this.add.text(GAME_W + 28, 34, '発火したイベント', {
+    this.add.text(GAME_WIDTH + 28, 34, '発火したイベント', {
       fontSize: '13px',
       color: '#777777',
     });
@@ -114,19 +119,19 @@ class MainScene extends Phaser.Scene {
     NAMES.forEach((name, i) => {
       const y = 74 + i * 62;
       this.lamps[name] = this.add
-        .circle(GAME_W + 40, y, 9, 0xdddddd)
+        .circle(GAME_WIDTH + 40, y, 9, 0xdddddd)
         .setStrokeStyle(2, 0x999999);
-      this.add.text(GAME_W + 58, y - 9, name, {
+      this.add.text(GAME_WIDTH + 58, y - 9, name, {
         fontSize: '13px',
         color: '#333333',
       });
-      this.labels[name] = this.add.text(GAME_W + 58, y + 8, '', {
+      this.labels[name] = this.add.text(GAME_WIDTH + 58, y + 8, '', {
         fontSize: '12px',
         color: '#777777',
       });
     });
 
-    this.add.text(GAME_W + 28, 300, '鳥を引っ張って離してみてください', {
+    this.add.text(GAME_WIDTH + 28, 300, '鳥を引っ張って離してみてください', {
       fontSize: '11px',
       color: '#777777',
     });

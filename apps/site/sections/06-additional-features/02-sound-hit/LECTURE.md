@@ -36,7 +36,7 @@ this.load.audio('hit', 'assets/hit.wav');
 
 離して発射するときに、発射音を鳴らします。
 
-:::code[`create` の中の `pointerup` ハンドラの中（`setVelocity` の後）]{filepath=scenes/game-scene.js offset=155}
+:::code[`create` の中の `pointerup` ハンドラの中（`setVelocity` の後）]{filepath=scenes/game-scene.js offset=151}
 
 ```js
 bird.setStatic(false);
@@ -52,7 +52,7 @@ this.sound.play('launch');
 
 ブタを消すときに、当たった音を鳴らします。
 
-:::code[`update` の中の `for` の中（スコアを更新した後）]{filepath=scenes/game-scene.js offset=178}
+:::code[`update` の中の `for` の中（スコアを更新した後）]{filepath=scenes/game-scene.js offset=174}
 
 ```js
 this.scoreText.setText('スコア: ' + this.score);

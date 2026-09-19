@@ -9,30 +9,26 @@ new Phaser.Game({
   },
   scene: {
     create: function () {
-      const groundX = 0;
-      const groundY = 400;
+      const groundX = 360;
+      const groundY = 440;
       const groundWidth = 720;
       const groundHeight = 80;
+      const groundTop = groundY - groundHeight / 2; // 地面の上面。物はこの高さに乗る
 
-      const ground = this.add.graphics();
-      ground.fillStyle(0x888888, 1);
-      ground.fillRect(groundX, groundY, groundWidth, groundHeight);
-
-      // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
-      this.matter.add.rectangle(
-        groundX + groundWidth / 2,
-        groundY + groundHeight / 2,
+      const ground = this.add.rectangle(
+        groundX,
+        groundY,
         groundWidth,
         groundHeight,
-        {
-          isStatic: true,
-        },
+        0x888888,
       );
+
+      this.matter.add.gameObject(ground, { isStatic: true });
 
       const boxSize = 40;
       const towerX = 560;
       for (let i = 0; i < 3; i++) {
-        const boxY = groundY - boxSize / 2 - i * boxSize;
+        const boxY = groundTop - boxSize / 2 - i * boxSize;
         const box = this.add.rectangle(
           towerX,
           boxY,

@@ -17,7 +17,7 @@ title: 狙いの線を表示する
 
 狙いの線を描くための専用の「お絵かき道具」を1つ用意します。毎フレーム描き直すので、変数に持っておきます。
 
-:::code[`create` の中（`anchor` を決めたあたり）]{filepath=main.js offset=37}
+:::code[`create` の中（`anchor` を決めたあたり）]{filepath=main.js offset=33}
 
 ```js
 const aim = this.add.graphics();
@@ -29,7 +29,7 @@ const aim = this.add.graphics();
 
 狙いの線を描くコードを足します。
 
-:::code[`create` の中の `pointermove` ハンドラの中（鳥を引っ張る処理の後）]{filepath=main.js offset=68}
+:::code[`create` の中の `pointermove` ハンドラの中（鳥を引っ張る処理の後）]{filepath=main.js offset=64}
 
 ```js
 const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
@@ -50,7 +50,7 @@ aim.lineBetween(bird.x, bird.y, forwardX, forwardY);
 
 離したときに、狙いの線を消します。
 
-:::code[`create` の中の `pointerup` ハンドラの中（`dragging = false;` の後）]{filepath=main.js offset=79}
+:::code[`create` の中の `pointerup` ハンドラの中（`dragging = false;` の後）]{filepath=main.js offset=75}
 
 ```js
 aim.clear();

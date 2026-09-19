@@ -1,6 +1,6 @@
 # 01-box-tower.svg
 # スキーマ: VERTICALITY（y が小さいほど上）+ SCALE（40 ずつ積み上がる）
-# boxY = groundY - boxSize / 2 - i * boxSize が、どの高さを指すのかを見せる。
+# boxY = groundTop - boxSize / 2 - i * boxSize が、どの高さを指すのかを見せる。
 # 四角の絵は中心ぞろえなので、箱の中心に点を打って基準点が分かるようにする。
 
 import sys
@@ -29,7 +29,7 @@ def py(gy):
 c = Canvas(900, 512)
 
 c.text(466, 48, "箱は中心ぞろえ。地面の上から 40 ずつ積み上がる", scale="xl")
-c.text(466, 80, "boxY = groundY - boxSize / 2 - i * boxSize", scale="md",
+c.text(466, 80, "boxY = groundTop - boxSize / 2 - i * boxSize", scale="md",
        font="technical", fill=INK_SCALE["dark"])
 
 c.sticky(SX, SY, SW, SH, color="screen", rx=6)

@@ -1,6 +1,7 @@
 # 01-ground-rect.svg
-# スキーマ: CONTAINER（画面の枠）+ PART-WHOLE（画面の下 80 が地面）
-# fillRect(左上のx, 左上のy, 幅, 高さ) の 4 つの数字が、画面のどこを指すのかを見せる。
+# スキーマ: CONTAINER（画面の枠）+ CENTER-PERIPHERY（中心から半分ずつ広がる帯）
+# this.add.rectangle(中心x, 中心y, 幅, 高さ) の 4 つの数字が、画面のどこを指すのかと、
+# そこから上面 groundTop がどう決まるのかを見せる。
 # 画面 720x480 を 0.6 倍で描き、数字はゲーム内の座標のまま出す。
 
 import sys
@@ -25,8 +26,9 @@ def py(gy):
 
 c = Canvas(900, 512)
 
-c.text(466, 48, "地面は、左上 (0, 400) から 720 × 80 の帯", scale="xl")
-c.text(466, 80, "ground.fillRect(groundX, groundY, groundWidth, groundHeight)",
+c.text(466, 48, "地面は、中心 (360, 440) に置いた 720 × 80 の帯", scale="xl")
+c.text(466, 80,
+       "this.add.rectangle(groundX, groundY, groundWidth, groundHeight, 色)",
        scale="md", font="technical", fill=INK_SCALE["dark"])
 
 c.sticky(SX, SY, SW, SH, color="screen", rx=6)
@@ -36,34 +38,42 @@ c.text(px(0) - 8, py(0) - 14, "(0, 0)", scale="sm", align="right",
 
 # --- 地面の帯 ---
 band = c.sticky(px(0), py(400), 720 * K, 80 * K, color="ground", rx=2)
-c.text(band.cx, band.cy + 6, "地面", scale="md", fill="#ffffff")
 
-c.raw(f'<circle cx="{px(0)}" cy="{py(400)}" r="5" fill="{INK_SCALE["ink"]}"/>')
-c.text(px(0) + 14, py(400) - 34, "帯の左上の角", scale="sm", align="left")
-c.text(px(0) + 14, py(400) - 12, "(0, 400)", scale="md", align="left",
-       fill=INK_SCALE["ink"], font="technical")
+# --- 中心の点と、そこから上面までの半分 ---
+c.raw(f'<circle cx="{px(360)}" cy="{py(440)}" r="5" fill="#ffffff"/>')
+c.text(px(360) + 16, py(440) + 6, "中心 (360, 440)", scale="md", align="left",
+       fill="#ffffff", font="technical")
+c.link((px(360), py(440)), (px(360), py(400)), both=True, primary=False)
+
+# --- 上面 groundTop ---
+c.link((px(0), py(400)), (px(720), py(400)), dash="dashed", primary=False,
+       head=False)
+c.text(px(20), py(400) - 36, "上面。ここに物が乗る（中心から高さの半分だけ上）",
+       scale="sm", align="left")
+c.text(px(20), py(400) - 12, "groundTop = 440 - 40 = 400", scale="md",
+       align="left", fill=INK_SCALE["ink"], font="technical")
 
 # --- 寸法線（画面の外へ出す）---
 DIM_Y = py(480) + 44
 DIM_X = px(720) + 44
 
-for gy in (0, 400, 480):
+for gy in (0, 400, 440, 480):
     c.link((px(720), py(gy)), (DIM_X + 10, py(gy)),
            dash="dotted", primary=False, head=False)
-c.link((DIM_X, py(0)), (DIM_X, py(400)), both=True, primary=False)
-c.text(DIM_X + 16, py(200) - 12, "groundY\n= 400", scale="md", align="left",
+c.link((DIM_X, py(0)), (DIM_X, py(440)), both=True, primary=False)
+c.text(DIM_X + 16, py(220) - 12, "groundY\n= 440", scale="md", align="left",
        fill=INK_SCALE["ink"], font="technical")
 c.link((DIM_X, py(400)), (DIM_X, py(480)), both=True, primary=False)
 c.text(DIM_X + 16, py(440) - 12, "groundHeight\n= 80", scale="md", align="left",
        fill=INK_SCALE["ink"], font="technical")
 
-for gx in (0, 720):
+for gx in (0, 360, 720):
     c.link((px(gx), py(480)), (px(gx), DIM_Y + 10),
            dash="dotted", primary=False, head=False)
 c.link((px(0), DIM_Y), (px(720), DIM_Y), both=True, primary=False,
        label="groundWidth = 720", label_font="technical")
 
-c.text(466, DIM_Y + 40, "400 + 80 = 480。帯の下端が、画面の下端にちょうど届く",
+c.text(466, DIM_Y + 40, "440 + 40 = 480。帯の下端が、画面の下端にちょうど届く",
        scale="sm")
 
 c.save("01-ground-rect.svg")

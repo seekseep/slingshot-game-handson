@@ -2,7 +2,7 @@
 <defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
 <rect x="0" y="0" width="900" height="512" fill="#ffffff"/>
 <text x="466" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">箱は中心ぞろえ。地面の上から 40 ずつ積み上がる</text>
-<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">boxY = groundY - boxSize / 2 - i * boxSize</text>
+<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">boxY = groundTop - boxSize / 2 - i * boxSize</text>
 <rect x="250" y="120" width="432" height="288" rx="6" fill="#fdf6e3" stroke="#c2a878" stroke-width="3.5"/>
 <circle cx="250.0" cy="120.0" r="5" fill="#0f172a"/>
 <text x="242" y="106" text-anchor="end" font-size="13" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">(0, 0)</text>

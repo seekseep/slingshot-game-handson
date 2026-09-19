@@ -92,10 +92,10 @@ bird.setVelocity(12, -12); // 右へ 12、上へ 12
 **「下にある」は `y` が大きいことです。**
 
 ```js
-const groundY = 400; // 地面の上面。数字が大きいほど下にある
+const groundY = 440; // 地面の中心。数字が大きいほど下にある
 ```
 
-地面の `400` は、画面の高さ 480 より少し小さい値です。「上から 400 の高さ」＝画面のかなり下、
+地面の `440` は、画面の高さ 480 より少し小さい値です。「上から 440」＝画面のかなり下、
 という読み方になります。
 
 ## Phaser だけの約束 — 基準点（origin）
@@ -121,40 +121,27 @@ this.add
 `360` は画面幅 720 のちょうど半分。基準点を中心にしたので、文字が真ん中に来ます。
 `setOrigin(0.5)` を忘れると、文字の**左上**が中央に来るので、右にずれて見えます。
 
-### 同じ地面を、2 つの基準で書いている例
+### 中心ぞろえだから、端を使うときは半分を引く
 
-[03 地面で受け止める](../../02-basic/03-ground/LECTURE.md) には、この違いがはっきり出ています。
+図形が中心ぞろえだと、「端に合わせたい」ときに半分を足し引きすることになります。
+[03 地面で受け止める](../../02-basic/03-ground/LECTURE.md) の地面と、
+[07 箱を積んで崩す](../../02-basic/07-blocks/LECTURE.md) の箱が、まさにそれです。
 
 ```js
-const groundX = 0;
-const groundY = 400;
-const groundWidth = 720;
+const groundY = 440; // 地面の中心
 const groundHeight = 80;
+const groundTop = groundY - groundHeight / 2; // 地面の上面 → 400
 
-// 見た目：左上の角を指定して塗る
-const ground = this.add.graphics();
-ground.fillRect(groundX, groundY, groundWidth, groundHeight);
-
-// 当たり判定：中心を指定して置く
-this.matter.add.rectangle(
-  groundX + groundWidth / 2,
-  groundY + groundHeight / 2,
-  groundWidth,
-  groundHeight,
-  {
-    isStatic: true,
-  },
-);
+const boxSize = 40;
+const boxY = groundTop - boxSize / 2; // 箱の中心 → 380
 ```
 
-同じ 4 つの変数から数字を作っているのに、`x` と `y` だけ書き方が違います。
+- `groundTop` … 地面の**中心**から、高さの半分だけ上。`440 - 40` で 400。
+- `boxY` … 地面の**上面**から、箱の半分だけ上。`400 - 20` で 380。
 
-- `fillRect(groundX, groundY, ...)` … Canvas に塗る命令。**左上の角**が `(0, 400)`。
-- `matter.add.rectangle(groundX + groundWidth / 2, ...)` … 物理の体。**中心**が `(360, 440)`。
-
-**左上から中心へは「幅の半分だけ右、高さの半分だけ下」。** 幅 720 の半分で `0 + 360` の 360、
-高さ 80 の半分で `400 + 40` の 440 です。幅と高さはどちらの命令でも同じ値で、ずれるのは
-基準点のぶんだけ。基準点が違うものを同じ場所に置こうとすると、いつでもこの足し算が要ります。
+「地面の上に箱を置く」と言葉にすると 1 手に聞こえますが、中心どうしをそろえるには
+**「地面の半分」と「箱の半分」の 2 回ぶん**持ち上げる必要があります。座標が中心を指している
+かぎり、端をそろえる場面ではいつでもこの引き算が出てきます。
 
 ## ポインタの座標
 

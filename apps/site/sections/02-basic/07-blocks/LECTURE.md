@@ -16,14 +16,14 @@ title: 箱を積んで崩す
 
 箱を縦に3つ積むコードを足します。
 
-:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=32}
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=28}
 
 <!-- prettier-ignore -->
 ```js
 const boxSize = 40;
 const towerX = 560;
 for (let i = 0; i < 3; i++) {
-  const boxY = groundY - boxSize / 2 - i * boxSize;
+  const boxY = groundTop - boxSize / 2 - i * boxSize;
   const box = this.add.rectangle(
     towerX,
     boxY,
@@ -41,7 +41,8 @@ for (let i = 0; i < 3; i++) {
 - `boxSize = 40` … 箱1つの大きさ（40×40）です。
 - `towerX = 560` … 箱を積む横位置（画面の右寄り）です。
 - `for (let i = 0; i < 3; i++)` … 3回くり返して、箱を縦に3つ作ります。
-- `boxY = groundY - boxSize / 2 - i * boxSize` … i 番目の箱の高さ。地面の上から順に積み上がるよう計算しています。
+- `boxY = groundTop - boxSize / 2 - i * boxSize` … i 番目の箱の高さ。地面の上面（`groundTop`）から
+  順に積み上がるよう計算しています。
 - `this.add.rectangle(...)` … 薄いグレーの四角（箱の見た目）を作り、濃い輪郭線をつけます。
 - `this.matter.add.gameObject(box, { restitution: 0.1 })` … 箱を物理ボディにします。`shape` を省くと、
   見た目の四角と同じ大きさの当たり判定が自動でつきます。`isStatic` を付けていないので、この箱は**動きます**。

@@ -16,14 +16,14 @@ title: 標的（ブタ）を置く
 
 標的のブタを3匹置きます。鳥（白い丸）と区別できるよう、灰色の丸にします。
 
-:::code[`GameScene` の `create` の中（箱を積む `for` の後）]{filepath=scenes/game-scene.js offset=36}
+:::code[`GameScene` の `create` の中（箱を積む `for` の後）]{filepath=scenes/game-scene.js offset=32}
 
 ```js
 const pigRadius = 16;
 const pigPositions = [
-  { x: 460, y: groundY - pigRadius }, // 手前のブタ
-  { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
-  { x: 660, y: groundY - pigRadius }, // 奥のブタ
+  { x: 460, y: groundTop - pigRadius }, // 手前のブタ
+  { x: towerX, y: groundTop - boxSize * 3 - pigRadius }, // タワーの上のブタ
+  { x: 660, y: groundTop - pigRadius }, // 奥のブタ
 ];
 for (const pos of pigPositions) {
   const pig = this.add.circle(pos.x, pos.y, pigRadius, 0xaaaaaa);
@@ -45,11 +45,11 @@ for (const pos of pigPositions) {
 
 3匹の `y` も、鳥や箱と同じ考え方で決めています。丸の絵は**中心**の位置を受け取るので、
 地面の上に置くなら半径ぶん（16）、箱タワーの上に置くなら箱 3 段ぶん（120）とさらに半径ぶんだけ
-`groundY` から引きます。
+`groundTop` から引きます。
 
 ![ブタは地面の上に 2 匹（y=384）と、箱タワーの上に 1 匹（y=264）](./images/01-pig-positions.svg)
 
-_図: 横位置は 460・560・660。`groundY` から引く量だけで、高さが決まる。_
+_図: 横位置は 460・560・660。`groundTop` から引く量だけで、高さが決まる。_
 
 ## 動かす
 

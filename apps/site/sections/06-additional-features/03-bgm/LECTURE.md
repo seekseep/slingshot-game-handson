@@ -33,7 +33,7 @@ this.load.audio('bgm', 'assets/bgm.wav');
 
 BGM を小さめの音量でループ再生します。ゲーム画面を抜けるときに止めます。
 
-:::code[`create` の中（いちばん最初）]{filepath=scenes/game-scene.js offset=22}
+:::code[`create` の中（いちばん最初）]{filepath=scenes/game-scene.js offset=17}
 
 ```js
 this.bgm = this.sound.add('bgm', { loop: true, volume: 0.4 });

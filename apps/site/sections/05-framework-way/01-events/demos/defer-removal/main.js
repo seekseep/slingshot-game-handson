@@ -1,6 +1,6 @@
 // collisionstart は「物理エンジンが計算している最中」に呼ばれる。
 // そのことを、計算中かどうかの旗を立てて目に見えるようにした。
-const GAME_W = 410; // 左側がゲーム。右側はログ。
+const GAME_WIDTH = 410; // 左側がゲーム。右側はログ。
 
 class MainScene extends Phaser.Scene {
   constructor() {
@@ -14,7 +14,7 @@ class MainScene extends Phaser.Scene {
     this.pending = new Set(); // 消す予約
     this.lines = [];
 
-    this.matter.world.setBounds(0, 0, GAME_W, 340);
+    this.matter.world.setBounds(0, 0, GAME_WIDTH, 340);
 
     // 物理エンジンの計算が「始まった／終わった」を旗にする。
     this.matter.world.on('beforeupdate', () => {
@@ -24,16 +24,21 @@ class MainScene extends Phaser.Scene {
       this.inPhysics = false;
     });
 
-    const groundY = 290;
-    const ground = this.add.graphics();
-    ground.fillStyle(0x888888, 1);
-    ground.fillRect(0, groundY, GAME_W, 340 - groundY);
-    this.matter.add.rectangle(GAME_W / 2, groundY + 25, GAME_W, 50, {
-      isStatic: true,
-    });
+    const groundY = 315;
+    const groundHeight = 50;
+    const groundTop = groundY - groundHeight / 2; // 地面の上面。物はこの高さに乗る
+
+    const ground = this.add.rectangle(
+      GAME_WIDTH / 2,
+      groundY,
+      GAME_WIDTH,
+      groundHeight,
+      0x888888,
+    );
+    this.matter.add.gameObject(ground, { isStatic: true });
 
     for (let i = 0; i < 3; i++) {
-      const pig = this.add.circle(105 + i * 100, groundY - 20, 20, 0xf0b6c8);
+      const pig = this.add.circle(105 + i * 100, groundTop - 20, 20, 0xf0b6c8);
       pig.setStrokeStyle(3, 0x333333);
       pig.setData('kind', 'pig');
       this.matter.add.gameObject(pig, {
@@ -42,7 +47,7 @@ class MainScene extends Phaser.Scene {
     }
 
     this.input.on('pointerdown', (pointer) => {
-      if (pointer.x > GAME_W) return;
+      if (pointer.x > GAME_WIDTH) return;
       const bird = this.add.circle(pointer.x, 30, 15, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
       bird.setData('kind', 'bird');
@@ -80,15 +85,15 @@ class MainScene extends Phaser.Scene {
 
   buildPanel() {
     this.add
-      .rectangle(GAME_W + 12, 16, 250, 308, 0xffffff)
+      .rectangle(GAME_WIDTH + 12, 16, 250, 308, 0xffffff)
       .setOrigin(0)
       .setStrokeStyle(2, 0xcccccc);
-    this.add.text(GAME_W + 24, 26, 'フレーム  物理計算中  できごと', {
+    this.add.text(GAME_WIDTH + 24, 26, 'フレーム  物理計算中  できごと', {
       fontSize: '11px',
       color: '#777777',
       fontFamily: 'ui-monospace, Menlo, monospace',
     });
-    this.logText = this.add.text(GAME_W + 24, 48, '', {
+    this.logText = this.add.text(GAME_WIDTH + 24, 48, '', {
       fontSize: '11px',
       color: '#333333',
       lineSpacing: 6,

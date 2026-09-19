@@ -17,7 +17,7 @@ title: 発射したら次の鳥をセットする
 
 残りの鳥の数を覚えておき、左上に小さな丸で並べて見せます。
 
-:::code[`GameScene` の `create` の中（いちばん最初）]{filepath=main.js offset=72}
+:::code[`GameScene` の `create` の中（いちばん最初）]{filepath=main.js offset=68}
 
 ```js
 let birdsLeft = 5;
@@ -43,7 +43,7 @@ const drawReserve = () => {
 
 鳥を毎回作り直す形にします。`spawnBird` で1羽セットし、発射したら少し待ってまたセットします。
 
-:::code[`GameScene` の `create` の中（`anchor` を決めたコードの後。前の節で鳥を1羽だけ作っていた部分を置き換える）]{filepath=main.js offset=85}
+:::code[`GameScene` の `create` の中（`anchor` を決めたコードの後。前の節で鳥を1羽だけ作っていた部分を置き換える）]{filepath=main.js offset=81}
 
 ```js
 // いま操作できる鳥。発射中やリロード待ちのときは null。
@@ -72,11 +72,45 @@ spawnBird();
 - `spawnBird` … パチンコの位置に鳥を1羽用意して静的にします。残りが 0 なら何もしません。
 - 最初に一度 `drawReserve()` と `spawnBird()` を呼んで、残数表示と最初の1羽を出します。
 
+## 引っ張りを、鳥があるときだけにする
+
+鳥は発射してから次がセットされるまでの 1.2 秒、いなくなります。その間にさわられても何も
+起きないように、`pointerdown` と `pointermove` を直します。
+
+`pointerdown` は「引っ張り始めの合図」だけにします。鳥は `spawnBird` がそのつどパチンコの
+位置に作るので、押すたびに位置を戻す必要がなくなりました。
+
+:::code[`GameScene` の `create` の中の `pointerdown`（まるごと書き換え）]{filepath=main.js offset=100}
+
+```js
+this.input.on('pointerdown', () => {
+  if (!bird || dragging) return;
+  dragging = true;
+});
+```
+
+:::
+
+- `if (!bird || dragging) return` … 鳥がまだ無いとき、すでに引っ張り中のときは何もしません。
+- 前の節にあった `bird.setStatic(true)` / `bird.setPosition(...)` / `bird.setVelocity(0, 0)` の
+  3行は消します。`spawnBird` が静的な鳥を `anchor` に置いた状態で作るので、押すたびに戻す
+  仕事がなくなりました。
+
+`pointermove` は、先頭の1行に `!bird` を足すだけです。
+
+:::code[`GameScene` の `create` の中の `pointermove` の先頭（`if (!dragging) return;` を書き換え）]{filepath=main.js offset=106}
+
+```js
+if (!dragging || !bird) return;
+```
+
+:::
+
 ## 発射したらリロードする
 
-引っ張り・発射の処理を、`bird` があるときだけ動くように直し、発射後にリロードを予約します。
+発射したら鳥を手放して残りを1つ減らし、次の1羽をセットするまで待ちます。
 
-:::code[`GameScene` の `create` の中の `pointerup`（まるごと書き換え）]{filepath=main.js offset=121}
+:::code[`GameScene` の `create` の中の `pointerup`（まるごと書き換え）]{filepath=main.js offset=117}
 
 ```js
 this.input.on('pointerup', () => {

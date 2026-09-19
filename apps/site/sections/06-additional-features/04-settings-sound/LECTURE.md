@@ -65,7 +65,7 @@ BGM のオン・オフを切り替えられるようにします。設定はブ�
 
 設定を読み、オンのときだけ音を鳴らすようにします。
 
-:::code[`GameScene` の `create` の中（いちばん最初。BGM を再生するコードを書き換え）]{filepath=scenes/game-scene.js offset=22}
+:::code[`GameScene` の `create` の中（いちばん最初。BGM を再生するコードを書き換え）]{filepath=scenes/game-scene.js offset=17}
 
 ```js
 // 未設定なら ON。'off' と保存されているときだけ切る。
@@ -82,7 +82,7 @@ this.events.once('shutdown', () => this.bgm.stop());
 
 効果音を鳴らす所も、設定を見てから鳴らすように直します。
 
-:::code[`create` の中の `pointerup` ハンドラの中（発射音の行を書き換え）]{filepath=scenes/game-scene.js offset=167}
+:::code[`create` の中の `pointerup` ハンドラの中（発射音の行を書き換え）]{filepath=scenes/game-scene.js offset=163}
 
 ```js
 if (this.sfxOn) this.sound.play('launch');
@@ -90,7 +90,7 @@ if (this.sfxOn) this.sound.play('launch');
 
 :::
 
-:::code[`update` の中の `for` の中（当たった音の行を書き換え）]{filepath=scenes/game-scene.js offset=189}
+:::code[`update` の中の `for` の中（当たった音の行を書き換え）]{filepath=scenes/game-scene.js offset=185}
 
 ```js
 if (this.sfxOn) this.sound.play('hit');

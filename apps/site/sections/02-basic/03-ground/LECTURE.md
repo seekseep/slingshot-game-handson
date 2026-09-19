@@ -14,72 +14,68 @@ title: 地面で受け止める
 
 ## 地面を描く
 
-画面の下いっぱいに横長の帯（地面）を描きます。見た目はグレーで塗ります。
+画面の下いっぱいに横長の帯（地面）を描きます。前の節の鳥とまったく同じで、まず**絵を置く**ところから
+始めます。鳥が `this.add.circle(...)` だったところが、四角なので `this.add.rectangle(...)` になるだけです。
 
 :::code[`create` の中（いちばん最初）]{filepath=main.js offset=12}
 
 ```js
-const groundX = 0;
-const groundY = 400;
+const groundX = 360;
+const groundY = 440;
 const groundWidth = 720;
 const groundHeight = 80;
+const groundTop = groundY - groundHeight / 2; // 地面の上面。物はこの高さに乗る
 
-const ground = this.add.graphics();
-ground.fillStyle(0x888888, 1);
-ground.fillRect(groundX, groundY, groundWidth, groundHeight);
-```
-
-:::
-
-地面の帯は、この 4 つの数字だけで決まります。**左上の角**が `(groundX, groundY)`、そこから
-`groundWidth` × `groundHeight` の大きさ、という読み方です。
-
-![地面の帯は、左上 (0, 400) から幅 720・高さ 80。下端が画面の下端 480 にちょうど届く](./images/01-ground-rect.svg)
-
-_図: `groundY` の 400 は「上から 400」。そこから下 80 ぶんが地面になる。_
-
-- `groundX` / `groundY` … 帯の**左上の角**。`groundY` より下が地面になります。
-- `groundWidth` / `groundHeight` … 帯の幅と高さ。画面の幅いっぱいの 720、画面の下端 480 まで届く 80 です。
-- `this.add.graphics()` … 自由に線や四角を描くためのお絵かき道具です。
-- `fillStyle(0x888888, 1)` … 塗る色（グレー）と濃さ（1＝不透明）を決めます。
-- `fillRect(左上のx, 左上のy, 幅, 高さ)` … 四角を塗ります。位置は**左上の角**で指定します。
-
-## 地面に当たり判定をつける
-
-いま描いたのは「絵」だけなので、このままでは鳥がすり抜けます。同じ位置に**動かない当たり判定**を
-置いて、鳥を受け止められるようにします。幅と高さは絵とまったく同じ値を渡し、**位置の指定のしかただけ**
-が変わります。
-
-:::code[`create` の中（いま書いた地面を描くコードの続き）]{filepath=main.js offset=21}
-
-```js
-// 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
-this.matter.add.rectangle(
-  groundX + groundWidth / 2,
-  groundY + groundHeight / 2,
+const ground = this.add.rectangle(
+  groundX,
+  groundY,
   groundWidth,
   groundHeight,
-  {
-    isStatic: true,
-  },
+  0x888888,
 );
 ```
 
 :::
 
-- `this.matter.add.rectangle(x, y, w, h, ...)` … 四角い当たり判定を作ります。位置は**中心**で指定します。
-- `groundX + groundWidth / 2` … 左上から幅の半分だけ右へ。中心の x は `0 + 360` で 360。
-- `groundY + groundHeight / 2` … 左上から高さの半分だけ下へ。中心の y は `400 + 40` で 440。
-- `isStatic: true` … 「動かない」印です。重力の影響を受けず、その場に固定されます。地面や壁に使います。
+`this.add.rectangle(x, y, 幅, 高さ, 色)` の `x` / `y` は、四角の**中心**です。鳥のときの
+`this.add.circle(140, 80, ...)` が円の中心だったのと同じで、Phaser の図形は中心で置きます。
 
-同じ帯を指しているのに、絵は `(0, 400)`、体は `(360, 440)` と数字が違います。**どこを基準に
-置くかが違うだけ**で、足している「半分」はその差を埋めるためのものです。
+![地面の中心は (360, 440)。そこから幅の半分・高さの半分ずつ四方に広がり、上面は 400 になる](./images/01-ground-rect.svg)
+
+_図: 中心 (360, 440) から上下に 40 ずつ。上面の 400 が `groundTop`、下端はちょうど画面の下端 480。_
+
+- `groundX` / `groundY` … 帯の**中心**。画面幅 720 の半分で 360、画面の下に寄せて 440 です。
+- `groundWidth` / `groundHeight` … 帯の幅と高さ。画面の幅いっぱいの 720 と、80 です。
+- `groundTop` … 帯の**上面**。中心から高さの半分だけ上なので `440 - 40` で 400 になります。
+  地面の上に物を乗せるときの基準で、次の節から使います。
+- `0x888888` … 塗る色（グレー）です。
+
+## 地面に体を結びつける
+
+いまのままでは、地面はただの絵です。鳥はすり抜けてしまいます。前の節で鳥にやったのと同じように、
+`gameObject` で**体**（当たり判定）を結びつけます。
+
+:::code[`create` の中（いま書いた地面を描くコードの続き）]{filepath=main.js offset=26}
+
+```js
+this.matter.add.gameObject(ground, { isStatic: true });
+```
+
+:::
+
+- `this.matter.add.gameObject(絵, 設定)` … 絵に体を結びつけます。四角い絵なら、その大きさの
+  四角い体ができます。
+- `isStatic: true` … 「動かない」印です。重力を受けず、ぶつかられても押されず、その場に固定されます。
+
+鳥に書いたのは `this.matter.add.gameObject(bird, { shape: ..., restitution: 0.2 })` でした。
+**同じ命令で、渡す設定が違うだけ**です。地面と鳥の違いは、つきつめると `isStatic: true` の 1 行に
+集約されます。
 
 ## 鳥を落として受け止める
 
 鳥は前の節と同じく上から落とします。`restitution`（跳ね返り）を少し足しておきます。
 
-:::code[`create` の中（当たり判定を置いたコードの続き）]{filepath=main.js offset=32}
+:::code[`create` の中（地面に体を結びつけたコードの続き）]{filepath=main.js offset=28}
 
 ```js
 const birdRadius = 18;
@@ -100,54 +96,28 @@ this.matter.add.gameObject(bird, {
 
 - `restitution: 0.2` … ぶつかったときの跳ね返りの強さ。0 で跳ねず、1 に近いほどよく跳ねます。
 
-## `rectangle` と `gameObject` — 体だけ置くか、絵と結びつけるか
+## 絵と体 — この教材で物を置くときの型
 
-この節では、Matter への追加のしかたが 2 通り出てきました。地面は `this.matter.add.rectangle(...)`、
-鳥は `this.matter.add.gameObject(bird, ...)` です。同じ物理世界に置いているのに書き方が違うのは、
-**結びつける相手がいるかどうか**が違うからです。
+地面も鳥も、同じ 2 手で置きました。この 2 手が、以降ずっと出てくる型です。
+
+1. `this.add.○○(...)` で**絵**を置く（`circle` / `rectangle` / あとで `image`）
+2. `this.matter.add.gameObject(絵, 設定)` で**体**を結びつける
 
 前の節で見たとおり、絵（Phaser のオブジェクト）と体（Matter の body）は別ものでした。
-別ものなので、組み合わせは 3 通りあります。
+1 だけだと「見えるけどすり抜ける」、2 まで書いて初めて「見えて、ぶつかる」になります。
 
-- **絵だけ** … `this.add.graphics()` で塗った地面の帯や、前の節の鳥。見えますが、すり抜けます。
-- **体だけ** … `this.matter.add.rectangle(...)` で置いた地面の当たり判定。ぶつかりますが、見えません。
-- **絵＋体** … `this.add.circle(...)` の絵に `this.matter.add.gameObject(...)` で体を結びつけた鳥。
-  見えて、ぶつかって、動きます。
+`gameObject` の仕事は「**Matter が計算した体の位置を、毎フレーム絵に移す**」ことです。
+地面は `isStatic: true` なので位置が変わらず、結果として絵も動きません。動かないものも動くものも
+同じ書き方でよく、動くかどうかは設定で決まります。
 
-いまの地面は、上の 2 つを**別々に**並べて「見えて、ぶつかる」状態を作っています。絵は `graphics`、
-体は `matter.add.rectangle`。この 2 つはお互いを知りません。同じ場所に重なって見えるのは、
-私たちが同じ 4 つの変数から両方の数字を計算したからです。渡す数字の形が違う（絵は左上、体は中心）
-理由は [Phaser の座標](../../03-reading-phaser/01-coordinates/LECTURE.md) であらためて扱います。
+### うまくいかないとき
 
-### なぜ地面は結びつけないのか
-
-`gameObject` の仕事は「**Matter が計算した体の位置を、毎フレーム絵に移す**」ことでした。
-地面には `isStatic: true` が付いていて、位置は一生変わりません。移す仕事がないのだから、
-結びつける必要もない、というのが 1 つめの理由です。
-
-もう 1 つは、地面の絵を `graphics` で描いていることです。`fillRect(groundX, groundY, ...)` は
-「左上 (0, 400) から塗る」と**座標を絵の中に直接書き込む**命令で、`graphics` 自身は原点
-(0, 0) に置かれたままです。ここに体を結びつけると `graphics` ごと体の中心 (360, 440) へ
-動かされ、塗った帯もいっしょに右下へずれてしまいます。
-
-### 動かしたくなったら結びつける
-
-逆に「動く床」や「崩れる壁」を作りたくなったら、鳥と同じ形にします。
-[07 箱を積んで崩す](../07-blocks/LECTURE.md) の箱がまさにそれで、`this.add.rectangle(...)` で
-絵を置いてから `this.matter.add.gameObject(...)` で体を結びつけています。箱は鳥に当たって
-動くので、Matter が計算した位置に絵がついてこないと困るからです。
-
-**動かすなら絵と体を結びつける。動かないなら体だけ置けばいい。** これが使い分けの基準です。
-
-### `this.add.rectangle` と `this.matter.add.rectangle` は別もの
-
-名前が同じなので、ここはいちばん取り違えやすいところです。
-
-- `this.add.rectangle(x, y, w, h, 色)` … **Phaser** の絵。四角が見えますが、当たり判定はありません。
-- `this.matter.add.rectangle(x, y, w, h, 設定)` … **Matter** の体。ぶつかりますが、何も見えません。
-
-`this.` のあとに `matter` が挟まっているかどうかで、追加先の世界が変わります。
-「四角を出したのに落ちてこない」「ぶつかるのに何も見えない」で困ったときは、まずここを見てください。
+- **四角は見えるのに、鳥がすり抜ける** … `this.matter.add.gameObject(...)` を書き忘れています。
+  絵だけの状態です。
+- **地面が鳥に押されて落ちていく** … `isStatic: true` が抜けています。体はあるけれど、ただの
+  重い板として扱われています。
+- **地面が思った場所にない** … `groundX` / `groundY` は**中心**です。「上から 400 のところに
+  上面を置きたい」なら、中心は `400 + 40` で 440 になります。
 
 ## 動かす
 

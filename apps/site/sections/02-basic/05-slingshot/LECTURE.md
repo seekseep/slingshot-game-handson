@@ -18,7 +18,7 @@ title: パチンコで引っ張って飛ばす
 まず、鳥が構える「パチンコの位置（基点）」を決めます。離したときは、この位置を基点に
 飛んでいきます。目印として薄い丸も置いておきます。
 
-:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=32}
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=28}
 
 ```js
 const anchor = { x: 140, y: 300 };
@@ -37,7 +37,7 @@ this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 鳥を `anchor` の位置に作り、**引っ張っている間は落ちてほしくない**ので、いったん静的
 （動かない状態）にしておきます。
 
-:::code[`create` の中（`anchor` を決めたコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=37}
+:::code[`create` の中（`anchor` を決めたコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=33}
 
 ```js
 const birdRadius = 18;
@@ -66,7 +66,7 @@ bird.setStatic(true);
 マウス（指）の動きを3つのタイミングで受け取ります。**押した**・**動かした**・**離した**、の3つです。
 まず「押した」と「動かした」を書きます。
 
-:::code[`create` の中（鳥を作ったコードの後。前の節の `pointerdown` は置き換える）]{filepath=main.js offset=52}
+:::code[`create` の中（鳥を作ったコードの後。前の節の `pointerdown` は置き換える）]{filepath=main.js offset=48}
 
 ```js
 let dragging = false;
@@ -97,7 +97,7 @@ this.input.on('pointermove', function (pointer) {
 
 離した瞬間に、**引っ張った向きと反対**へ、引いた長さに応じた速さで飛ばします。
 
-:::code[`create` の中（`pointermove` の後）]{filepath=main.js offset=67}
+:::code[`create` の中（`pointermove` の後）]{filepath=main.js offset=63}
 
 ```js
 this.input.on('pointerup', function () {

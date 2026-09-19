@@ -10,13 +10,13 @@ title: 全ブタを倒したらクリア
 前の [02 当たったブタを消す](../02-hit-pig/LECTURE.md) で、ブタを消せるようになりました。
 この節では、ブタを全部倒したら「クリア画面」へ進むようにします。勝ちの条件です。
 
-> **今回さわる `game/`:** `scenes/game-scene.js` を書き換え、`scenes/clear-scene.js` を追加
+> **今回さわる `game/`:** `scenes/game-scene.js` を書き換え、`scenes/clear-scene.js` を追加、`index.html` と `main.js` に登録
 
 ## 残りのブタを数える
 
 残りの数を覚えておきます。0 になったらクリアです。
 
-:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=52}
+:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=48}
 
 ```js
 this.pigsLeft = pigPositions.length;
@@ -32,7 +32,7 @@ this.cleared = false;
 
 ブタを消すたびに残りを1つ減らします。0 になったらクリア画面へ進みます。
 
-:::code[`GameScene` の `update`（まるごと書き換え）]{filepath=scenes/game-scene.js offset=152}
+:::code[`GameScene` の `update`（まるごと書き換え）]{filepath=scenes/game-scene.js offset=148}
 
 ```js
   update() {
@@ -92,8 +92,20 @@ class ClearScene extends Phaser.Scene {
 
 :::
 
-登録も忘れずに。`index.html` に `scenes/clear-scene.js` の読み込みを足し、`main.js` の
-`scene` 配列に `ClearScene` を加えます。
+登録も忘れずに。作ったファイルは 2 か所に足します。
+
+まず `index.html` の読み込みです。`main.js` より**前**に置きます。`main.js` が起動する時点で
+`ClearScene` が用意されていないと、`ClearScene is not defined` で止まります。
+
+:::code[`<head>` の中（`scenes/gameover-scene.js` の次の行）]{filepath=index.html offset=24}
+
+```html
+<script src="scenes/clear-scene.js" defer></script>
+```
+
+:::
+
+つぎに `main.js` の `scene` 配列に `ClearScene` を加えます。
 
 :::code[`new Phaser.Game({ ... })` の `scene` 配列]{filepath=main.js offset=10}
 

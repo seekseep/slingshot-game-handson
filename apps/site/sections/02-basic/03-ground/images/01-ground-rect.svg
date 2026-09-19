@@ -1,27 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="512" viewBox="0 0 900 512" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
 <defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
 <rect x="0" y="0" width="900" height="512" fill="#ffffff"/>
-<text x="466" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">地面は、左上 (0, 400) から 720 × 80 の帯</text>
-<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">ground.fillRect(groundX, groundY, groundWidth, groundHeight)</text>
+<text x="466" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">地面は、中心 (360, 440) に置いた 720 × 80 の帯</text>
+<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">this.add.rectangle(groundX, groundY, groundWidth, groundHeight, 色)</text>
 <rect x="250" y="120" width="432" height="288" rx="6" fill="#fdf6e3" stroke="#c2a878" stroke-width="3.5"/>
 <circle cx="250.0" cy="120.0" r="5" fill="#0f172a"/>
 <text x="242" y="106" text-anchor="end" font-size="13" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">(0, 0)</text>
 <rect x="250" y="360" width="432" height="48" rx="2" fill="#888888" stroke="#6f6f6f" stroke-width="3.5"/>
-<text x="466" y="390" text-anchor="middle" font-size="17" fill="#ffffff" font-weight="600">地面</text>
-<circle cx="250.0" cy="360.0" r="5" fill="#0f172a"/>
-<text x="264" y="326" text-anchor="start" font-size="13" fill="#475569" font-weight="400">帯の左上の角</text>
-<text x="264" y="348" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">(0, 400)</text>
+<circle cx="466.0" cy="384.0" r="5" fill="#ffffff"/>
+<text x="482" y="390" text-anchor="start" font-size="17" fill="#ffffff" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">中心 (360, 440)</text>
+<path d="M466.00 384.00 L466.00 360.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)" marker-start="url(#aRsub)"/>
+<path d="M250.00 360.00 L682.00 360.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<text x="262" y="324" text-anchor="start" font-size="13" fill="#475569" font-weight="400">上面。ここに物が乗る（中心から高さの半分だけ上）</text>
+<text x="262" y="348" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundTop = 440 - 40 = 400</text>
 <path d="M682.00 120.00 L736.00 120.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
 <path d="M682.00 360.00 L736.00 360.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M682.00 384.00 L736.00 384.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
 <path d="M682.00 408.00 L736.00 408.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
-<path d="M726.00 120.00 L726.00 360.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)" marker-start="url(#aRsub)"/>
-<text x="742" y="228" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace"><tspan x="742" dy="0">groundY</tspan><tspan x="742" dy="24.65">= 400</tspan></text>
+<path d="M726.00 120.00 L726.00 384.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)" marker-start="url(#aRsub)"/>
+<text x="742" y="240" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace"><tspan x="742" dy="0">groundY</tspan><tspan x="742" dy="24.65">= 440</tspan></text>
 <path d="M726.00 360.00 L726.00 408.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)" marker-start="url(#aRsub)"/>
 <text x="742" y="372" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace"><tspan x="742" dy="0">groundHeight</tspan><tspan x="742" dy="24.65">= 80</tspan></text>
 <path d="M250.00 408.00 L250.00 462.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M466.00 408.00 L466.00 462.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
 <path d="M682.00 408.00 L682.00 462.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
 <path d="M250.00 452.00 L367.83 452.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-start="url(#aRsub)"/>
 <path d="M564.17 452.00 L682.00 452.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
 <text x="466" y="457.95" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundWidth = 720</text>
-<text x="466" y="492" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">400 + 80 = 480。帯の下端が、画面の下端にちょうど届く</text>
+<text x="466" y="492" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">440 + 40 = 480。帯の下端が、画面の下端にちょうど届く</text>
 </svg>

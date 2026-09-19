@@ -44,7 +44,7 @@ title: 鳥・ブタ・箱を画像にする
 
 箱を画像にします。
 
-:::code[`create` の中、箱を積む `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=38}
+:::code[`create` の中、箱を積む `for` の中（`const box` から `gameObject` までを書き換え）]{filepath=scenes/game-scene.js offset=34}
 
 ```js
 const box = this.add
@@ -60,24 +60,32 @@ this.matter.add.gameObject(box, {
 
 ブタを画像にします。
 
-:::code[`create` の中、ブタを置く `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=54}
+:::code[`create` の中、ブタを置く `for` の中（`const pig` から `gameObject` までを書き換え）]{filepath=scenes/game-scene.js offset=50}
 
 ```js
 const pig = this.add
   .image(pos.x, pos.y, 'pig')
   .setDisplaySize(pigRadius * 2, pigRadius * 2);
+this.matter.add.gameObject(pig, {
+  shape: { type: 'circle', radius: pigRadius },
+  restitution: 0.2,
+});
 ```
 
 :::
 
 鳥を画像にします。
 
-:::code[`create` の中、`spawnBird` の中（書き換え）]{filepath=scenes/game-scene.js offset=114}
+:::code[`create` の中、`spawnBird` の中（`bird = this.add` から `gameObject` までを書き換え）]{filepath=scenes/game-scene.js offset=110}
 
 ```js
 bird = this.add
   .image(anchor.x, anchor.y, 'bird')
   .setDisplaySize(birdRadius * 2, birdRadius * 2);
+this.matter.add.gameObject(bird, {
+  shape: { type: 'circle', radius: birdRadius },
+  restitution: 0.2,
+});
 ```
 
 :::
@@ -85,6 +93,8 @@ bird = this.add
 - `this.add.image(x, y, 'bird')` … 画像を置きます。名前は `preload` でつけた `'bird'` などです。
 - `setDisplaySize(w, h)` … 画像の表示サイズを、これまでの丸・四角と同じ大きさに合わせます。
 - 当たり判定は `shape` で今までどおり指定するので、見た目が画像でも動きは変わりません。
+- 3か所とも、丸・四角に付けていた `setStrokeStyle(...)` の行が消えます。輪郭線は図形だけの
+  機能で画像にはないので、残すと `setStrokeStyle is not a function` で止まります。
 
 ## 素材のライセンス
 

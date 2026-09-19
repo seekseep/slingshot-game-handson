@@ -14,11 +14,6 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const groundX = 0;
-    const groundY = 400;
-    const groundWidth = 720;
-    const groundHeight = 80;
-
     // 未設定なら ON。'off' と保存されているときだけ切る。
     this.sfxOn = localStorage.getItem('slingshot-sfx') !== 'off';
     this.bgmOn = localStorage.getItem('slingshot-bgm') !== 'off';
@@ -28,25 +23,26 @@ class GameScene extends Phaser.Scene {
     // 画面を抜けるときに止めないと鳴り続ける。
     this.events.once('shutdown', () => this.bgm.stop());
 
-    const ground = this.add.graphics();
-    ground.fillStyle(0x888888, 1);
-    ground.fillRect(groundX, groundY, groundWidth, groundHeight);
+    const groundX = 360;
+    const groundY = 440;
+    const groundWidth = 720;
+    const groundHeight = 80;
+    const groundTop = groundY - groundHeight / 2; // 地面の上面。物はこの高さに乗る
 
-    // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
-    this.matter.add.rectangle(
-      groundX + groundWidth / 2,
-      groundY + groundHeight / 2,
+    const ground = this.add.rectangle(
+      groundX,
+      groundY,
       groundWidth,
       groundHeight,
-      {
-        isStatic: true,
-      },
+      0x888888,
     );
+
+    this.matter.add.gameObject(ground, { isStatic: true });
 
     const boxSize = 40;
     const towerX = 560;
     for (let i = 0; i < 3; i++) {
-      const boxY = groundY - boxSize / 2 - i * boxSize;
+      const boxY = groundTop - boxSize / 2 - i * boxSize;
       const box = this.add
         .image(towerX, boxY, 'block')
         .setDisplaySize(boxSize, boxSize);
@@ -58,9 +54,9 @@ class GameScene extends Phaser.Scene {
 
     const pigRadius = 16;
     const pigPositions = [
-      { x: 460, y: groundY - pigRadius }, // 手前のブタ
-      { x: towerX, y: groundY - boxSize * 3 - pigRadius }, // タワーの上のブタ
-      { x: 660, y: groundY - pigRadius }, // 奥のブタ
+      { x: 460, y: groundTop - pigRadius }, // 手前のブタ
+      { x: towerX, y: groundTop - boxSize * 3 - pigRadius }, // タワーの上のブタ
+      { x: 660, y: groundTop - pigRadius }, // 奥のブタ
     ];
     for (const pos of pigPositions) {
       const pig = this.add

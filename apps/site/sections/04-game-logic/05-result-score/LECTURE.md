@@ -18,7 +18,7 @@ title: 結果にスコアを表示
 シーンを切り替えるとき、2つ目の引数で好きなデータを渡せます。ここでスコアを渡します。
 `GameScene` の、クリアへ進む所とゲームオーバーへ進む所を書き換えます。
 
-:::code[`update` の中（クリアへ進む `if` を書き換え）]{filepath=scenes/game-scene.js offset=167}
+:::code[`update` の中（クリアへ進む `if` を書き換え）]{filepath=scenes/game-scene.js offset=163}
 
 ```js
 if (!this.cleared && this.pigsLeft <= 0) {
@@ -29,7 +29,7 @@ if (!this.cleared && this.pigsLeft <= 0) {
 
 :::
 
-:::code[`create` の中の `pointerup` ハンドラの中（`delayedCall` を書き換え）]{filepath=scenes/game-scene.js offset=147}
+:::code[`create` の中の `pointerup` ハンドラの中（`delayedCall` を書き換え）]{filepath=scenes/game-scene.js offset=143}
 
 ```js
 this.time.delayedCall(1200, () => {
