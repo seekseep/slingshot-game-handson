@@ -32,18 +32,21 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    const groundX = 0;
     const groundY = 400;
+    const groundWidth = 720;
+    const groundHeight = 80;
 
     const ground = this.add.graphics();
     ground.fillStyle(0x888888, 1);
-    ground.fillRect(0, groundY, 720, 480 - groundY);
+    ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
-    // 描いた地面と同じ位置に、動かない当たり判定を置く。
+    // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
     this.matter.add.rectangle(
-      360,
-      groundY + (480 - groundY) / 2,
-      720,
-      480 - groundY,
+      groundX + groundWidth / 2,
+      groundY + groundHeight / 2,
+      groundWidth,
+      groundHeight,
       {
         isStatic: true,
       },
@@ -59,7 +62,6 @@ class GameScene extends Phaser.Scene {
     }
 
     const anchor = { x: 140, y: 300 };
-    const maxStretch = 90;
     const power = 0.22; // 引っ張った長さを速さに変える倍率
     const birdRadius = 18;
 
@@ -107,16 +109,7 @@ class GameScene extends Phaser.Scene {
     this.input.on('pointermove', (pointer) => {
       if (!dragging || !bird) return;
 
-      const dx = pointer.x - anchor.x;
-      const dy = pointer.y - anchor.y;
-      const dist = Math.hypot(dx, dy);
-
-      if (dist > maxStretch) {
-        const scale = maxStretch / dist;
-        bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-      } else {
-        bird.setPosition(pointer.x, pointer.y);
-      }
+      bird.setPosition(pointer.x, pointer.y);
 
       const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
       const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;

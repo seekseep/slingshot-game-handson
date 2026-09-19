@@ -60,11 +60,10 @@ create() {
 イベントを書くとき、必ず 3 つのことを決めています。
 
 ```js
+// 発生源.on('名前', ハンドラ)
 this.input.on('pointerdown', (pointer) => {
   bird.setPosition(pointer.x, pointer.y);
 });
-//   ↑            ↑              ↑
-// 発生源        名前          ハンドラ
 ```
 
 - **発生源** … 誰が知らせてくれるか。`this.input`、`this.matter.world`、オブジェクト自身。

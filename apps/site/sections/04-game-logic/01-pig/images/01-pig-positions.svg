@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="512" viewBox="0 0 900 512" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="512" fill="#ffffff"/>
+<text x="466" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">ブタは 3 か所。地面の上が 2 匹、箱タワーの上が 1 匹</text>
+<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">this.add.circle(pos.x, pos.y, pigRadius, 0xaaaaaa)</text>
+<rect x="250" y="120" width="432" height="288" rx="6" fill="#fdf6e3" stroke="#c2a878" stroke-width="3.5"/>
+<circle cx="250.0" cy="120.0" r="5" fill="#0f172a"/>
+<text x="242" y="106" text-anchor="end" font-size="13" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">(0, 0)</text>
+<rect x="250" y="360" width="432" height="48" rx="2" fill="#888888" stroke="#6f6f6f" stroke-width="3.5"/>
+<text x="322" y="390" text-anchor="middle" font-size="17" fill="#ffffff" font-weight="600">地面</text>
+<rect x="574" y="336" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<rect x="574" y="312" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<rect x="574" y="288" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<ellipse cx="526" cy="350.4" rx="9.6" ry="9.6" fill="#aaaaaa" stroke="#333333" stroke-width="3.5"/>
+<ellipse cx="586" cy="278.4" rx="9.6" ry="9.6" fill="#aaaaaa" stroke="#333333" stroke-width="3.5"/>
+<ellipse cx="646" cy="350.4" rx="9.6" ry="9.6" fill="#aaaaaa" stroke="#333333" stroke-width="3.5"/>
+<path d="M250.00 350.40 L516.40 350.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<text x="383.2" y="340.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundY - pigRadius = 384</text>
+<path d="M655.60 350.40 L682.00 350.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<path d="M250.00 278.40 L576.40 278.40" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<text x="413.2" y="268.4" text-anchor="middle" font-size="13" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">groundY - boxSize * 3 - pigRadius = 264</text>
+<path d="M250.00 434.00 L682.00 434.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="698" y="440" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">x</text>
+<line x1="526.0" y1="360.0" x2="526.0" y2="408.0" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 4"/>
+<path d="M526.00 408.00 L526.00 427.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<line x1="526.0" y1="428.0" x2="526.0" y2="440.0" stroke="#0f172a" stroke-width="2"/>
+<text x="526" y="464" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">460</text>
+<line x1="586.0" y1="360.0" x2="586.0" y2="408.0" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 4"/>
+<path d="M586.00 408.00 L586.00 427.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<line x1="586.0" y1="428.0" x2="586.0" y2="440.0" stroke="#0f172a" stroke-width="2"/>
+<text x="586" y="464" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">560</text>
+<line x1="646.0" y1="360.0" x2="646.0" y2="408.0" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 4"/>
+<path d="M646.00 408.00 L646.00 427.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<line x1="646.0" y1="428.0" x2="646.0" y2="440.0" stroke="#0f172a" stroke-width="2"/>
+<text x="646" y="464" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">660</text>
+<text x="466" y="498" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">丸も中心ぞろえ。地面の上に置くには、半径ぶん (16) 上げる</text>
+</svg>

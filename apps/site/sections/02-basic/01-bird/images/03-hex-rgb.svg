@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="820" height="420" fill="#ffffff"/>
+<text x="410" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">色の6桁は、赤・緑・青の明るさが2桁ずつ</text>
+<text x="410" y="78" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">2桁は 00（いちばん暗い）〜 ff（いちばん明るい）の 256 段階</text>
+<rect x="90" y="108" width="180" height="150" rx="16" fill="#fee2e2" stroke="#ef4444" stroke-width="3.5"/>
+<text x="180" y="164" text-anchor="middle" font-size="33" fill="#b91c1c" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">fd</text>
+<text x="180" y="204" text-anchor="middle" font-size="21" fill="#b91c1c" font-weight="700">赤</text>
+<text x="180" y="232" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">ほぼ最大</text>
+<rect x="320" y="108" width="180" height="150" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="3.5"/>
+<text x="410" y="164" text-anchor="middle" font-size="33" fill="#15803d" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">f6</text>
+<text x="410" y="204" text-anchor="middle" font-size="21" fill="#15803d" font-weight="700">緑</text>
+<text x="410" y="232" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">つよい</text>
+<rect x="550" y="108" width="180" height="150" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="640" y="164" text-anchor="middle" font-size="33" fill="#1d4ed8" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">e3</text>
+<text x="640" y="204" text-anchor="middle" font-size="21" fill="#1d4ed8" font-weight="700">青</text>
+<text x="640" y="232" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">やや弱い</text>
+<rect x="305" y="312" width="210" height="76" rx="16" fill="#fdf6e3" stroke="#c2a878" stroke-width="3.5"/>
+<text x="410" y="342" text-anchor="middle" font-size="17" fill="#7c6636" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">#fdf6e3</text>
+<text x="410" y="368" text-anchor="middle" font-size="13" fill="#7c6636" font-weight="400">うすいクリーム色</text>
+<path d="M273.73 251.06 L352.81 308.47" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M410.00 264.00 L410.00 306.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M546.27 251.06 L467.19 308.47" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+</svg>

@@ -18,11 +18,10 @@ title: パチンコで引っ張って飛ばす
 まず、鳥が構える「パチンコの位置（基点）」を決めます。離したときは、この位置を基点に
 飛んでいきます。目印として薄い丸も置いておきます。
 
-:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=23}
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=32}
 
 ```js
 const anchor = { x: 140, y: 300 };
-const maxStretch = 90;
 const power = 0.22; // 引っ張った長さを速さに変える倍率
 
 this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
@@ -31,7 +30,6 @@ this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 :::
 
 - `anchor` … パチンコの位置。鳥はここに戻ってきて、ここを基点に飛びます。
-- `maxStretch` … 引っ張れる長さの上限。これ以上は引っ張れないようにして、飛びすぎを防ぎます。
 - `power` … 引っ張った長さ（ピクセル）を速さに変えるときの倍率。大きいほど強く飛びます。
 
 ## 鳥を「待機」させる
@@ -39,7 +37,7 @@ this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 鳥を `anchor` の位置に作り、**引っ張っている間は落ちてほしくない**ので、いったん静的
 （動かない状態）にしておきます。
 
-:::code[`create` の中（`anchor` を決めたコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=29}
+:::code[`create` の中（`anchor` を決めたコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=37}
 
 ```js
 const birdRadius = 18;
@@ -68,7 +66,7 @@ bird.setStatic(true);
 マウス（指）の動きを3つのタイミングで受け取ります。**押した**・**動かした**・**離した**、の3つです。
 まず「押した」と「動かした」を書きます。
 
-:::code[`create` の中（鳥を作ったコードの後。前の節の `pointerdown` は置き換える）]{filepath=main.js offset=44}
+:::code[`create` の中（鳥を作ったコードの後。前の節の `pointerdown` は置き換える）]{filepath=main.js offset=52}
 
 ```js
 let dragging = false;
@@ -83,16 +81,7 @@ this.input.on('pointerdown', function () {
 this.input.on('pointermove', function (pointer) {
   if (!dragging) return;
 
-  const dx = pointer.x - anchor.x;
-  const dy = pointer.y - anchor.y;
-  const dist = Math.hypot(dx, dy);
-
-  if (dist > maxStretch) {
-    const scale = maxStretch / dist;
-    bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-  } else {
-    bird.setPosition(pointer.x, pointer.y);
-  }
+  bird.setPosition(pointer.x, pointer.y);
 });
 ```
 
@@ -101,15 +90,14 @@ this.input.on('pointermove', function (pointer) {
 - `dragging` … いま引っ張っている最中かどうかを覚えておく印です。
 - `pointerdown` … 押した瞬間。鳥をパチンコの位置に戻し、速度を 0 にして、引っ張りを開始します。
 - `pointermove` … 動かしている間だけ（`dragging` が `true` のとき）反応します。
-- `dx` / `dy` / `dist` … パチンコの位置から指までの、横のずれ・縦のずれ・まっすぐな距離です。
-- `if (dist > maxStretch)` … 引っ張りすぎたときは、向きはそのままで長さだけ `maxStretch` にそろえます
-  （`scale` で縮めています）。上限内ならそのまま指の位置に鳥を置きます。
+- `bird.setPosition(pointer.x, pointer.y)` … 指のいる位置へ鳥を移します。`pointer.x` / `pointer.y` は
+  ゲーム画面の座標でそのまま届くので、変換せずに渡せます。
 
 ## 離して飛ばす
 
 離した瞬間に、**引っ張った向きと反対**へ、引いた長さに応じた速さで飛ばします。
 
-:::code[`create` の中（`pointermove` の後）]{filepath=main.js offset=68}
+:::code[`create` の中（`pointermove` の後）]{filepath=main.js offset=67}
 
 ```js
 this.input.on('pointerup', function () {

@@ -44,7 +44,7 @@ title: 鳥・ブタ・箱を画像にする
 
 箱を画像にします。
 
-:::code[`create` の中、箱を積む `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=29}
+:::code[`create` の中、箱を積む `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=38}
 
 ```js
 const box = this.add
@@ -60,7 +60,7 @@ this.matter.add.gameObject(box, {
 
 ブタを画像にします。
 
-:::code[`create` の中、ブタを置く `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=43}
+:::code[`create` の中、ブタを置く `for` の中（書き換え）]{filepath=scenes/game-scene.js offset=54}
 
 ```js
 const pig = this.add
@@ -72,7 +72,7 @@ const pig = this.add
 
 鳥を画像にします。
 
-:::code[`create` の中、`spawnBird` の中（書き換え）]{filepath=scenes/game-scene.js offset=100}
+:::code[`create` の中、`spawnBird` の中（書き換え）]{filepath=scenes/game-scene.js offset=114}
 
 ```js
 bird = this.add

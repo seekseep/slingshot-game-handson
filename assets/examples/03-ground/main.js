@@ -9,36 +9,37 @@ new Phaser.Game({
   },
   scene: {
     create: function () {
-      const groundY = 400; // 地面の上面の高さ
+      const groundX = 0;
+      const groundY = 400;
+      const groundWidth = 720;
+      const groundHeight = 80;
 
-      // 地面を描く（画面の下いっぱいに横長の帯）。グレーで塗る。
-      const g = this.add.graphics();
-      g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 720, 480 - groundY);
+      const ground = this.add.graphics();
+      ground.fillStyle(0x888888, 1);
+      ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
-      // 描いた地面と同じ位置に、動かない当たり判定を置く。
+      // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
       this.matter.add.rectangle(
-        360,
-        groundY + (480 - groundY) / 2,
-        720,
-        480 - groundY,
+        groundX + groundWidth / 2,
+        groundY + groundHeight / 2,
+        groundWidth,
+        groundHeight,
         {
           isStatic: true,
         },
       );
 
-      const radius = 18;
+      const birdRadius = 18;
 
-      // 上から落として、地面で受け止められる様子を見る。
-      const bird = this.add.circle(140, 80, radius, 0xffffff);
+      const bird = this.add.circle(140, 80, birdRadius, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
 
       this.matter.add.gameObject(bird, {
         shape: {
           type: 'circle',
-          radius: radius,
+          radius: birdRadius,
         },
-        restitution: 0.2, // 跳ね返りの強さ（0=跳ねない 〜 1=よく跳ねる）
+        restitution: 0.2,
       });
     },
   },

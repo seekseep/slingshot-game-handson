@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="512" viewBox="0 0 900 512" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="512" fill="#ffffff"/>
+<text x="466" y="48" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">箱は中心ぞろえ。地面の上から 40 ずつ積み上がる</text>
+<text x="466" y="80" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">boxY = groundY - boxSize / 2 - i * boxSize</text>
+<rect x="250" y="120" width="432" height="288" rx="6" fill="#fdf6e3" stroke="#c2a878" stroke-width="3.5"/>
+<circle cx="250.0" cy="120.0" r="5" fill="#0f172a"/>
+<text x="242" y="106" text-anchor="end" font-size="13" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">(0, 0)</text>
+<rect x="250" y="360" width="432" height="48" rx="2" fill="#888888" stroke="#6f6f6f" stroke-width="3.5"/>
+<text x="466" y="390" text-anchor="middle" font-size="17" fill="#ffffff" font-weight="600">地面</text>
+<rect x="574" y="336" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<circle cx="586.0" cy="348.0" r="2.5" fill="#0f172a"/>
+<path d="M574.00 348.00 L444.00 348.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<text x="434" y="354" text-anchor="end" font-size="17" fill="#0f172a" font-weight="600">i = 0 → y = 380</text>
+<rect x="574" y="312" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<circle cx="586.0" cy="324.0" r="2.5" fill="#0f172a"/>
+<path d="M574.00 324.00 L444.00 324.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<text x="434" y="330" text-anchor="end" font-size="17" fill="#0f172a" font-weight="600">i = 1 → y = 340</text>
+<rect x="574" y="288" width="24" height="24" rx="3" fill="#dddddd" stroke="#333333" stroke-width="3.5"/>
+<circle cx="586.0" cy="300.0" r="2.5" fill="#0f172a"/>
+<path d="M574.00 300.00 L444.00 300.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<text x="434" y="306" text-anchor="end" font-size="17" fill="#0f172a" font-weight="600">i = 2 → y = 300</text>
+<text x="586" y="274" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">40 × 40 の箱</text>
+<path d="M598.00 348.00 L736.00 348.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M598.00 300.00 L736.00 300.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M726.00 300.00 L726.00 348.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)" marker-start="url(#aRsub)"/>
+<text x="742" y="312" text-anchor="start" font-size="17" fill="#0f172a" font-weight="600"><tspan x="742" dy="0">40 ずつ</tspan><tspan x="742" dy="24.65">(1 段ぶん)</tspan></text>
+<path d="M586.00 360.00 L586.00 462.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M250.00 408.00 L250.00 462.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+<path d="M250.00 452.00 L346.35 452.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-start="url(#aRsub)"/>
+<path d="M489.65 452.00 L586.00 452.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="418" y="457.95" text-anchor="middle" font-size="17" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">towerX = 560</text>
+<text x="466" y="492" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">y が 40 小さいほど 1 段上。いちばん下の箱は半分 (20) 上げて地面に乗る</text>
+</svg>

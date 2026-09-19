@@ -1,14 +1,14 @@
 ---
 docs: true
-title: リザルトにスコアを表示
+title: 結果にスコアを表示
 ---
 
-# 05 リザルトにスコアを表示
+# 05 結果にスコアを表示
 
-![リザルトにスコアを表示](./images/00-thumbnail.svg)
+![結果にスコアを表示](./images/00-thumbnail.svg)
 
 前の [04 ブタを倒してスコアを足す](../04-score/LECTURE.md) で、スコアがつきました。この節では、
-クリア画面とゲームオーバー画面にも最終スコアを表示します。ゲームの結果を伝える「リザルト画面」の
+クリア画面とゲームオーバー画面にも最終スコアを表示します。ゲームの結果を伝える「結果画面」の
 完成です。
 
 > **今回さわる `game/`:** `scenes/game-scene.js`・`scenes/clear-scene.js`・`scenes/gameover-scene.js` を書き換え
@@ -18,7 +18,7 @@ title: リザルトにスコアを表示
 シーンを切り替えるとき、2つ目の引数で好きなデータを渡せます。ここでスコアを渡します。
 `GameScene` の、クリアへ進む所とゲームオーバーへ進む所を書き換えます。
 
-:::code[`update` の中（クリアへ進む `if` を書き換え）]{filepath=scenes/game-scene.js offset=166}
+:::code[`update` の中（クリアへ進む `if` を書き換え）]{filepath=scenes/game-scene.js offset=167}
 
 ```js
 if (!this.cleared && this.pigsLeft <= 0) {
@@ -29,7 +29,7 @@ if (!this.cleared && this.pigsLeft <= 0) {
 
 :::
 
-:::code[`create` の中の `pointerup` ハンドラの中（`delayedCall` を書き換え）]{filepath=scenes/game-scene.js offset=146}
+:::code[`create` の中の `pointerup` ハンドラの中（`delayedCall` を書き換え）]{filepath=scenes/game-scene.js offset=147}
 
 ```js
 this.time.delayedCall(1200, () => {

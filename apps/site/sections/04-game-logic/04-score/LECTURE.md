@@ -16,7 +16,7 @@ title: ブタを倒してスコアを足す
 
 スコアと、その表示（右上の文字）を用意します。
 
-:::code[`create` の中（`this.pigsLeft` を決めたコードの後）]{filepath=scenes/game-scene.js offset=46}
+:::code[`create` の中（`this.pigsLeft` を決めたコードの後）]{filepath=scenes/game-scene.js offset=55}
 
 ```js
 this.score = 0;
@@ -34,7 +34,7 @@ this.scoreText = this.add
 
 ブタを消すたびに、スコアを足して表示を更新します。
 
-:::code[`update` の中の `for (const pig of this.pendingRemoval)` の中]{filepath=scenes/game-scene.js offset=157}
+:::code[`update` の中の `for (const pig of this.pendingRemoval)` の中]{filepath=scenes/game-scene.js offset=158}
 
 ```js
 for (const pig of this.pendingRemoval) {

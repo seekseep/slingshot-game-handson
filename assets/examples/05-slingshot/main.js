@@ -9,38 +9,39 @@ new Phaser.Game({
   },
   scene: {
     create: function () {
+      const groundX = 0;
       const groundY = 400;
+      const groundWidth = 720;
+      const groundHeight = 80;
 
-      const g = this.add.graphics();
-      g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 720, 480 - groundY);
+      const ground = this.add.graphics();
+      ground.fillStyle(0x888888, 1);
+      ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
+      // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
       this.matter.add.rectangle(
-        360,
-        groundY + (480 - groundY) / 2,
-        720,
-        480 - groundY,
+        groundX + groundWidth / 2,
+        groundY + groundHeight / 2,
+        groundWidth,
+        groundHeight,
         {
           isStatic: true,
         },
       );
 
-      // パチンコの位置（ここに鳥が構え、離すとここを基点に飛ぶ）。
       const anchor = { x: 140, y: 300 };
-      const maxStretch = 90; // 引っ張れる最大の長さ
       const power = 0.22; // 引っ張った長さを速さに変える倍率
 
-      // パチンコの位置を薄い丸で示しておく。
       this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 
-      const radius = 18;
-      const bird = this.add.circle(anchor.x, anchor.y, radius, 0xffffff);
+      const birdRadius = 18;
+      const bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
 
       this.matter.add.gameObject(bird, {
         shape: {
           type: 'circle',
-          radius: radius,
+          radius: birdRadius,
         },
         restitution: 0.2,
       });
@@ -50,7 +51,6 @@ new Phaser.Game({
 
       let dragging = false;
 
-      // 押した瞬間：鳥をパチンコの位置に戻して、引っ張り開始。
       this.input.on('pointerdown', function () {
         bird.setStatic(true);
         bird.setPosition(anchor.x, anchor.y);
@@ -58,23 +58,12 @@ new Phaser.Game({
         dragging = true;
       });
 
-      // 動かしている間：パチンコの位置から一定の長さまでで鳥を引っ張る。
       this.input.on('pointermove', function (pointer) {
         if (!dragging) return;
 
-        const dx = pointer.x - anchor.x;
-        const dy = pointer.y - anchor.y;
-        const dist = Math.hypot(dx, dy);
-
-        if (dist > maxStretch) {
-          const scale = maxStretch / dist;
-          bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-        } else {
-          bird.setPosition(pointer.x, pointer.y);
-        }
+        bird.setPosition(pointer.x, pointer.y);
       });
 
-      // 離した瞬間：引っ張った向きと反対に、長さに応じた速さで飛ばす。
       this.input.on('pointerup', function () {
         if (!dragging) return;
         dragging = false;

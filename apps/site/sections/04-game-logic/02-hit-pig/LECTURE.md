@@ -17,7 +17,7 @@ title: 当たったブタを消す
 衝突したとき「どれが鳥で、どれがブタか」を見分けられるよう、目印（印の変数）をつけます。
 ブタを作るところに `pig.isPig = true`、鳥を作るところに `bird.isBird = true` を足します。
 
-:::code[`create` の中、ブタを作る `for` の中（`this.matter.add.gameObject(pig, ...)` の後）]{filepath=scenes/game-scene.js offset=36}
+:::code[`create` の中、ブタを作る `for` の中（`this.matter.add.gameObject(pig, ...)` の後）]{filepath=scenes/game-scene.js offset=45}
 
 ```js
 this.matter.add.gameObject(pig, {
@@ -29,7 +29,7 @@ pig.isPig = true; // 衝突したときに見分けるための目印。
 
 :::
 
-:::code[`create` の中、`spawnBird` の中（`bird.setStatic(true)` の後）]{filepath=scenes/game-scene.js offset=90}
+:::code[`create` の中、`spawnBird` の中（`bird.setStatic(true)` の後）]{filepath=scenes/game-scene.js offset=100}
 
 ```js
 // 待機中は動かないように静的にしておく。
@@ -44,7 +44,7 @@ bird.isBird = true; // 同じく、鳥かどうかの目印。
 物理エンジンは、何かがぶつかると `collisionstart` というお知らせを出します。これを受け取って、
 「鳥」と「ブタ」がぶつかっていたら、そのブタを**消す予約**に入れます。
 
-:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=43}
+:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=52}
 
 ```js
 // 衝突中に消すと不安定なので、ためて update でまとめて消す。
@@ -76,7 +76,7 @@ this.matter.world.on('collisionstart', (event) => {
 ぶつかった瞬間にその場で消すと不安定になりがちなので、毎フレーム呼ばれる `update` で
 まとめて消します。
 
-:::code[`GameScene` クラスの中（`create` の後に、メソッドとして追加）]{filepath=scenes/game-scene.js offset=148}
+:::code[`GameScene` クラスの中（`create` の後に、メソッドとして追加）]{filepath=scenes/game-scene.js offset=149}
 
 ```js
   update() {

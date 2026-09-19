@@ -16,14 +16,21 @@ title: 箱を積んで崩す
 
 箱を縦に3つ積むコードを足します。
 
-:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=23}
+:::code[`create` の中（地面を作ったコードの後）]{filepath=main.js offset=32}
 
+<!-- prettier-ignore -->
 ```js
 const boxSize = 40;
 const towerX = 560;
 for (let i = 0; i < 3; i++) {
   const boxY = groundY - boxSize / 2 - i * boxSize;
-  const box = this.add.rectangle(towerX, boxY, boxSize, boxSize, 0xdddddd);
+  const box = this.add.rectangle(
+    towerX,
+    boxY,
+    boxSize,
+    boxSize,
+    0xdddddd,
+  );
   box.setStrokeStyle(3, 0x333333);
   this.matter.add.gameObject(box, { restitution: 0.1 });
 }
@@ -38,6 +45,14 @@ for (let i = 0; i < 3; i++) {
 - `this.add.rectangle(...)` … 薄いグレーの四角（箱の見た目）を作り、濃い輪郭線をつけます。
 - `this.matter.add.gameObject(box, { restitution: 0.1 })` … 箱を物理ボディにします。`shape` を省くと、
   見た目の四角と同じ大きさの当たり判定が自動でつきます。`isStatic` を付けていないので、この箱は**動きます**。
+
+3つの箱の `boxY` は、下から順に 380・340・300 です。`this.add.rectangle()` は**中心**の位置を
+受け取るので、地面の上にぴったり乗せるには箱の半分（20）だけ上げます。そこから 1 段上がるたびに
+`boxSize` の 40 を引いて、`y` を小さくしていきます。
+
+![箱は中心ぞろえ。いちばん下が y=380 で、1 段上がるごとに 40 ずつ小さくなる](./images/01-box-tower.svg)
+
+_図: `y` は下が大きいので、上に積むほど数字は**小さく**なる。_
 
 ## 動かす
 

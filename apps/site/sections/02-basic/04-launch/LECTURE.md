@@ -17,12 +17,18 @@ title: クリックで飛ばす
 
 落ちてくる代わりに、鳥を最初から地面の上（パチンコの位置）に置いておきます。
 
-:::code[`create` の中（地面を作ったコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=23}
+:::code[`create` の中（地面を作ったコードの後。前の節で鳥を作っていた部分を置き換える）]{filepath=main.js offset=32}
 
+<!-- prettier-ignore -->
 ```js
 const birdRadius = 18;
 
-const bird = this.add.circle(140, groundY - birdRadius, birdRadius, 0xffffff);
+const bird = this.add.circle(
+  140,
+  groundY - birdRadius,
+  birdRadius,
+  0xffffff,
+);
 bird.setStrokeStyle(3, 0x333333);
 
 this.matter.add.gameObject(bird, {
@@ -42,7 +48,7 @@ this.matter.add.gameObject(bird, {
 
 画面をクリックしたときに、鳥へ速度を与えて飛ばします。
 
-:::code[`create` の中（鳥を作ったコードの続き）]{filepath=main.js offset=36}
+:::code[`create` の中（鳥を作ったコードの続き）]{filepath=main.js offset=50}
 
 ```js
 this.input.on('pointerdown', function () {

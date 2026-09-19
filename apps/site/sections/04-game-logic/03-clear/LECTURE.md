@@ -16,7 +16,7 @@ title: 全ブタを倒したらクリア
 
 残りの数を覚えておきます。0 になったらクリアです。
 
-:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=43}
+:::code[`create` の中（ブタを置く `for` の後）]{filepath=scenes/game-scene.js offset=52}
 
 ```js
 this.pigsLeft = pigPositions.length;
@@ -32,7 +32,7 @@ this.cleared = false;
 
 ブタを消すたびに残りを1つ減らします。0 になったらクリア画面へ進みます。
 
-:::code[`GameScene` の `update`（まるごと書き換え）]{filepath=scenes/game-scene.js offset=151}
+:::code[`GameScene` の `update`（まるごと書き換え）]{filepath=scenes/game-scene.js offset=152}
 
 ```js
   update() {

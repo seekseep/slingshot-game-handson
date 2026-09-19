@@ -4,38 +4,40 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // 画像を読み込む。鳥・ブタ・箱はそれぞれ twemoji の絵文字画像。
+    // 素材は twemoji の絵文字画像。
     this.load.image('bird', 'assets/1f426.png');
     this.load.image('pig', 'assets/1f437.png');
     this.load.image('block', 'assets/1f4e6.png');
-    // 効果音も読み込む。launch=発射のとき、hit=ブタに当たったとき。
     this.load.audio('launch', 'assets/launch.wav');
     this.load.audio('hit', 'assets/hit.wav');
-    // BGM（ループ再生する曲）。
     this.load.audio('bgm', 'assets/bgm.wav');
   }
 
   create() {
+    const groundX = 0;
     const groundY = 400;
+    const groundWidth = 720;
+    const groundHeight = 80;
 
-    // 設定（効果音・BGM の ON/OFF）を localStorage から読む。'off' のときだけ切る。
+    // 未設定なら ON。'off' と保存されているときだけ切る。
     this.sfxOn = localStorage.getItem('slingshot-sfx') !== 'off';
     this.bgmOn = localStorage.getItem('slingshot-bgm') !== 'off';
 
-    // BGM を小さめの音量でループ再生する。設定が ON のときだけ。ゲーム画面を抜けるとき止める。
     this.bgm = this.sound.add('bgm', { loop: true, volume: 0.4 });
     if (this.bgmOn) this.bgm.play();
+    // 画面を抜けるときに止めないと鳴り続ける。
     this.events.once('shutdown', () => this.bgm.stop());
 
-    const g = this.add.graphics();
-    g.fillStyle(0x888888, 1);
-    g.fillRect(0, groundY, 720, 480 - groundY);
+    const ground = this.add.graphics();
+    ground.fillStyle(0x888888, 1);
+    ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
+    // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
     this.matter.add.rectangle(
-      360,
-      groundY + (480 - groundY) / 2,
-      720,
-      480 - groundY,
+      groundX + groundWidth / 2,
+      groundY + groundHeight / 2,
+      groundWidth,
+      groundHeight,
       {
         isStatic: true,
       },
@@ -45,7 +47,6 @@ class GameScene extends Phaser.Scene {
     const towerX = 560;
     for (let i = 0; i < 3; i++) {
       const boxY = groundY - boxSize / 2 - i * boxSize;
-      // 丸や四角の代わりに箱の画像を置く。画像を boxSize の大きさに合わせる。
       const box = this.add
         .image(towerX, boxY, 'block')
         .setDisplaySize(boxSize, boxSize);
@@ -55,8 +56,6 @@ class GameScene extends Phaser.Scene {
       });
     }
 
-    // 標的（ブタ）を置く。ブタの画像にする。
-    // 鳥が当たったブタを消せるように、目印として isPig を付けておく。
     const pigRadius = 16;
     const pigPositions = [
       { x: 460, y: groundY - pigRadius }, // 手前のブタ
@@ -71,37 +70,35 @@ class GameScene extends Phaser.Scene {
         shape: { type: 'circle', radius: pigRadius },
         restitution: 0.2,
       });
-      pig.isPig = true;
+      pig.isPig = true; // 衝突したときに見分けるための目印。
     }
 
-    // 残りのブタの数。0 になったらクリア。
     this.pigsLeft = pigPositions.length;
     this.cleared = false;
 
-    // スコア。ブタを1匹倒すごとに増える。右上に表示する。
     this.score = 0;
     this.scoreText = this.add
       .text(700, 30, 'スコア: 0', { fontSize: '20px', color: '#333333' })
       .setOrigin(1, 0.5);
 
-    // 消す予約をためておく入れ物（衝突中に消すと不安定なので update でまとめて消す）。
+    // 衝突中に消すと不安定なので、ためて update でまとめて消す。
     this.pendingRemoval = new Set();
 
-    // 鳥とブタがぶつかったら、そのブタを消す予約をする。
     this.matter.world.on('collisionstart', (event) => {
       for (const pair of event.pairs) {
-        const a = pair.bodyA.gameObject;
-        const b = pair.bodyB.gameObject;
-        if (!a || !b) continue;
-        if (a.isBird && b.isPig) this.pendingRemoval.add(b);
-        if (b.isBird && a.isPig) this.pendingRemoval.add(a);
+        const gameObjectA = pair.bodyA.gameObject;
+        const gameObjectB = pair.bodyB.gameObject;
+        if (!gameObjectA || !gameObjectB) continue;
+        if (gameObjectA.isBird && gameObjectB.isPig)
+          this.pendingRemoval.add(gameObjectB);
+        if (gameObjectB.isBird && gameObjectA.isPig)
+          this.pendingRemoval.add(gameObjectA);
       }
     });
 
     const anchor = { x: 140, y: 300 };
-    const maxStretch = 90;
-    const power = 0.22;
-    const radius = 18;
+    const power = 0.22; // 引っ張った長さを速さに変える倍率
+    const birdRadius = 18;
 
     this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 
@@ -120,6 +117,7 @@ class GameScene extends Phaser.Scene {
       }
     };
 
+    // いま操作できる鳥。発射中やリロード待ちのときは null。
     let bird = null;
     let dragging = false;
 
@@ -127,13 +125,14 @@ class GameScene extends Phaser.Scene {
       if (birdsLeft <= 0) return;
       bird = this.add
         .image(anchor.x, anchor.y, 'bird')
-        .setDisplaySize(radius * 2, radius * 2);
+        .setDisplaySize(birdRadius * 2, birdRadius * 2);
       this.matter.add.gameObject(bird, {
-        shape: { type: 'circle', radius: radius },
+        shape: { type: 'circle', radius: birdRadius },
         restitution: 0.2,
       });
+      // 待機中は動かないように静的にしておく。
       bird.setStatic(true);
-      bird.isBird = true; // 衝突相手が鳥かどうかを見分ける目印。
+      bird.isBird = true; // 同じく、鳥かどうかの目印。
     };
 
     drawReserve();
@@ -147,16 +146,7 @@ class GameScene extends Phaser.Scene {
     this.input.on('pointermove', (pointer) => {
       if (!dragging || !bird) return;
 
-      const dx = pointer.x - anchor.x;
-      const dy = pointer.y - anchor.y;
-      const dist = Math.hypot(dx, dy);
-
-      if (dist > maxStretch) {
-        const scale = maxStretch / dist;
-        bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-      } else {
-        bird.setPosition(pointer.x, pointer.y);
-      }
+      bird.setPosition(pointer.x, pointer.y);
 
       const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
       const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;
@@ -174,7 +164,7 @@ class GameScene extends Phaser.Scene {
       const vy = (anchor.y - bird.y) * power;
       bird.setStatic(false);
       bird.setVelocity(vx, vy);
-      if (this.sfxOn) this.sound.play('launch'); // 発射の音（設定が ON のときだけ）。
+      if (this.sfxOn) this.sound.play('launch');
 
       bird = null;
       birdsLeft -= 1;
@@ -184,7 +174,6 @@ class GameScene extends Phaser.Scene {
         if (birdsLeft > 0) {
           spawnBird();
         } else {
-          // 結果画面にスコアを渡す。
           this.scene.start('GameOver', { score: this.score });
         }
       });
@@ -192,20 +181,18 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // 消す予約のブタを、毎フレームまとめて消す。消したぶん残りを減らす。
     for (const pig of this.pendingRemoval) {
       pig.destroy();
       this.pigsLeft -= 1;
       this.score += 1000;
       this.scoreText.setText('スコア: ' + this.score);
-      if (this.sfxOn) this.sound.play('hit'); // ブタに当たった音（設定が ON のときだけ）。
+      if (this.sfxOn) this.sound.play('hit');
     }
     this.pendingRemoval.clear();
 
-    // ブタを全部倒したらクリア画面へ（1回だけ）。
+    // 何度も遷移しないよう、クリアは1回だけ。
     if (!this.cleared && this.pigsLeft <= 0) {
       this.cleared = true;
-      // 結果画面にスコアを渡す。
       this.scene.start('Clear', { score: this.score });
     }
   }

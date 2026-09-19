@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="390" viewBox="0 0 880 390" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="880" height="390" fill="#ffffff"/>
+<text x="440" y="46" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">同じ6桁でも、渡す先で書き方が変わる</text>
+<rect x="340" y="76" width="200" height="76" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3.5"/>
+<text x="440" y="112" text-anchor="middle" font-size="26" fill="#475569" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">ffffff</text>
+<text x="440" y="138" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">色の6桁</text>
+<rect x="64" y="196" width="360" height="160" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<svg x="92.0" y="218.0" width="48.0" height="48.0" viewBox="0 0 36 36"><circle fill="#55ACEE" cx="18" cy="18" r="18"/></svg>
+<text x="154" y="249" text-anchor="start" font-size="21" fill="#1d4ed8" font-weight="700">図形の色</text>
+<text x="92" y="308" text-anchor="start" font-size="26" fill="#1d4ed8" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">0xffffff</text>
+<text x="92" y="336" text-anchor="start" font-size="13" fill="#475569" font-weight="400">先頭に 0x。クォートで囲まない＝数値</text>
+<rect x="456" y="196" width="360" height="160" rx="16" fill="#ffedd5" stroke="#f97316" stroke-width="3.5"/>
+<svg x="484.0" y="218.0" width="48.0" height="48.0" viewBox="0 0 36 36"><path fill="#D99E82" d="M18 3.143c-9.941 0-18 6.908-18 15.428 0 1.066.126 2.107.367 3.112C2.146 24.744 3.377 22.812 9 20c5.727-2.864 0 4-2 8-.615 1.23-.282 2.271.56 3.124C10.506 32.928 14.104 34 18 34c9.941 0 18-6.907 18-15.429 0-8.52-8.059-15.428-18-15.428zm2.849 24.447c-.395 1.346-2.46 1.924-4.613 1.291-2.153-.632-3.578-2.234-3.183-3.581.395-1.346 2.46-1.924 4.613-1.29 2.153.631 3.578 2.233 3.183 3.58z"/><circle fill="#5C913B" cx="10" cy="11" r="3"/><circle fill="#269" cx="20" cy="9" r="3"/><circle fill="#DD2E44" cx="29" cy="15" r="3"/><circle fill="#FFCC4D" cx="28" cy="24" r="3"/></svg>
+<text x="546" y="249" text-anchor="start" font-size="21" fill="#c2410c" font-weight="700">背景と文字の色</text>
+<text x="484" y="308" text-anchor="start" font-size="26" fill="#c2410c" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">'#ffffff'</text>
+<text x="484" y="336" text-anchor="start" font-size="13" fill="#475569" font-weight="400">先頭に #。クォートで囲む＝文字列</text>
+<path d="M389.40 155.82 L345.41 192.18" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M490.60 155.82 L534.59 192.18" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+</svg>

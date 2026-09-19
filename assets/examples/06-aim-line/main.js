@@ -9,43 +9,46 @@ new Phaser.Game({
   },
   scene: {
     create: function () {
+      const groundX = 0;
       const groundY = 400;
+      const groundWidth = 720;
+      const groundHeight = 80;
 
-      const g = this.add.graphics();
-      g.fillStyle(0x888888, 1);
-      g.fillRect(0, groundY, 720, 480 - groundY);
+      const ground = this.add.graphics();
+      ground.fillStyle(0x888888, 1);
+      ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
+      // 絵は左上ぞろえ、体は中心ぞろえなので、半分ずらして同じ場所に重ねる。
       this.matter.add.rectangle(
-        360,
-        groundY + (480 - groundY) / 2,
-        720,
-        480 - groundY,
+        groundX + groundWidth / 2,
+        groundY + groundHeight / 2,
+        groundWidth,
+        groundHeight,
         {
           isStatic: true,
         },
       );
 
       const anchor = { x: 140, y: 300 };
-      const maxStretch = 90;
-      const power = 0.22;
+      const power = 0.22; // 引っ張った長さを速さに変える倍率
 
       this.add.circle(anchor.x, anchor.y, 6, 0xbbbbbb);
 
-      // 狙いの線を描くための専用グラフィックス（毎フレーム描き直す）。
       const aim = this.add.graphics();
 
-      const radius = 18;
-      const bird = this.add.circle(anchor.x, anchor.y, radius, 0xffffff);
+      const birdRadius = 18;
+      const bird = this.add.circle(anchor.x, anchor.y, birdRadius, 0xffffff);
       bird.setStrokeStyle(3, 0x333333);
 
       this.matter.add.gameObject(bird, {
         shape: {
           type: 'circle',
-          radius: radius,
+          radius: birdRadius,
         },
         restitution: 0.2,
       });
 
+      // 待機中は動かないように静的にしておく。
       bird.setStatic(true);
 
       let dragging = false;
@@ -60,18 +63,8 @@ new Phaser.Game({
       this.input.on('pointermove', function (pointer) {
         if (!dragging) return;
 
-        const dx = pointer.x - anchor.x;
-        const dy = pointer.y - anchor.y;
-        const dist = Math.hypot(dx, dy);
+        bird.setPosition(pointer.x, pointer.y);
 
-        if (dist > maxStretch) {
-          const scale = maxStretch / dist;
-          bird.setPosition(anchor.x + dx * scale, anchor.y + dy * scale);
-        } else {
-          bird.setPosition(pointer.x, pointer.y);
-        }
-
-        // 狙いの線を引き直す。鳥からパチンコの位置を通り、その先（飛ぶ方向）へ伸ばす。
         const forwardX = anchor.x + (anchor.x - bird.x) * 1.5;
         const forwardY = anchor.y + (anchor.y - bird.y) * 1.5;
         aim.clear();
@@ -83,7 +76,6 @@ new Phaser.Game({
         if (!dragging) return;
         dragging = false;
 
-        // 発射したら狙いの線は消す。
         aim.clear();
 
         const vx = (anchor.x - bird.x) * power;

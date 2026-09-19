@@ -126,33 +126,35 @@ this.add
 [03 地面で受け止める](../../02-basic/03-ground/LECTURE.md) には、この違いがはっきり出ています。
 
 ```js
+const groundX = 0;
 const groundY = 400;
+const groundWidth = 720;
+const groundHeight = 80;
 
 // 見た目：左上の角を指定して塗る
-const g = this.add.graphics();
-g.fillRect(0, groundY, 720, 480 - groundY);
+const ground = this.add.graphics();
+ground.fillRect(groundX, groundY, groundWidth, groundHeight);
 
 // 当たり判定：中心を指定して置く
 this.matter.add.rectangle(
-  360,
-  groundY + (480 - groundY) / 2,
-  720,
-  480 - groundY,
+  groundX + groundWidth / 2,
+  groundY + groundHeight / 2,
+  groundWidth,
+  groundHeight,
   {
     isStatic: true,
   },
 );
 ```
 
-どちらも同じ帯を表しているのに、数字がまったく違います。
+同じ 4 つの変数から数字を作っているのに、`x` と `y` だけ書き方が違います。
 
-- `fillRect(0, 400, ...)` … Canvas に塗る命令。**左上の角**が `(0, 400)`。
-- `matter.add.rectangle(360, 440, ...)` … 物理の体。**中心**が `(360, 440)`。
-  横 720 の中心は `360`、縦は `400` から `480` までの真ん中で `440`。
+- `fillRect(groundX, groundY, ...)` … Canvas に塗る命令。**左上の角**が `(0, 400)`。
+- `matter.add.rectangle(groundX + groundWidth / 2, ...)` … 物理の体。**中心**が `(360, 440)`。
 
-`groundY + (480 - groundY) / 2` という一見ややこしい式は、「上端から、高さの半分だけ下」＝
-**中心** を求めているだけです。基準点が違うものを同じ場所に置こうとすると、こういう変換が
-必要になります。
+**左上から中心へは「幅の半分だけ右、高さの半分だけ下」。** 幅 720 の半分で `0 + 360` の 360、
+高さ 80 の半分で `400 + 40` の 440 です。幅と高さはどちらの命令でも同じ値で、ずれるのは
+基準点のぶんだけ。基準点が違うものを同じ場所に置こうとすると、いつでもこの足し算が要ります。
 
 ## ポインタの座標
 
@@ -160,8 +162,7 @@ this.matter.add.rectangle(
 
 ```js
 this.input.on('pointermove', function (pointer) {
-  const dx = pointer.x - anchor.x;
-  const dy = pointer.y - anchor.y;
+  bird.setPosition(pointer.x, pointer.y);
 });
 ```
 
@@ -169,8 +170,9 @@ this.input.on('pointermove', function (pointer) {
 `event.clientX` はウィンドウの左上が原点なので、そのままだと「Canvas がページのどこにあるか」の
 分だけずれます。その引き算は Phaser がやってくれています。
 
-だから [05 パチンコ](../../02-basic/05-slingshot/LECTURE.md) では、`pointer.x` と `anchor.x` を
-そのまま引き算できました。**同じ原点の座標どうしなら、引き算した結果は「向き」になります。**
+だから [05 パチンコ](../../02-basic/05-slingshot/LECTURE.md) では、届いた `pointer.x` / `pointer.y` を
+変換せずそのまま `setPosition` に渡せました。原点がそろっているのは、置くときだけでなく
+**引き算するとき**にも効きます。
 
 ```js
 const vx = (anchor.x - bird.x) * power;
@@ -180,6 +182,7 @@ const vy = (anchor.y - bird.y) * power;
 「パチンコの位置 − 鳥の位置」なので、引っ張った向きと**反対**のベクトルです。鳥を下に引っ張れば
 `bird.y` が大きくなり、`anchor.y - bird.y` はマイナス、つまり**上向き**の速度になります。
 `y` が下向きの世界でも、引き算の向きさえ合っていれば、符号は自然に合います。
+**同じ原点の座標どうしなら、引き算した結果は「向き」になります。**
 
 ## 数学の座標で考えたいとき
 
@@ -203,6 +206,6 @@ const screenY = originY - mathY; // y だけ向きを反転する
 - ページが左上から下へ伸びるものだから、Web はこの数え方になっている。
 - `y` が下向きなので、**重力はプラス、上に飛ばす速度はマイナス**。
 - 指定した座標がどこを指すか（基準点）は種類で違う。**図形・画像は中心、テキストは左上**。
-- ポインタの座標もゲーム画面の原点でそろっているので、そのまま引き算できる。
+- ポインタの座標もゲーム画面の原点でそろっているので、**そのまま置ける・そのまま引き算できる**。
 
 次の節では、この座標に置いた**ものたちが、誰に持たれているのか**を見ます。

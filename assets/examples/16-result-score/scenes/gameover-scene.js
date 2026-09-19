@@ -4,7 +4,6 @@ class GameOverScene extends Phaser.Scene {
   }
 
   create(data) {
-    // ゲーム画面から渡されたスコア（無ければ 0）。
     const score = data.score || 0;
 
     this.add

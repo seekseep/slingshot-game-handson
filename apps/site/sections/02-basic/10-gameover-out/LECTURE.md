@@ -16,7 +16,7 @@ title: 弾切れでゲームオーバー
 
 ゲームオーバーの文字を出し、クリックでスタート画面に戻る `GameOverScene` を作ります。
 
-:::code[トップレベル（`GameScene` の後）]{filepath=main.js offset=147}
+:::code[トップレベル（`GameScene` の後）]{filepath=main.js offset=146}
 
 ```js
 class GameOverScene extends Phaser.Scene {
@@ -54,7 +54,7 @@ class GameOverScene extends Phaser.Scene {
 
 リロードのタイミングを見直します。次の鳥がまだあるならセット、無ければゲームオーバーへ進みます。
 
-:::code[`GameScene` の `create` の中の `pointerup` ハンドラの中（末尾の `delayedCall` を書き換え）]{filepath=main.js offset=136}
+:::code[`GameScene` の `create` の中の `pointerup` ハンドラの中（末尾の `delayedCall` を書き換え）]{filepath=main.js offset=135}
 
 ```js
 this.time.delayedCall(1200, () => {
@@ -75,7 +75,7 @@ this.time.delayedCall(1200, () => {
 
 配列に `GameOverScene` を足します。
 
-:::code[`new Phaser.Game({ ... })` に渡す設定オブジェクトの `scene`]{filepath=main.js offset=181}
+:::code[`new Phaser.Game({ ... })` に渡す設定オブジェクトの `scene`]{filepath=main.js offset=180}
 
 ```js
   scene: [StartScene, GameScene, GameOverScene],

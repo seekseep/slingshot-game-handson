@@ -3,8 +3,8 @@
 // --- ブラウザ側 -----------------------------------------------------------
 let domCount = 0;
 
+// 発生源.addEventListener('名前', ハンドラ)
 document.querySelector('#dom-button').addEventListener('click', (event) => {
-  //                  ↑発生源         ↑名前     ↑ハンドラ
   domCount += 1;
   document.querySelector('#dom-count').textContent = domCount;
 });
@@ -24,8 +24,8 @@ class MainScene extends Phaser.Scene {
       .text(150, 76, '押す', { fontSize: '16px', color: '#ffffff' })
       .setOrigin(0.5);
 
+    // 発生源.on('名前', ハンドラ)
     this.input.on('pointerdown', (pointer) => {
-      //         ↑発生源     ↑名前          ↑ハンドラ
       this.count += 1;
       document.querySelector('#phaser-count').textContent = this.count;
     });

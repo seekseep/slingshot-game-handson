@@ -17,7 +17,7 @@ title: 発射したら次の鳥をセットする
 
 残りの鳥の数を覚えておき、左上に小さな丸で並べて見せます。
 
-:::code[`GameScene` の `create` の中（いちばん最初）]{filepath=main.js offset=64}
+:::code[`GameScene` の `create` の中（いちばん最初）]{filepath=main.js offset=72}
 
 ```js
 let birdsLeft = 5;
@@ -43,7 +43,7 @@ const drawReserve = () => {
 
 鳥を毎回作り直す形にします。`spawnBird` で1羽セットし、発射したら少し待ってまたセットします。
 
-:::code[`GameScene` の `create` の中（`anchor` を決めたコードの後。前の節で鳥を1羽だけ作っていた部分を置き換える）]{filepath=main.js offset=77}
+:::code[`GameScene` の `create` の中（`anchor` を決めたコードの後。前の節で鳥を1羽だけ作っていた部分を置き換える）]{filepath=main.js offset=85}
 
 ```js
 // いま操作できる鳥。発射中やリロード待ちのときは null。
@@ -76,7 +76,7 @@ spawnBird();
 
 引っ張り・発射の処理を、`bird` があるときだけ動くように直し、発射後にリロードを予約します。
 
-:::code[`GameScene` の `create` の中の `pointerup`（まるごと書き換え）]{filepath=main.js offset=122}
+:::code[`GameScene` の `create` の中の `pointerup`（まるごと書き換え）]{filepath=main.js offset=121}
 
 ```js
 this.input.on('pointerup', () => {
